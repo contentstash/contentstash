@@ -9,3 +9,7 @@ Route::get('cms', function() {
 Route::get('test', function() {
     return Inertia::render('Test');
 });
+
+Route::get('cp', function() {
+    return Inertia::render('Cp');
+});
