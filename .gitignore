@@ -40,3 +40,4 @@ yarn-error.log*
 
 vendor/
 node_modules/
+/packages/core/vendor/

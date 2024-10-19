@@ -1,0 +1,23 @@
+{
+  "name": "contentstash/core",
+  "version": "0.1.0",
+  "description": "Lorem ipsum",
+  "type": "library",
+  "require": {
+    "php": "^8.2",
+    "laravel/framework": "^11.9",
+    "inertiajs/inertia-laravel": "2.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "ContentStash\\Core\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "ContentStash\\Core\\ContentStashServiceProvider"
+      ]
+    }
+  }
+}
