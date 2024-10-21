@@ -6,6 +6,6 @@ import { Head } from '@inertiajs/vue3'
 <template>
   <div>
     <Head title="CP" />
-    <h1>Cp</h1>
+    <h1 class="text-red-500 font-bold">CP22</h1>
   </div>
 </template>
