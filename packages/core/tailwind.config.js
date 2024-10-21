@@ -7,15 +7,18 @@ import { defu } from "defu";
  * @returns {import('tailwindcss').Config}
  */
 export const contentStashTailwindConfig = (config) => {
-    return defu({
-        content: [
-            './vendor/contentstash/core/resources/js/**/*.vue',
-            './vendor/contentstash/core/resources/views/**/*.blade.php',
-        ],
-        plugins: [],
-    }, config);
+  return defu(
+    {
+      content: [
+        "./vendor/contentstash/core/resources/js/**/*.vue",
+        "./vendor/contentstash/core/resources/views/**/*.blade.php",
+      ],
+      plugins: [],
+    },
+    config,
+  );
 };
 
 export default {
-    contentStashTailwindConfig
-}
+  contentStashTailwindConfig,
+};
