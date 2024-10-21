@@ -5,10 +5,15 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".output/**", "dist/**"]
     },
-    "lint": {
-      "dependsOn": ["^lint"]
+    "pint": {
+      "cache": false,
+      "dependsOn": ["^pint"]
+    },
+    "pint:fix": {
+      "cache": false,
+      "dependsOn": ["^pint:fix"]
     },
     "dev": {
       "cache": false,

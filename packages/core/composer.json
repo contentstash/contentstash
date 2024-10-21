@@ -13,11 +13,22 @@
       "ContentStash\\Core\\": "src/"
     }
   },
+  "scripts": {
+    "pint": [
+      "./vendor/bin/pint --test"
+    ],
+    "pint:fix": [
+      "./vendor/bin/pint"
+    ]
+  },
   "extra": {
     "laravel": {
       "providers": [
         "ContentStash\\Core\\ContentStashServiceProvider"
       ]
     }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.18"
   }
 }
