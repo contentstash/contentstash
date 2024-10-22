@@ -25,6 +25,8 @@
   "type": "module",
   "scripts": {
     "build": "turbo build",
+    "codestyle": "pnpm lint && pnpm format && pnpm pint",
+    "codesytle:fix": "pnpm lint:fix && pnpm format:fix && pnpm pint:fix",
     "dev": "turbo dev",
     "format": "prettier --check \"**/*.{mjs,js,json,ts,tsx,vue,css}\"",
     "format:fix": "prettier --write \"**/*.{mjs,js,json,ts,tsx,vue,css}\"",
