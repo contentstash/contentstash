@@ -1,0 +1,67 @@
+name: Fix Code Style
+
+on: [push]
+
+jobs:
+  code-style:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+        php-extensions: [json, dom, curl, libxml, mbstring]
+        node: [20]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "pnpm"
+
+      - name: Install pnpm dependencies
+        run: pnpm install
+
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ matrix.php-extensions }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
+
+      - name: Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ matrix.php-extensions }}
+
+      - name: Install PHP dependencies
+        run: composer install --no-progress --no-suggest --no-interaction
+
+      - name: Lint
+        run: pnpm lint:fix
+
+      - name: Format
+        run: pnpm format:fix
+
+      - name: Pint
+        run: pnpm pint:fix
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: lint and format code"
