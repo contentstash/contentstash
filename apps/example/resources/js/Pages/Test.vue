@@ -4,7 +4,7 @@ import { Head } from "@inertiajs/vue3";
 
 <template>
   <div>
-    <Head title="CP" />
-    <h1 class="text-blue-500 font-bold">CP224</h1>
+    <Head title="Test24" />
+    <h1>Test22222</h1>
   </div>
 </template>

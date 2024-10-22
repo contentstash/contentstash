@@ -1,5 +1,9 @@
 # project specific
 vendor/
+.phpstorm.meta.php
+_ide_helper.php
+_ide_helper_models.php
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/git,vue,node,linux,macos,laravel,windows,intellij+all,phpstorm+all,webstorm+all,visualstudiocode,turbo
 # Edit at https://www.toptal.com/developers/gitignore?templates=git,vue,node,linux,macos,laravel,windows,intellij+all,phpstorm+all,webstorm+all,visualstudiocode,turbo

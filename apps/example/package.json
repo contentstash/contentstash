@@ -1,0 +1,27 @@
+{
+  "name": "@contentstash/example",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail\" \"vite\" --names=server,queue,logs,vite",
+    "pint": "composer pint",
+    "pint:fix": "composer pint:fix"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "^0.5.1",
+    "autoprefixer": "^10.4.20",
+    "axios": "^1.7.4",
+    "concurrently": "^9.0.1",
+    "laravel-vite-plugin": "^1.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.0"
+  },
+  "dependencies": {
+    "@contentstash/core": "file:./../../packages/core/",
+    "@inertiajs/vue3": "^2.0.0-beta.2",
+    "@vitejs/plugin-vue": "^5.1.4",
+    "typescript": "^5.6.3",
+    "vue": "^3.5.12"
+  }
+}

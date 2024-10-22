@@ -1,0 +1,55 @@
+services:
+    postgres:
+        image: 'postgres:17'
+        ports:
+            - '${FORWARD_DB_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        networks:
+            - app
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE}'
+                - '-U'
+                - '${DB_USERNAME}'
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        volumes:
+            - 'postgres-volume:/var/lib/postgresql/data'
+
+    valkey:
+        image: 'valkey/valkey:8.0-alpine'
+        command: '--port ${REDIS_PORT:-6379}'
+        ports:
+            - '${REDIS_PORT:-6379}:6379'
+        expose:
+            - '${REDIS_PORT:-6379}'
+        healthcheck:
+            test: ['CMD', 'valkey-cli', 'ping']
+            retries: 3
+            timeout: 5s
+        volumes:
+            - 'valkey-volume:/data'
+
+    mailpit:
+        image: 'axllent/mailpit:latest'
+        ports:
+            - '${MAIL_PORT:-1025}:1025'
+            - 8025:8025
+
+networks:
+    app:
+        driver: bridge
+volumes:
+    postgres-volume:
+        driver: local
+    valkey-volume:
+        driver: local
