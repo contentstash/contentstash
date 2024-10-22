@@ -24,6 +24,8 @@ jobs:
     env:
       TURBO_TELEMETRY_DISABLED: 1
       php-extensions: "json, dom, curl, libxml, mbstring"
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
@@ -96,7 +98,5 @@ jobs:
 
       - name: Commit linted files
         uses: stefanzweifel/git-auto-commit-action@v5
-        permissions:
-            contents: write
         with:
           commit_message: "chore: lint and format code"
