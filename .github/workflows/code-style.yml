@@ -9,8 +9,9 @@ jobs:
       fail-fast: true
       matrix:
         php: [8.3]
-        php-extensions: [json, dom, curl, libxml, mbstring]
         node: [20]
+    env:
+      php-extensions: [json, dom, curl, libxml, mbstring]
 
     steps:
       - name: Checkout code
@@ -33,7 +34,7 @@ jobs:
         uses: shivammathur/cache-extensions@v1
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ matrix.php-extensions }}
+          extensions: ${{ env.php-extensions }}
           key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
 
       - name: Cache extensions
@@ -47,10 +48,30 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: ${{ matrix.php-extensions }}
+          extensions: ${{ env.php-extensions }}
 
-      - name: Install PHP dependencies
-        run: composer install --no-progress --no-suggest --no-interaction
+      - name: Get composer cache directory
+        id: composer-cache
+        run: |
+          cd packages/core
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies (packages/core)
+        run: |
+          cd packages/core
+          composer install --no-progress --no-suggest --no-interaction
+
+      - name: Install PHP dependencies (apps/example)
+        run: |
+          cd apps/example
+          composer install --no-progress --no-suggest --no-interaction
 
       - name: Lint
         run: pnpm lint:fix
