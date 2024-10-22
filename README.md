@@ -9,7 +9,7 @@ A headless CMS ecosystem built with Laravel, Inertia.js, Vue 3, and Tailwind CSS
 - PHP 8.3
 - Composer
 - Node.js >= 20.x
-- PNPM >= 8.15.x
+- PNPM >= 9.12.x
 
 ## Installation
 
@@ -51,6 +51,12 @@ cd ../..
 
 ## Development
 
+You can use the docker-compose file to start all required services:
+
+```sh
+docker-compose up -d
+```
+
 To start the development server, run the following command:
 
 ```sh
@@ -86,6 +92,33 @@ or bundle them into a single command:
 ```sh
 pnpm codestyle:fix
 ```
+
+## Update dependencies
+
+To update the PHP dependencies, run the following commands:
+
+```sh
+cd apps/example
+composer update
+cd ../..
+cd packages/core
+composer update
+cd ../..
+```
+
+To check for Node.js dependencies updates, run the following command:
+
+```sh
+pnpm taze
+```
+
+To update the Node.js dependencies, run the following command:
+
+```sh
+pnpm taze:w
+pnpm install
+```
+
 
 ## Contributing
 

@@ -1,5 +1,5 @@
 {
-  "name": "@contentstash/example",
+  "name": "contentstash/example",
   "type": "project",
   "license": "MIT",
   "require": {
