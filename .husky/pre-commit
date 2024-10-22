@@ -1,2 +1,1 @@
-node -v
 pnpm dlx lint-staged
