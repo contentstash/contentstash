@@ -29,8 +29,8 @@
     "./tailwind.config.js": "./tailwind.config.js"
   },
   "scripts": {
-    "pint": "composer pint",
-    "pint:fix": "composer pint:fix"
+    "pint": "./vendor/bin/pint --test",
+    "pint:fix": "./vendor/bin/pint"
   },
   "devDependencies": {
     "@inertiajs/vue3": "2.0.0-beta.2",

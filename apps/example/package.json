@@ -4,8 +4,8 @@
   "scripts": {
     "build": "vite build",
     "dev": "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail\" \"vite\" --names=server,queue,logs,vite",
-    "pint": "composer pint",
-    "pint:fix": "composer pint:fix"
+    "pint": "./vendor/bin/pint --test",
+    "pint:fix": "./vendor/bin/pint"
   },
   "devDependencies": {
     "@vue/tsconfig": "^0.5.1",

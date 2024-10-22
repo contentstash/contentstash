@@ -13,14 +13,6 @@
       "ContentStash\\Core\\": "src/"
     }
   },
-  "scripts": {
-    "pint": [
-      "./vendor/bin/pint --test"
-    ],
-    "pint:fix": [
-      "./vendor/bin/pint"
-    ]
-  },
   "extra": {
     "laravel": {
       "providers": [
