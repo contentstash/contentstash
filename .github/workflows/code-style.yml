@@ -41,7 +41,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install pnpm dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Setup cache environment
         id: extcache
