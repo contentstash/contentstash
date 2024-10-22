@@ -10,9 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "types": ["vite/client"]
   },
-  "include": [
-    "../imports/src"
-  ],
-  "exclude": [
-    "../imports/node_modules", "dist"]
+  "include": ["../imports/src"],
+  "exclude": ["../imports/node_modules", "dist"]
 }
