@@ -8,7 +8,11 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["resources/ts/*"]
+    }
   },
   "include": ["../imports/src"],
   "exclude": ["../imports/node_modules", "dist"]

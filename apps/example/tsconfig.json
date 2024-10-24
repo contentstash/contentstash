@@ -2,14 +2,19 @@
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.vue"],
   "compilerOptions": {
-    "allowJs": true,
-    "strict": false,
-
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "ESNext"],
+    "skipLibCheck": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["resources/js/*"]
-    },
-
-    "types": ["vite/client"]
-  }
+      "@/*": ["./vendor/contentstash/core/resources/ts/*"]
+    }
+  },
+  "exclude": ["./node_modules"]
 }

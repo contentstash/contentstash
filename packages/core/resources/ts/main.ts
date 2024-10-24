@@ -1,5 +1,8 @@
-import { DefineComponent, Plugin, App as VueApp, createApp, h } from "vue";
-import { Page } from "@inertiajs/core";
+import { createApp, h } from "vue";
+import type { DefineComponent, Plugin, App as VueApp } from "vue";
+import type { Page } from "@inertiajs/core";
+import { defu } from "defu";
+
 interface InertiaAppProps {
   initialPage: Page;
   initialComponent?: object;
@@ -11,6 +14,8 @@ interface InertiaAppProps {
 }
 type InertiaApp = DefineComponent<InertiaAppProps>;
 declare const App: InertiaApp;
+
+import "./../css/index.css";
 
 interface CreateInertiaAppProps {
   id?: string;
@@ -39,77 +44,57 @@ interface CreateInertiaAppProps {
   render?: (app: VueApp) => Promise<string>;
 }
 
-export const laravelInput = ["vendor/contentstash/core/resources/js/app.js"];
-
-export const inertiaPagePath = [
-  "./Pages/**/*.vue",
-  "./../../vendor/contentstash/core/resources/js/Pages/**/*.vue",
-];
-
 export const createContentStashApp = (
-  params: CreateInertiaAppProps,
+  props: Partial<CreateInertiaAppProps>,
 ): CreateInertiaAppProps => {
-  return {
-    setup: ({ el, App, props, plugin }) => {
-      createApp({ render: () => h(App, props) })
-        .use(plugin)
-        .mount(el);
-    },
-    resolve: (name: string) => {
-      console.info("name", name);
+  return defu(
+    {
+      setup: ({ el, App, props, plugin }) => {
+        createApp({ render: () => h(App, props) })
+          .use(plugin)
+          .mount(el);
+      },
+      resolve: (name: string) => {
+        // get pages
+        const corePages = import.meta.glob("./pages/**/*.vue", {
+          eager: true,
+        }) as Record<string, DefineComponent>;
+        const appPages = import.meta.glob(
+          "./../../../resources/ts/pages/**/*.vue",
+          { eager: true },
+        ) as Record<string, DefineComponent>;
+        const pages: Record<string, DefineComponent> = {};
+        const addPages = (
+          sourcePages: Record<string, DefineComponent>,
+          basePath: string,
+        ) => {
+          // check if sourcePages is an object
+          if (typeof sourcePages !== "object") {
+            console.info("sourcePages", sourcePages);
+            return;
+          }
 
-      const appPages2 = import.meta.glob(
-        "./../../../resources/js/Pages/**/*.vue",
-        { eager: true },
-      );
-      const corePages2 = import.meta.glob(
-        "./../../../vendor/contentstash/core/resources/js/Pages/**/*.vue",
-        { eager: true },
-      );
-
-      console.info("appPages2", appPages2);
-      console.info("corePages2", corePages2);
-
-      const appPages = params.addPages;
-      const corePages = params.corePages;
-
-      const pages: Record<string, DefineComponent> = {};
-      const addPages = (
-        sourcePages: Record<string, DefineComponent>,
-        basePath: string,
-      ) => {
-        // check if sourcePages is an object
-        if (typeof sourcePages !== "object") {
-          console.info("sourcePages", sourcePages);
-          return;
+          return Object.entries(sourcePages).forEach(
+            ([path, component]: [string, DefineComponent]) => {
+              pages[path.replace(basePath, "")?.replace(".vue", "")] =
+                component;
+            },
+          );
+        };
+        if (corePages && Object.keys(corePages).length > 0) {
+          addPages(corePages, "./pages/");
+        }
+        if (appPages && Object.keys(appPages).length > 0) {
+          addPages(appPages, "./../../../resources/ts/pages/");
         }
 
-        return Object.entries(sourcePages).forEach(
-          ([path, component]: [string, DefineComponent]) => {
-            pages[path.replace(basePath, "")?.replace(".vue", "")] = component;
-          },
-        );
-      };
-
-      if (corePages && Object.keys(corePages).length > 0) {
-        addPages(
-          corePages,
-          "../../vendor/contentstash/core/resources/js/Pages/",
-        );
-      }
-      if (appPages && Object.keys(appPages).length > 0) {
-        addPages(appPages, "./Pages/");
-      }
-
-      console.info("pages2", pages);
-      return pages[name];
+        return pages[name];
+      },
     },
-    ...params,
-  };
+    props,
+  );
 };
 
 export default {
-  laravelInput,
-  inertiaPagePath,
   createContentStashApp,
 };
