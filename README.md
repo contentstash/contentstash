@@ -119,6 +119,24 @@ pnpm taze:w
 pnpm install
 ```
 
+## Testing
+
+### Example app
+
+To run the example app first run all required services via docker-compose (see [Development](#development)). After that, run the following command:
+
+```sh
+cd apps/example
+pnpm dev
+```
+
+If you want to run the example app in the production mode, run the following command:
+
+```sh
+cd apps/example
+pnpm build
+php -S localhost:8000 -t public 
+```
 
 ## Contributing
 
