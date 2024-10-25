@@ -54,5 +54,9 @@ export default [
       ],
     },
   },
+  {
+    files: ["packages/core/resources/ts/types/auto-imports.d.ts"],
+    rules: {},
+  },
   eslintPluginPrettierRecommended,
 ];
