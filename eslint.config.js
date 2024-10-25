@@ -13,6 +13,7 @@ export default [
       "**/node_modules/**",
       "**/vendor/**",
       "**/dist/**",
+      "**/public/**",
     ],
   },
   { files: ["**/*.{js,mjs,cjs,ts,vue}"] },
