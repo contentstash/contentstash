@@ -14,6 +14,9 @@ import Components from "unplugin-vue-components/vite";
 export const contentStashViteConfig = (config) => {
   return defu(
     {
+      build: {
+        target: 'ESNEXT',
+      },
       plugins: [
         vue({
           template: {
@@ -26,7 +29,8 @@ export const contentStashViteConfig = (config) => {
         laravel({
           input: [
             "resources/css/app.css",
-            "vendor/contentstash/core/resources/ts/app.ts",
+            "resources/ts/app.ts",
+            "vendor/contentstash/core/resources/ts/main.ts",
           ],
           refresh: true,
         }),

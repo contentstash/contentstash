@@ -3,6 +3,8 @@ vendor/
 .phpstorm.meta.php
 _ide_helper.php
 _ide_helper_models.php
+apps/**/public/build/
+apps/**/public/hot
 
 
 # Created by https://www.toptal.com/developers/gitignore/api/git,vue,node,linux,macos,laravel,windows,intellij+all,phpstorm+all,webstorm+all,visualstudiocode,turbo
