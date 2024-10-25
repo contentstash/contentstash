@@ -15,7 +15,7 @@ export const contentStashViteConfig = (config) => {
   return defu(
     {
       build: {
-        target: 'ESNEXT',
+        target: "ESNEXT",
       },
       plugins: [
         vue({
