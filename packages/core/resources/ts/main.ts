@@ -1,5 +1,8 @@
-import { createApp, h } from "vue";
+import "./../css/index.css";
+
 import type { DefineComponent, Plugin, App as VueApp } from "vue";
+import { createApp, h } from "vue";
+
 import type { Page } from "@inertiajs/core";
 import { defu } from "defu";
 
@@ -13,9 +16,6 @@ interface InertiaAppProps {
   onHeadUpdate?: (elements: string[]) => void;
 }
 type InertiaApp = DefineComponent<InertiaAppProps>;
-declare const App: InertiaApp;
-
-import "./../css/index.css";
 
 interface CreateInertiaAppProps {
   id?: string;
@@ -45,7 +45,12 @@ interface CreateInertiaAppProps {
 }
 
 export const createContentStashApp = (
-  props: Partial<CreateInertiaAppProps>,
+  props: Partial<
+    CreateInertiaAppProps & {
+      pages?: Record<string, DefineComponent>;
+      pagesPath?: string;
+    }
+  >,
 ): CreateInertiaAppProps => {
   return defu(
     {
@@ -55,38 +60,30 @@ export const createContentStashApp = (
           .mount(el);
       },
       resolve: (name: string) => {
-        // get pages
+        // get core pages
         const corePages = import.meta.glob("./pages/**/*.vue", {
           eager: true,
         }) as Record<string, DefineComponent>;
-        const appPages = import.meta.glob(
-          "./../../../resources/ts/pages/**/*.vue",
-          { eager: true },
-        ) as Record<string, DefineComponent>;
-        const pages: Record<string, DefineComponent> = {};
-        const addPages = (
-          sourcePages: Record<string, DefineComponent>,
-          basePath: string,
-        ) => {
-          // check if sourcePages is an object
-          if (typeof sourcePages !== "object") {
-            console.info("sourcePages", sourcePages);
-            return;
-          }
 
-          return Object.entries(sourcePages).forEach(
-            ([path, component]: [string, DefineComponent]) => {
-              pages[path.replace(basePath, "")?.replace(".vue", "")] =
-                component;
-            },
-          );
-        };
-        if (corePages && Object.keys(corePages).length > 0) {
-          addPages(corePages, "./pages/");
-        }
-        if (appPages && Object.keys(appPages).length > 0) {
-          addPages(appPages, "./../../../resources/ts/pages/");
-        }
+        // merge all page sources
+        const pages: Record<string, DefineComponent> = defu(
+          props.pages
+            ? Object.fromEntries(
+                Object.entries(props.pages).map(([key, value]) => [
+                  key
+                    .replace(props.pagesPath ?? "./pages/", "")
+                    .replace(".vue", ""),
+                  value,
+                ]),
+              )
+            : {},
+          Object.fromEntries(
+            Object.entries(corePages).map(([key, value]) => [
+              key.replace("./pages/", "").replace(".vue", ""),
+              value,
+            ]),
+          ),
+        );
 
         return pages[name];
       },

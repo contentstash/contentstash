@@ -2,6 +2,8 @@ import { defu } from "defu";
 import laravel from "laravel-vite-plugin";
 import vue from "@vitejs/plugin-vue";
 import { fileURLToPath, URL } from "node:url";
+import path from "path";
+import Components from "unplugin-vue-components/vite";
 
 /**
  * ContentStash Vite Config
@@ -27,6 +29,15 @@ export const contentStashViteConfig = (config) => {
             "vendor/contentstash/core/resources/ts/app.ts",
           ],
           refresh: true,
+        }),
+        Components({
+          dirs: ["vendor/contentstash/core/resources/ts/components"],
+          directoryAsNamespace: true,
+          collapseSamePrefixes: true,
+          dts: path.resolve(
+            fileURLToPath(import.meta.url),
+            "../resources/ts/types/auto-imports.d.ts",
+          ),
         }),
       ],
       resolve: {

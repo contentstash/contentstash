@@ -1,6 +1,10 @@
 import "./bootstrap";
 
-import { createInertiaApp } from "@inertiajs/vue3";
 import { createContentStashApp } from "@contentstash/core";
+import { createInertiaApp } from "@inertiajs/vue3";
 
-await createInertiaApp(createContentStashApp({}));
+await createInertiaApp(
+  createContentStashApp({
+    pages: import.meta.glob("./pages/**/*.vue", { eager: true }),
+  }),
+);

@@ -5,6 +5,7 @@ import { Head } from "@inertiajs/vue3";
 <template>
   <div>
     <Head title="Test24" />
-    <h1>Test222223</h1>
+    <h1>Test2222244443</h1>
+    <UiButton>Test</UiButton>
   </div>
 </template>

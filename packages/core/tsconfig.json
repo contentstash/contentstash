@@ -1,4 +1,5 @@
 {
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
@@ -14,6 +15,6 @@
       "@/*": ["resources/ts/*"]
     }
   },
-  "include": ["../imports/src"],
-  "exclude": ["../imports/node_modules", "dist"]
+  "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.vue"],
+  "exclude": ["./node_modules"]
 }

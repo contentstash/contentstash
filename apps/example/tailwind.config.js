@@ -11,6 +11,7 @@ export default contentStashTailwindConfig({
     "./resources/**/*.ts",
     "./resources/**/*.vue",
   ],
+
   theme: {
     extend: {
       fontFamily: {

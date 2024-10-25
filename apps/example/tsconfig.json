@@ -1,6 +1,5 @@
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.vue"],
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
@@ -16,5 +15,6 @@
       "@/*": ["./vendor/contentstash/core/resources/ts/*"]
     }
   },
+  "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.vue"],
   "exclude": ["./node_modules"]
 }

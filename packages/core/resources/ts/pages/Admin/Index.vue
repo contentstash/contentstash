@@ -6,8 +6,8 @@ import {
   ReloadIcon,
   ExclamationTriangleIcon,
 } from "@radix-icons/vue";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// import { Button } from "@/components/ui/button";
+// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 import { useColorMode } from "@vueuse/core";
 
@@ -19,23 +19,23 @@ useColorMode();
     <Head title="Admin Index" />
     <h1 class="text-red-500 font-bold">Admin Index</h1>
 
-    <Button variant="outline">Click me</Button>
+    <UiButton variant="outline">Click me</UiButton>
 
-    <Alert variant="destructive">
+    <UiAlert variant="destructive">
       <ExclamationTriangleIcon class="w-4 h-4" />
-      <AlertTitle>Heads up!</AlertTitle>
-      <AlertDescription>
+      <UiAlertTitle>Heads up!</UiAlertTitle>
+      <UiAlertDescription>
         You can add components to your app using the cli.
-      </AlertDescription>
-    </Alert>
+      </UiAlertDescription>
+    </UiAlert>
 
-    <Button>
+    <UiButton>
       <EnvelopeOpenIcon class="w-4 h-4 mr-2" /> Login with Email
-    </Button>
+    </UiButton>
 
-    <Button disabled>
+    <UiButton disabled>
       <ReloadIcon class="w-4 h-4 mr-2 animate-spin" />
       Please wait
-    </Button>
+    </UiButton>
   </div>
 </template>

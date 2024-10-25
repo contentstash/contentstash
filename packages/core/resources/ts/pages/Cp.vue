@@ -1,11 +1,4 @@
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Icon } from "@iconify/vue";
 import { useColorMode } from "@vueuse/core";
 import { Head } from "@inertiajs/vue3";
@@ -18,9 +11,9 @@ const mode = useColorMode();
   <div>
     <Head title="CP" />
     <h1 class="text-blue-500 dark:text-gray-100 font-bold">CP224</h1>
-    <DropdownMenu>
-      <DropdownMenuTrigger as-child>
-        <Button variant="outline">
+    <UiDropdownMenu>
+      <UiDropdownMenuTrigger as-child>
+        <UiButton variant="outline">
           <Icon
             icon="radix-icons:moon"
             class="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0"
@@ -30,13 +23,13 @@ const mode = useColorMode();
             class="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100"
           />
           <span class="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem @click="mode = 'light'"> Light </DropdownMenuItem>
-        <DropdownMenuItem @click="mode = 'dark'"> Dark </DropdownMenuItem>
-        <DropdownMenuItem @click="mode = 'auto'"> System </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+        </UiButton>
+      </UiDropdownMenuTrigger>
+      <UiDropdownMenuContent align="end">
+        <UiDropdownMenuItem @click="mode = 'light'"> Light </UiDropdownMenuItem>
+        <UiDropdownMenuItem @click="mode = 'dark'"> Dark </UiDropdownMenuItem>
+        <UiDropdownMenuItem @click="mode = 'auto'"> System </UiDropdownMenuItem>
+      </UiDropdownMenuContent>
+    </UiDropdownMenu>
   </div>
 </template>
