@@ -16,7 +16,9 @@ export default [
       "**/public/**",
     ],
   },
-  { files: ["**/*.{js,mjs,cjs,ts,vue}"] },
+  {
+    files: ["**/*.{js,mjs,cjs,ts,vue}"],
+  },
   { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
@@ -56,8 +58,18 @@ export default [
     },
   },
   {
-    files: ["packages/core/resources/ts/types/auto-imports.d.ts"],
+    files: [
+      "packages/core/resources/ts/types/auto-imports.d.ts",
+      "packages/core/resources/ts/types/components.d.ts",
+    ],
     rules: {},
+  },
+  {
+    files: ["**/*.{ts,vue}"],
+    rules: {
+      // See: https://github.com/unplugin/unplugin-auto-import?tab=readme-ov-file#eslint
+      "no-undef": "off",
+    },
   },
   eslintPluginPrettierRecommended,
 ];
