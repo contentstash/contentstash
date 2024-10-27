@@ -54,7 +54,9 @@ cd ../..
 You can use the docker-compose file to start all required services:
 
 ```sh
+cd apps/example
 docker-compose up -d
+cd ../..
 ```
 
 To start the development server, run the following command:
