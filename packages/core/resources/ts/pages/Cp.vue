@@ -14,6 +14,7 @@ const { getInfo } = useContentStash();
     <Head title="CP" />
     <h1 class="text-blue-500 dark:text-gray-100 font-bold">CP224</h1>
     {{ getInfo() }}
+    <FooBar />
     <UiDropdownMenu>
       <UiDropdownMenuTrigger as-child>
         <UiButton variant="outline">

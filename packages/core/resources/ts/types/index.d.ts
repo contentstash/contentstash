@@ -1,3 +1,11 @@
-export * from "./auto-imports";
-export * from "./components";
+try {
+  export * from "./auto-imports";
+} catch {
+  //
+}
+try {
+  export * from "./components";
+} catch {
+  //
+}
 export * from "../main";

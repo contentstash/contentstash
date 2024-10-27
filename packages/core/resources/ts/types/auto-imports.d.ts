@@ -6,5 +6,6 @@
 // biome-ignore lint: disable
 export {}
 declare global {
-  const useContentStash: (typeof import("../../../../../../../../../apps/example/vendor/contentstash/core/resources/ts/composables/useContentStash"))["default"];
+  const useContentStash: (typeof import("../../../../../apps/example/vendor/contentstash/core/resources/ts/composables/useContentStash"))["default"];
+  const useContentStashCore: (typeof import("../../../../../apps/example/vendor/contentstash/core/resources/ts/composables/useContentStashCore"))["default"];
 }

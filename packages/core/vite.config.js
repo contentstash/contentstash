@@ -9,7 +9,9 @@ import AutoImport from "unplugin-auto-import/vite";
 /**
  * ContentStash Vite Config
  *
- * @param config {import('vite').UserConfig}
+ * @param config {import('vite').UserConfig & {
+ *     rootDir: string
+ * }}
  * @returns {import('vite').UserConfig}
  */
 export const contentStashViteConfig = (config) => {
@@ -35,7 +37,11 @@ export const contentStashViteConfig = (config) => {
         refresh: true,
       }),
       Components({
-        dirs: ["vendor/contentstash/core/resources/ts/components"],
+        dirs: [
+          "vendor/contentstash/core/resources/ts/components",
+          path.resolve(config.rootDir, "resources/ts/components"),
+        ],
+        allowOverrides: true,
         directoryAsNamespace: true,
         collapseSamePrefixes: true,
         dts: path.resolve(

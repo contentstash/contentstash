@@ -44,7 +44,7 @@ export default [
   {
     files: [
       "**/resources/ts/pages/**/*.vue",
-      "**/resources/ts/components/ui/**/*.vue",
+      "**/resources/ts/components/**/*.vue",
     ],
     rules: {
       "vue/multi-word-component-names": "off",
