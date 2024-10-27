@@ -9,12 +9,17 @@ import AutoImport from "unplugin-auto-import/vite";
 /**
  * ContentStash Vite Config
  *
- * @param config {import('vite').UserConfig & {
- *     rootDir: string
- * }}
+ * @param config {Partial<import('vite').UserConfig & {
+ *     appDir: string
+ * }>}
  * @returns {import('vite').UserConfig}
  */
 export const contentStashViteConfig = (config) => {
+  // eslint-disable-next-line no-undef
+  const appDir = config.rootDir ?? process.cwd();
+
+  console.info("appDir", appDir);
+
   return defu(config, {
     build: {
       target: "ESNEXT",
@@ -39,7 +44,7 @@ export const contentStashViteConfig = (config) => {
       Components({
         dirs: [
           "vendor/contentstash/core/resources/ts/components",
-          path.resolve(config.rootDir, "resources/ts/components"),
+          path.resolve(appDir, "resources/ts/components"),
         ],
         allowOverrides: true,
         directoryAsNamespace: true,
@@ -50,7 +55,10 @@ export const contentStashViteConfig = (config) => {
         ),
       }),
       AutoImport({
-        dirs: ["vendor/contentstash/core/resources/ts/composables"],
+        dirs: [
+          "vendor/contentstash/core/resources/ts/composables",
+          path.resolve(appDir, "resources/ts/composables"),
+        ],
         dts: path.resolve(
           fileURLToPath(import.meta.url),
           "../resources/ts/types/auto-imports.d.ts",

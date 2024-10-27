@@ -8,4 +8,5 @@ export {}
 declare global {
   const useContentStash: (typeof import("../../../../../apps/example/vendor/contentstash/core/resources/ts/composables/useContentStash"))["default"];
   const useContentStashCore: (typeof import("../../../../../apps/example/vendor/contentstash/core/resources/ts/composables/useContentStashCore"))["default"];
+  const useFoo: (typeof import("../../../../../apps/example/resources/ts/composables/useFoo"))["default"];
 }
