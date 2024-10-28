@@ -19,7 +19,14 @@ export default [
   {
     files: ["**/*.{js,mjs,cjs,ts,vue}"],
   },
-  { languageOptions: { globals: globals.browser } },
+  {
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        process: true,
+      },
+    },
+  },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...pluginVue.configs["flat/essential"],

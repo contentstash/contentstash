@@ -15,8 +15,7 @@ import AutoImport from "unplugin-auto-import/vite";
  * @returns {import('vite').UserConfig}
  */
 export const contentStashViteConfig = (config) => {
-  // eslint-disable-next-line no-undef
-  const appDir = config.rootDir ?? process.cwd();
+  const appDir = config.appDir ?? process.cwd();
 
   console.info("appDir", appDir);
 
