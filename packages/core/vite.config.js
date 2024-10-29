@@ -44,6 +44,8 @@ export const contentStashViteConfig = (config) => {
         dirs: [
           "vendor/contentstash/core/resources/ts/components",
           path.resolve(appDir, "resources/ts/components"),
+          "vendor/contentstash/core/resources/ts/layouts",
+          path.resolve(appDir, "resources/ts/layouts"),
         ],
         allowOverrides: true,
         directoryAsNamespace: true,
@@ -54,6 +56,26 @@ export const contentStashViteConfig = (config) => {
         ),
       }),
       AutoImport({
+        imports: [
+          "vue",
+          {
+            vue: [
+              // named imports
+              "useMouse", // import { useMouse } from '@vueuse/core',
+              // alias
+              ["useFetch", "useMyFetch"], // import { useFetch as useMyFetch } from '@vueuse/core',
+            ],
+            axios: [
+              // default imports
+              ["default", "axios"], // import { default as axios } from 'axios',
+            ],
+            "[package-name]": [
+              "[import-names]",
+              // alias
+              ["[from]", "[alias]"],
+            ],
+          },
+        ],
         dirs: [
           "vendor/contentstash/core/resources/ts/composables",
           path.resolve(appDir, "resources/ts/composables"),

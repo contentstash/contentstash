@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
 
+usePage({ layout: "default" });
 import {
   EnvelopeOpenIcon,
   ReloadIcon,
@@ -8,10 +9,6 @@ import {
 } from "@radix-icons/vue";
 // import { Button } from "@/components/ui/button";
 // import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-
-import { useColorMode } from "@vueuse/core";
-
-useColorMode();
 </script>
 
 <template>
