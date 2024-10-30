@@ -1,10 +1,11 @@
+import { URL, fileURLToPath } from "node:url";
+
+import AutoImport from "unplugin-auto-import/vite";
+import Components from "unplugin-vue-components/vite";
 import { defu } from "defu";
 import laravel from "laravel-vite-plugin";
-import vue from "@vitejs/plugin-vue";
-import { fileURLToPath, URL } from "node:url";
 import path from "path";
-import Components from "unplugin-vue-components/vite";
-import AutoImport from "unplugin-auto-import/vite";
+import vue from "@vitejs/plugin-vue";
 
 /**
  * ContentStash Vite Config
@@ -64,15 +65,6 @@ export const contentStashViteConfig = (config) => {
               "useMouse", // import { useMouse } from '@vueuse/core',
               // alias
               ["useFetch", "useMyFetch"], // import { useFetch as useMyFetch } from '@vueuse/core',
-            ],
-            axios: [
-              // default imports
-              ["default", "axios"], // import { default as axios } from 'axios',
-            ],
-            "[package-name]": [
-              "[import-names]",
-              // alias
-              ["[from]", "[alias]"],
             ],
           },
         ],
