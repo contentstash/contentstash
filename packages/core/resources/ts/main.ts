@@ -45,6 +45,74 @@ interface CreateInertiaAppProps {
   render?: (app: VueApp) => Promise<string>;
 }
 
+export const getLayouts = ({
+  layouts,
+  layoutsPath,
+}: {
+  layouts?: Record<string, DefineComponent>;
+  layoutsPath?: string;
+}) => {
+  // get core layouts
+  const coreLayouts = import.meta.glob("./layouts/*.vue", {
+    eager: true,
+  }) as Record<string, DefineComponent>;
+
+  // merge all layout sources
+  return defu(
+    layouts
+      ? Object.fromEntries(
+          Object.entries(layouts).map(([key, value]) => [
+            key.replace(layoutsPath ?? "./layouts/", "").replace(".vue", ""),
+            value,
+          ]),
+        )
+      : {},
+    Object.fromEntries(
+      Object.entries(coreLayouts).map(([key, value]) => [
+        key.replace("./layouts/", "").replace(".vue", ""),
+        value,
+      ]),
+    ),
+  ) as Record<string, DefineComponent>;
+};
+export const getPages = ({
+  pages,
+  pagesPath,
+}: {
+  pages?: Record<string, DefineComponent>;
+  pagesPath?: string;
+}) => {
+  // get core pages
+  const corePages = import.meta.glob("./pages/**/*.vue", {
+    eager: true,
+  }) as Record<string, DefineComponent>;
+
+  // merge all page sources
+  return defu(
+    pages
+      ? Object.fromEntries(
+          Object.entries(pages).map(([key, value]) => [
+            key.replace(pagesPath ?? "./pages/", "").replace(".vue", ""),
+            value,
+          ]),
+        )
+      : {},
+    Object.fromEntries(
+      Object.entries(corePages).map(([key, value]) => [
+        key.replace("./pages/", "").replace(".vue", ""),
+        value,
+      ]),
+    ),
+  ) as Record<string, DefineComponent>;
+};
+export const parsedLayoutName = ({ name }: { name: string }) => {
+  let layoutName = name;
+  if (!layoutName.endsWith("Layout")) {
+    layoutName += "Layout";
+  }
+  return layoutName.charAt(0).toUpperCase() + layoutName.slice(1);
+};
+
 export const createContentStashApp = (
   props: Partial<
     CreateInertiaAppProps & {
@@ -62,72 +130,10 @@ export const createContentStashApp = (
           .use(plugin)
           .mount(el);
       },
+
       resolve: (name: string) => {
-        // get core layouts
-        const coreLayouts = import.meta.glob("./layouts/*.vue", {
-          eager: true,
-        }) as Record<string, DefineComponent>;
-
-        // merge all layout sources
-        const layouts: Record<string, DefineComponent> = defu(
-          props.layouts
-            ? Object.fromEntries(
-                Object.entries(props.layouts).map(([key, value]) => [
-                  key
-                    .replace(props.layoutsPath ?? "./layouts/", "")
-                    .replace(".vue", ""),
-                  value,
-                ]),
-              )
-            : {},
-          Object.fromEntries(
-            Object.entries(coreLayouts).map(([key, value]) => [
-              key.replace("./layouts/", "").replace(".vue", ""),
-              value,
-            ]),
-          ),
-        );
-
-        // get core pages
-        const corePages = import.meta.glob("./pages/**/*.vue", {
-          eager: true,
-        }) as Record<string, DefineComponent>;
-
-        // merge all page sources
-        const pages: Record<string, DefineComponent> = defu(
-          props.pages
-            ? Object.fromEntries(
-                Object.entries(props.pages).map(([key, value]) => [
-                  key
-                    .replace(props.pagesPath ?? "./pages/", "")
-                    .replace(".vue", ""),
-                  value,
-                ]),
-              )
-            : {},
-          Object.fromEntries(
-            Object.entries(corePages).map(([key, value]) => [
-              key.replace("./pages/", "").replace(".vue", ""),
-              value,
-            ]),
-          ),
-        );
-
-        const page = pages[name];
-
-        console.info("FOUND PAGE", pages[name]);
-
-        // name would be camelCase (should be UpperCamelCase) and should end with Layout (if its not ending with Layout already)
-        // e.g. if name is "home" it should be "HomeLayout"
-        // e.g. if name is "homeLayout" it should be "HomeLayout"
-        // e.g. if name is "Home" it should be "HomeLayout"
-        const parsedLayoutName = ({ name }: { name: string }) => {
-          let layoutName = name;
-          if (!layoutName.endsWith("Layout")) {
-            layoutName += "Layout";
-          }
-          return layoutName.charAt(0).toUpperCase() + layoutName.slice(1);
-        };
+        const layouts = getLayouts(props);
+        const page = getPages(props)[name];
 
         if (page.default.layout === false) {
           // do nothing

@@ -60,12 +60,9 @@ export const contentStashViteConfig = (config) => {
         imports: [
           "vue",
           {
-            vue: [
-              // named imports
-              "useMouse", // import { useMouse } from '@vueuse/core',
-              // alias
-              ["useFetch", "useMyFetch"], // import { useFetch as useMyFetch } from '@vueuse/core',
-            ],
+            vue: {
+              imports: ["defineOptions"],
+            },
           },
         ],
         dirs: [
