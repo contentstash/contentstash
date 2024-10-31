@@ -218,35 +218,32 @@ export const getLayout = ({
 export const createContentStashApp = (
   props: ContentStashAppProps,
 ): CreateInertiaAppProps => {
-  return defu(
-    {
-      progress: {
-        delay: 250,
-        // TODO: Change color to primary color
-        color: "#29d",
-        includeCSS: true,
-        showSpinner: false,
-      },
-      setup: ({ el, App, props, plugin }) => {
-        createApp({ render: () => h(App, props) })
-          .use(plugin)
-          .mount(el);
-      },
-      resolve: (name: string) => {
-        const pages = getPages(props);
-        const page = pages[name];
-        page.default.layout = getLayout({
-          layouts: getLayouts(props),
-          name,
-          page,
-          pages,
-        });
-
-        return page;
-      },
+  return defu(props, {
+    progress: {
+      delay: 250,
+      // TODO: Change color to primary color
+      color: "#29d",
+      includeCSS: true,
+      showSpinner: false,
     },
-    props,
-  );
+    setup: ({ el, App, props, plugin }) => {
+      createApp({ render: () => h(App, props) })
+        .use(plugin)
+        .mount(el);
+    },
+    resolve: (name: string) => {
+      const pages = getPages(props);
+      const page = pages[name];
+      page.default.layout = getLayout({
+        layouts: getLayouts(props),
+        name,
+        page,
+        pages,
+      });
+
+      return page;
+    },
+  });
 };
 
 export default {

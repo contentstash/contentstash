@@ -11,15 +11,16 @@ export const definePagePlugin = () => {
   return {
     name: "define-page-plugin",
     transform(code, id) {
-      if (!id.endsWith(".vue")) return;
+      // skip non-vue files
+      if (!id.endsWith(".vue")) {
+        return;
+      }
 
-      // Ersetze 'defineOptions' durch 'definePage'
       const updatedCode = code.replace(/definePage/g, "defineOptions");
 
-      // Gibt den aktualisierten Code zurück
       return {
         code: updatedCode,
-        map: null, // Optional: Du kannst auch Source Maps hinzufügen
+        map: null,
       };
     },
   };
@@ -29,14 +30,14 @@ export const definePagePlugin = () => {
  * ContentStash Vite Config
  *
  * @param config {Partial<import('vite').UserConfig & {
+ *   contentStash: {
  *     appDir: string
+ *   }
  * }>}
  * @returns {import('vite').UserConfig}
  */
 export const contentStashViteConfig = (config) => {
-  const appDir = config.appDir ?? process.cwd();
-
-  console.info("appDir", appDir);
+  const appDir = config?.contentStash?.appDir ?? process.cwd();
 
   return defu(config, {
     build: {
