@@ -45,13 +45,23 @@ interface CreateInertiaAppProps {
   render?: (app: VueApp) => Promise<string>;
 }
 
-export const getLayouts = ({
-  layouts,
-  layoutsPath,
-}: {
-  layouts?: Record<string, DefineComponent>;
-  layoutsPath?: string;
-}) => {
+export type ContentStashAppProps = Partial<
+  CreateInertiaAppProps & {
+    layouts: Record<string, DefineComponent>;
+    layoutsPath: string;
+    pages: Record<string, DefineComponent>;
+    pagesPath: string;
+  }
+>;
+
+/**
+ * Get all layouts for the project
+ *
+ * @param {ContentStashAppProps} props - The props of the app
+ *
+ * @returns Record<string, DefineComponent>
+ */
+export const getLayouts = (props: ContentStashAppProps) => {
   // get core layouts
   const coreLayouts = import.meta.glob("./layouts/*.vue", {
     eager: true,
@@ -59,10 +69,12 @@ export const getLayouts = ({
 
   // merge all layout sources
   return defu(
-    layouts
+    props.layouts
       ? Object.fromEntries(
-          Object.entries(layouts).map(([key, value]) => [
-            key.replace(layoutsPath ?? "./layouts/", "").replace(".vue", ""),
+          Object.entries(props.layouts).map(([key, value]) => [
+            key
+              .replace(props.layoutsPath ?? "./layouts/", "")
+              .replace(".vue", ""),
             value,
           ]),
         )
@@ -75,13 +87,15 @@ export const getLayouts = ({
     ),
   ) as Record<string, DefineComponent>;
 };
-export const getPages = ({
-  pages,
-  pagesPath,
-}: {
-  pages?: Record<string, DefineComponent>;
-  pagesPath?: string;
-}) => {
+
+/**
+ * Get all pages for the project
+ *
+ * @param {ContentStashAppProps} props - The props of the app
+ *
+ * @returns Record<string, DefineComponent>
+ */
+export const getPages = (props: ContentStashAppProps) => {
   // get core pages
   const corePages = import.meta.glob("./pages/**/*.vue", {
     eager: true,
@@ -89,10 +103,10 @@ export const getPages = ({
 
   // merge all page sources
   return defu(
-    pages
+    props.pages
       ? Object.fromEntries(
-          Object.entries(pages).map(([key, value]) => [
-            key.replace(pagesPath ?? "./pages/", "").replace(".vue", ""),
+          Object.entries(props.pages).map(([key, value]) => [
+            key.replace(props.pagesPath ?? "./pages/", "").replace(".vue", ""),
             value,
           ]),
         )
@@ -105,6 +119,14 @@ export const getPages = ({
     ),
   ) as Record<string, DefineComponent>;
 };
+
+/**
+ * Get the parsed layout name
+ *
+ * @param {string} name - The name of the layout
+ *
+ * @returns string
+ */
 export const parsedLayoutName = ({ name }: { name: string }) => {
   let layoutName = name;
   if (!layoutName.endsWith("Layout")) {
@@ -113,15 +135,88 @@ export const parsedLayoutName = ({ name }: { name: string }) => {
   return layoutName.charAt(0).toUpperCase() + layoutName.slice(1);
 };
 
-export const createContentStashApp = (
-  props: Partial<
-    CreateInertiaAppProps & {
-      layouts?: Record<string, DefineComponent>;
-      layoutsPath?: string;
-      pages?: Record<string, DefineComponent>;
-      pagesPath?: string;
+/**
+ * Get the layout of a page
+ *
+ * @param {Record<string, DefineComponent>} layouts - The layouts of the app
+ * @param {string} name - The name of the page
+ * @param {Page} page - The page object
+ * @param {Record<string, DefineComponent>} pages - The pages of the app
+ *
+ * @returns Array<DefineComponent>
+ */
+export const getLayout = ({
+  layouts,
+  name,
+  page,
+  pages,
+}: {
+  layouts: Record<string, DefineComponent>;
+  name: string;
+  page: Page;
+  pages: Record<string, DefineComponent>;
+}) => {
+  // return is layout is already resolved (it is an array) or if it is explicitly set to false
+  if (Array.isArray(page.default.layout)) {
+    return page.default.layout;
+  }
+
+  // result array
+  const layoutArray: Array<DefineComponent> = [];
+
+  // get parents by splitting the name and trying to find the parent pages (like nested routes from nuxt https://nuxt.com/docs/guide/directory-structure/pages#nested-routes)
+  const segments = name.split("/");
+  for (let i = segments.length - 1; i > 0; i--) {
+    const parentPageName = segments.slice(0, i).join("/");
+    const parentPage = pages[parentPageName];
+    if (parentPage) {
+      layoutArray.unshift(parentPage.default);
     }
-  >,
+  }
+
+  // if layout is explicitly set to false, return the array only with the parent pages
+  if (page.default.layout === false) {
+    return layoutArray;
+  }
+
+  // if layout is a string, try to find the layout by name else check parent pages for a layout
+  if (typeof page.default.layout === "string") {
+    const layoutName = parsedLayoutName({ name: page.default.layout });
+
+    if (layouts[layoutName]) {
+      layoutArray.unshift(layouts[layoutName].default);
+    } else {
+      console.warn(`Layout "${layoutName}" not found. Using default layout.`);
+    }
+  } else if (layoutArray.length) {
+    for (const layout of layoutArray) {
+      if (layout.layout === false) {
+        break;
+      } else if (typeof layout.layout === "string") {
+        const layoutName = parsedLayoutName({
+          name: layout.layout,
+        });
+        if (layouts[layoutName]) {
+          layoutArray.unshift(layouts[layoutName].default);
+        } else {
+          console.warn(`Layout "${layoutName}" not found.`);
+        }
+        break;
+      }
+    }
+
+    if (layoutArray[0].layout === undefined) {
+      layoutArray.unshift(DefaultLayout);
+    }
+  } else {
+    layoutArray.unshift(DefaultLayout);
+  }
+
+  return layoutArray;
+};
+
+export const createContentStashApp = (
+  props: ContentStashAppProps,
 ): CreateInertiaAppProps => {
   return defu(
     {
@@ -130,19 +225,15 @@ export const createContentStashApp = (
           .use(plugin)
           .mount(el);
       },
-
       resolve: (name: string) => {
-        const layouts = getLayouts(props);
-        const page = getPages(props)[name];
-
-        if (page.default.layout === false) {
-          // do nothing
-        } else if (typeof page.default.layout == "string") {
-          page.default.layout =
-            layouts[parsedLayoutName({ name: page.default.layout })].default;
-        } else if (!page.default.layout) {
-          page.default.layout = DefaultLayout;
-        }
+        const pages = getPages(props);
+        const page = pages[name];
+        page.default.layout = getLayout({
+          layouts: getLayouts(props),
+          name,
+          page,
+          pages,
+        });
 
         return page;
       },

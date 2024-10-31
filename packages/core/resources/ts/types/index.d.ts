@@ -8,4 +8,5 @@ try {
 } catch {
   //
 }
+export * from "./definePage";
 export * from "../main";

@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
-
-usePage({ layout: "default" });
 import {
   EnvelopeOpenIcon,
   ReloadIcon,
   ExclamationTriangleIcon,
 } from "@radix-icons/vue";
-// import { Button } from "@/components/ui/button";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
+definePage({ layout: "base" });
 </script>
 
 <template>

@@ -7,6 +7,24 @@ import laravel from "laravel-vite-plugin";
 import path from "path";
 import vue from "@vitejs/plugin-vue";
 
+export const definePagePlugin = () => {
+  return {
+    name: "define-page-plugin",
+    transform(code, id) {
+      if (!id.endsWith(".vue")) return;
+
+      // Ersetze 'defineOptions' durch 'definePage'
+      const updatedCode = code.replace(/definePage/g, "defineOptions");
+
+      // Gibt den aktualisierten Code zurück
+      return {
+        code: updatedCode,
+        map: null, // Optional: Du kannst auch Source Maps hinzufügen
+      };
+    },
+  };
+};
+
 /**
  * ContentStash Vite Config
  *
@@ -25,6 +43,7 @@ export const contentStashViteConfig = (config) => {
       target: "ESNEXT",
     },
     plugins: [
+      definePagePlugin(),
       vue({
         template: {
           transformAssetUrls: {
@@ -60,9 +79,10 @@ export const contentStashViteConfig = (config) => {
         imports: [
           "vue",
           {
-            vue: {
-              imports: ["defineOptions"],
-            },
+            vue: [
+              ["defineOptions"],
+              // ['defineOptions', "definePage"],
+            ],
           },
         ],
         dirs: [
