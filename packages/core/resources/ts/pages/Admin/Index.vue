@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
+import { Head, Link } from "@inertiajs/vue3";
 import {
   EnvelopeOpenIcon,
   ReloadIcon,
@@ -12,7 +12,9 @@ definePage({ layout: "base" });
 <template>
   <div>
     <Head title="Admin Index" />
+
     <h1 class="text-red-500 font-bold">Admin Index</h1>
+    <Link href="/cp">CP</Link>
 
     <UiButton variant="outline">Click me</UiButton>
 

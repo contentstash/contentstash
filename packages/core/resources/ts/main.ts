@@ -220,6 +220,13 @@ export const createContentStashApp = (
 ): CreateInertiaAppProps => {
   return defu(
     {
+      progress: {
+        delay: 250,
+        // TODO: Change color to primary color
+        color: "#29d",
+        includeCSS: true,
+        showSpinner: false,
+      },
       setup: ({ el, App, props, plugin }) => {
         createApp({ render: () => h(App, props) })
           .use(plugin)

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { Icon } from "@iconify/vue";
+import { Head, Link } from "@inertiajs/vue3";
 import { useColorMode } from "@vueuse/core";
-import { Head } from "@inertiajs/vue3";
 
 // Pass { disableTransition: false } to enable transitions
 const mode = useColorMode();
@@ -12,6 +11,7 @@ const { getInfo } = useContentStash();
 <template>
   <div>
     <Head title="CP" />
+    <Link href="/admin/">Admin Index</Link>
     <h1 class="text-blue-500 dark:text-gray-100 font-bold">CP224</h1>
     {{ getInfo() }}
     <FooBar />
