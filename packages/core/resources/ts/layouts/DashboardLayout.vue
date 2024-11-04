@@ -24,6 +24,7 @@ import {
   SquareTerminal,
   // Trash2,
 } from "lucide-vue-next";
+import useContentStash from "@/composables/useContentStash";
 
 useColorMode();
 
@@ -121,12 +122,32 @@ const navMain = [
     ],
   },
 ];
+
+const { getInfo } = useContentStash();
 </script>
 
 <template>
   <UiSidebarProvider>
     <UiSidebar collapsible="icon">
-      <UiSidebarHeader> </UiSidebarHeader>
+      <UiSidebarHeader>
+        <UiSidebarMenu>
+          <UiSidebarMenuItem>
+            <UiSidebarMenuButton size="lg">
+              <div
+                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
+              >
+                <component :is="Sparkles" class="size-4" />
+              </div>
+              <div class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">ContentStash</span>
+                <span class="truncate text-xs"
+                  >Version: {{ getInfo().core.version }}</span
+                >
+              </div>
+            </UiSidebarMenuButton>
+          </UiSidebarMenuItem>
+        </UiSidebarMenu>
+      </UiSidebarHeader>
 
       <UiSidebarContent>
         <UiSidebarGroup>
