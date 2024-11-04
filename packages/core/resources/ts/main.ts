@@ -4,7 +4,7 @@ import type { DefineComponent, Plugin, App as VueApp } from "vue";
 import { createApp, h } from "vue";
 
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import type { Page } from "@inertiajs/core";
+import type { Page } from "@inertiajs/vue3";
 import { defu } from "defu";
 
 interface InertiaAppProps {
@@ -189,14 +189,17 @@ export const getLayout = ({
       console.warn(`Layout "${layoutName}" not found. Using default layout.`);
     }
   } else if (layoutArray.length) {
+    let addDefaultLayout = true;
     for (const layout of layoutArray) {
       if (layout.layout === false) {
+        addDefaultLayout = false;
         break;
       } else if (typeof layout.layout === "string") {
         const layoutName = parsedLayoutName({
           name: layout.layout,
         });
         if (layouts[layoutName]) {
+          addDefaultLayout = false;
           layoutArray.unshift(layouts[layoutName].default);
         } else {
           console.warn(`Layout "${layoutName}" not found.`);
@@ -205,7 +208,7 @@ export const getLayout = ({
       }
     }
 
-    if (layoutArray[0].layout === undefined) {
+    if (addDefaultLayout) {
       layoutArray.unshift(DefaultLayout);
     }
   } else {
