@@ -6,7 +6,7 @@ useColorMode();
 
 <template>
   <div>
-    BBBBBASE
+    BBB
     <slot />
   </div>
 </template>
