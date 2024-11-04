@@ -6,7 +6,6 @@ definePage({ layout: "dashboard" });
 
 <template>
   <div>
-    Dashboard
     <slot />
   </div>
 </template>
