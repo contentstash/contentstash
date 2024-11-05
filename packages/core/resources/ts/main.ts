@@ -6,6 +6,7 @@ import { createApp, h } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Page } from "@inertiajs/vue3";
 import { defu } from "defu";
+import { loadLocaleMessages, setupI18n } from "./i18n";
 
 interface InertiaAppProps {
   initialPage: Page;
@@ -218,6 +219,15 @@ export const getLayout = ({
   return layoutArray;
 };
 
+let i18n = null;
+
+/**
+ * Create a ContentStash app
+ *
+ * @param {ContentStashAppProps} props - The props of the app
+ *
+ * @returns CreateInertiaAppProps
+ */
 export const createContentStashApp = (
   props: ContentStashAppProps,
 ): CreateInertiaAppProps => {
@@ -230,11 +240,16 @@ export const createContentStashApp = (
       showSpinner: false,
     },
     setup: ({ el, App, props, plugin }) => {
+      i18n = setupI18n({
+        locale: props.initialPage.props.locale,
+      });
+
       createApp({ render: () => h(App, props) })
         .use(plugin)
+        .use(i18n)
         .mount(el);
     },
-    resolve: (name: string) => {
+    resolve: async (name: string) => {
       const pages = getPages(props);
       const page = pages[name];
       page.default.layout = getLayout({
@@ -244,6 +259,13 @@ export const createContentStashApp = (
         pages,
       });
 
+      console.info("i18n", i18n);
+
+      if (i18n !== null) {
+        const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
+        await loadLocaleMessages(i18n, locale);
+        i18n.global.locale.value = locale;
+      }
       return page;
     },
   });

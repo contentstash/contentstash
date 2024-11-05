@@ -15,4 +15,12 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboard/Index');
     }
+
+    /**
+     * Display the dashboard 2.
+     */
+    public function index2(): Response
+    {
+        return Inertia::render('Dashboard/Index2');
+    }
 }

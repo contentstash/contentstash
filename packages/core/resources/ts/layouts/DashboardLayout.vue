@@ -144,6 +144,8 @@ const { getInfo } = useContentStash();
                   >Version: {{ getInfo().core.version }}</span
                 >
               </div>
+
+              {{ $t("foo.bar") }}
             </UiSidebarMenuButton>
           </UiSidebarMenuItem>
         </UiSidebarMenu>
