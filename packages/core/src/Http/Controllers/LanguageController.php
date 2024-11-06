@@ -30,9 +30,7 @@ class LanguageController extends Controller
         $translations = [];
 
         foreach ($GLOBALS['CONTENTSTASH_PLUGINS'] as $plugin) {
-            $localPath = $plugin['local_path'];
-
-            $files = File::files("{$localPath}/{$locale}");
+            $files = File::files("{$plugin->getLocalPath()}/{$locale}");
             foreach ($files as $file) {
                 $pluginTranslations = json_decode(File::get($file), true);
                 $translations = array_merge_recursive($translations, $pluginTranslations);

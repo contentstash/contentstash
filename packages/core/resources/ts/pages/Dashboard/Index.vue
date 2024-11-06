@@ -13,5 +13,6 @@ import { Head, Link } from "@inertiajs/vue3";
     </div>
     <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
     <Link href="/dashboard/2">Dashboard2</Link>
+    {{ $t("foo.bar") }}
   </div>
 </template>

@@ -2,6 +2,7 @@
 
 namespace ContentStash\Core;
 
+use ContentStash\Core\Plugins\ContentStashPlugin;
 use Illuminate\Support\ServiceProvider;
 
 class ContentStashServiceProvider extends ServiceProvider
@@ -23,9 +24,10 @@ class ContentStashServiceProvider extends ServiceProvider
             $GLOBALS['CONTENTSTASH_PLUGINS'] = [];
         }
 
-        $GLOBALS['CONTENTSTASH_PLUGINS'][] = [
+        $GLOBALS['CONTENTSTASH_PLUGINS'][] = new ContentStashPlugin([
             'name' => '@contentstash/core',
+            'path' => __DIR__.'/../',
             'local_path' => __DIR__.'/../resources/ts/locales/',
-        ];
+        ]);
     }
 }
