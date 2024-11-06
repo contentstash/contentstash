@@ -58,7 +58,7 @@ importers:
     dependencies:
       '@contentstash/core':
         specifier: file:./../../packages/core/
-        version: link:../../packages/core
+        version: file:packages/core(eslint@9.14.0(jiti@2.3.3))(tailwindcss@3.4.14)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))
       '@inertiajs/vue3':
         specifier: ^2.0.0-beta.2
         version: 2.0.0-beta.2(vue@3.5.12(typescript@5.6.3))
@@ -163,6 +163,9 @@ importers:
       unplugin-vue-components:
         specifier: ^0.27.4
         version: 0.27.4(@babel/parser@7.26.1)(rollup@4.24.0)(vue@3.5.12(typescript@5.6.3))
+      vite:
+        specifier: ^5.4.10
+        version: 5.4.10(@types/node@20.16.5)
       vite-plugin-dts:
         specifier: ^4.3.0
         version: 4.3.0(@types/node@20.16.5)(rollup@4.24.0)(typescript@5.6.3)(vite@5.4.10(@types/node@20.16.5))
@@ -297,6 +300,10 @@ packages:
   '@commitlint/types@19.5.0':
     resolution: {integrity: sha512-DSHae2obMSMkAtTBSOulg5X7/z+rGLxcXQIkg3OmWvY6wifojge5uVMydfhUvs7yQj+V7jNmRZ2Xzl8GJyqRgg==}
     engines: {node: '>=v18'}
+
+  '@contentstash/core@file:packages/core':
+    resolution: {directory: packages/core, type: directory}
+    engines: {node: '>=20.0.0'}
 
   '@esbuild/aix-ppc64@0.21.5':
     resolution: {integrity: sha512-1SDgH6ZSPTlggy1yI6+Dbkiz8xzpHJEVAlF/AM1tHPLsf5STom9rwtjE4hKAF20FfXXNTFqEYXyJNWh1GiZedQ==}
@@ -2959,6 +2966,31 @@ snapshots:
     dependencies:
       '@types/conventional-commits-parser': 5.0.0
       chalk: 5.3.0
+
+  '@contentstash/core@file:packages/core(eslint@9.14.0(jiti@2.3.3))(tailwindcss@3.4.14)(typescript@5.6.3)(vue@3.5.12(typescript@5.6.3))':
+    dependencies:
+      '@intlify/unplugin-vue-i18n': 5.2.0(@vue/compiler-dom@3.5.12)(eslint@9.14.0(jiti@2.3.3))(rollup@4.24.0)(typescript@5.6.3)(vue-i18n@10.0.4(vue@3.5.12(typescript@5.6.3)))(vue@3.5.12(typescript@5.6.3))
+      '@radix-icons/vue': 1.0.0(vue@3.5.12(typescript@5.6.3))
+      '@vueuse/core': 11.2.0(vue@3.5.12(typescript@5.6.3))
+      class-variance-authority: 0.7.0
+      clsx: 2.1.1
+      defu: 6.1.4
+      lucide-vue-next: 0.454.0(vue@3.5.12(typescript@5.6.3))
+      radix-vue: 1.9.8(vue@3.5.12(typescript@5.6.3))
+      tailwind-merge: 2.5.4
+      tailwindcss-animate: 1.0.7(tailwindcss@3.4.14)
+      vue-i18n: 10.0.4(vue@3.5.12(typescript@5.6.3))
+    transitivePeerDependencies:
+      - '@vue/compiler-dom'
+      - '@vue/composition-api'
+      - eslint
+      - petite-vue-i18n
+      - rollup
+      - supports-color
+      - tailwindcss
+      - typescript
+      - vue
+      - webpack-sources
 
   '@esbuild/aix-ppc64@0.21.5':
     optional: true
