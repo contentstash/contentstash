@@ -6,7 +6,7 @@ import { createApp, h } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Page } from "@inertiajs/vue3";
 import { defu } from "defu";
-import { loadLocaleMessages, setupI18n } from "./i18n";
+// import { loadLocaleMessages, setupI18n } from "./i18n";
 
 interface InertiaAppProps {
   initialPage: Page;
@@ -101,6 +101,10 @@ export const getPages = (props: ContentStashAppProps) => {
   const corePages = import.meta.glob("./pages/**/*.vue", {
     eager: true,
   }) as Record<string, DefineComponent>;
+
+  console.info("import.meta.url", import.meta.url);
+
+  console.info("corePages", corePages);
 
   // merge all page sources
   return defu(
@@ -219,7 +223,7 @@ export const getLayout = ({
   return layoutArray;
 };
 
-let i18n = null;
+// let i18n = null;
 
 /**
  * Create a ContentStash app
@@ -240,33 +244,35 @@ export const createContentStashApp = (
       showSpinner: false,
     },
     setup: ({ el, App, props, plugin }) => {
-      i18n = setupI18n({
-        locale: props.initialPage.props.locale,
-      });
+      // i18n = setupI18n({
+      //   locale: props.initialPage.props.locale,
+      // });
 
       createApp({ render: () => h(App, props) })
         .use(plugin)
-        .use(i18n)
         .mount(el);
+      // .use(i18n)
     },
-    resolve: async (name: string) => {
+    resolve: (name: string) => {
       const pages = getPages(props);
-      const page = pages[name];
-      page.default.layout = getLayout({
-        layouts: getLayouts(props),
-        name,
-        page,
-        pages,
-      });
+      console.info("pages", pages);
+      return pages[name];
+      // const page = pages[name];
+      // page.default.layout = getLayout({
+      //   layouts: getLayouts(props),
+      //   name,
+      //   page,
+      //   pages,
+      // });
 
-      console.info("i18n", i18n);
-
-      if (i18n !== null) {
-        const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
-        await loadLocaleMessages(i18n, locale);
-        i18n.global.locale.value = locale;
-      }
-      return page;
+      // console.info("i18n", i18n);
+      //
+      // if (i18n !== null) {
+      //   const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
+      //   await loadLocaleMessages(i18n, locale);
+      //   i18n.global.locale.value = locale;
+      // }
+      // return page;
     },
   });
 };
