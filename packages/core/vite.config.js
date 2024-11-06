@@ -6,7 +6,6 @@ import { defu } from "defu";
 import laravel from "laravel-vite-plugin";
 import path from "path";
 import vue from "@vitejs/plugin-vue";
-// import vueI18n from "@intlify/unplugin-vue-i18n/vite";
 
 export const definePagePlugin = () => {
   return {
@@ -54,12 +53,6 @@ export const contentStashViteConfig = (config) => {
           },
         },
       }),
-      // vueI18n({
-      //   include: [
-      //     "./vendor/contentstash/core/resources/ts/locales/**/*.json",
-      //     path.resolve(appDir, "resources/ts/locales/**/*.json"),
-      //   ],
-      // }),
       laravel({
         input: [
           "resources/css/app.css",

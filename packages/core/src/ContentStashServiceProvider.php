@@ -19,6 +19,13 @@ class ContentStashServiceProvider extends ServiceProvider
 
     public function register()
     {
-        // Register any package services
+        if (! defined('CONTENTSTASH_PLUGINS')) {
+            $GLOBALS['CONTENTSTASH_PLUGINS'] = [];
+        }
+
+        $GLOBALS['CONTENTSTASH_PLUGINS'][] = [
+            'name' => '@contentstash/core',
+            'local_path' => __DIR__.'/../resources/ts/locales/',
+        ];
     }
 }

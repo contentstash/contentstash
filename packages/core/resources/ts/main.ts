@@ -6,7 +6,7 @@ import { createApp, h } from "vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Page } from "@inertiajs/vue3";
 import { defu } from "defu";
-import { loadLocaleMessages, setupI18n } from "./i18n";
+import { setLocaleMessages, setupI18n } from "./i18n";
 
 interface InertiaAppProps {
   initialPage: Page;
@@ -101,10 +101,6 @@ export const getPages = (props: ContentStashAppProps) => {
   const corePages = import.meta.glob("./pages/**/*.vue", {
     eager: true,
   }) as Record<string, DefineComponent>;
-
-  console.info("import.meta.url", import.meta.url);
-
-  console.info("corePages", corePages);
 
   // merge all page sources
   return defu(
@@ -223,10 +219,10 @@ export const getLayout = ({
   return layoutArray;
 };
 
+/**
+ * The i18n instance of the app (only for internal use)
+ */
 let i18n = null;
-
-// import deCore from "./locales/de-DE/core.json";
-// import enCore from "./locales/en-GB/core.json";
 
 /**
  * Create a ContentStash app
@@ -249,10 +245,6 @@ export const createContentStashApp = (
     setup: ({ el, App, props, plugin }) => {
       i18n = setupI18n({
         locale: props.initialPage.props.locale,
-        // messages: {
-        //     "de-DE": deCore,
-        //     "en-GB": enCore,
-        // }
       });
 
       createApp({ render: () => h(App, props) })
@@ -271,14 +263,12 @@ export const createContentStashApp = (
         pages,
       });
 
-      // console.info("i18n", i18n);
-
-      if (i18n !== null) {
+      if (i18n) {
         const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
-        console.info("locale", locale);
-        await loadLocaleMessages(i18n, locale);
-        i18n.global.locale = locale;
+        await setLocaleMessages(i18n, locale);
+        i18n.global.locale.value = locale;
       }
+
       return page;
     },
   });

@@ -62,6 +62,9 @@ const getNumberFormats = () => {
 
 export const SUPPORT_LOCALES = ["en-GB", "de-DE"];
 
+/**
+ * Setup the i18n instance
+ */
 export function setupI18n(options = {}) {
   const i18n = createI18n(
     defu(options, {
@@ -69,12 +72,17 @@ export function setupI18n(options = {}) {
       fallbackLocale: "en-GB",
       datetimeFormats: getDatetimeFormats(),
       numberFormats: getNumberFormats(),
+      legacy: false,
+      globalInjection: true,
     }),
   );
   setI18nLanguage(i18n, options.locale);
   return i18n;
 }
 
+/**
+ * Set i18n language
+ */
 export function setI18nLanguage(i18n, locale) {
   if (i18n.mode === "legacy") {
     i18n.global.locale = locale;
@@ -91,17 +99,32 @@ export function setI18nLanguage(i18n, locale) {
   document.querySelector("html").setAttribute("lang", locale);
 }
 
+/**
+ * The cache of locale messages (to avoid fetching them multiple times)
+ */
+const messagesCache: Record<string, Record<string, string | object>> = {};
+
+/**
+ * Load locale messages
+ */
 export async function loadLocaleMessages(i18n, locale) {
-  // load locale messages with dynamic import
-  console.info(locale);
-  const messages = await import(
-    `/vendor/contentstash/core/resources/ts/locales/${locale}/core.json`
-  );
+  const request = await fetch(`/translations/${locale}`);
+  messagesCache[locale] = await request.json();
+  return nextTick();
+}
 
-  console.info(messages);
+/**
+ * Set locale messages
+ */
+export async function setLocaleMessages(i18n, locale) {
+  if (locale in messagesCache) {
+    i18n.global.setLocaleMessage(locale, messagesCache[locale]);
+    return nextTick();
+  }
 
-  // set locale and locale message
-  i18n.global.setLocaleMessage(locale, messages.default);
+  await loadLocaleMessages(i18n, locale);
+
+  i18n.global.setLocaleMessage(locale, messagesCache[locale]);
 
   return nextTick();
 }
