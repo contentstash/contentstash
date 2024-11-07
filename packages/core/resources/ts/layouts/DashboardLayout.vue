@@ -5,11 +5,12 @@ import {
   BadgeCheck,
   Bell,
   BookOpen,
-  Bot,
+  // Bot,
+  Bug,
   ChevronRight,
   ChevronsUpDown,
   // Command,
-  CreditCard,
+  // CreditCard,
   // Folder,
   // Forward,
   // Frame,
@@ -21,79 +22,64 @@ import {
   // Plus,
   Settings2,
   Sparkles,
-  SquareTerminal,
+  // SquareTerminal,
   // Trash2,
+  Database,
+  Boxes,
+  MessagesSquare,
+  ScrollText,
 } from "lucide-vue-next";
 import useContentStash from "@/composables/useContentStash";
 
 useColorMode();
 
 const user = {
-  name: "shadcn",
-  email: "m@example.com",
-  avatar: "/avatars/shadcn.jpg",
+  name: "TitusKirch",
+  email: "contact@kirch.dev",
+  avatar: "https://avatars.githubusercontent.com/u/16943133?v=4",
+};
+const avatarFallback = (name: string) => {
+  const upperCaseLetters = name.match(/[A-Z]/g) || [];
+  return upperCaseLetters.slice(0, 3).join("");
 };
 
 // This is sample data.
 const navMain = [
   {
-    title: "Playground",
+    title: "Content",
     url: "#",
-    icon: SquareTerminal,
+    icon: Boxes,
     isActive: true,
     items: [
       {
-        title: "History",
+        title: "Comments",
         url: "#",
       },
       {
-        title: "Starred",
+        title: "Posts",
         url: "#",
       },
       {
-        title: "Settings",
-        url: "#",
-      },
-    ],
-  },
-  {
-    title: "Models",
-    url: "#",
-    icon: Bot,
-    items: [
-      {
-        title: "Genesis",
-        url: "#",
-      },
-      {
-        title: "Explorer",
-        url: "#",
-      },
-      {
-        title: "Quantum",
+        title: "Users",
         url: "#",
       },
     ],
   },
   {
-    title: "Documentation",
+    title: "Resource-Builder",
     url: "#",
-    icon: BookOpen,
+    icon: Database,
     items: [
       {
-        title: "Introduction",
+        title: "Comments",
         url: "#",
       },
       {
-        title: "Get Started",
+        title: "Posts",
         url: "#",
       },
       {
-        title: "Tutorials",
-        url: "#",
-      },
-      {
-        title: "Changelog",
+        title: "Users",
         url: "#",
       },
     ],
@@ -108,18 +94,33 @@ const navMain = [
         url: "#",
       },
       {
-        title: "Team",
-        url: "#",
-      },
-      {
-        title: "Billing",
-        url: "#",
-      },
-      {
-        title: "Limits",
+        title: "Plugins",
         url: "#",
       },
     ],
+  },
+];
+
+const navContenstash = [
+  {
+    name: "Bugs",
+    url: "#",
+    icon: Bug,
+  },
+  {
+    name: "Changelog",
+    url: "#",
+    icon: ScrollText,
+  },
+  {
+    name: "Community",
+    url: "#",
+    icon: MessagesSquare,
+  },
+  {
+    name: "Documentation",
+    url: "#",
+    icon: BookOpen,
   },
 ];
 
@@ -139,7 +140,9 @@ const { getInfo } = useContentStash();
                 <component :is="Sparkles" class="size-4" />
               </div>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">ContentStash</span>
+                <span class="truncate font-semibold">{{
+                  getInfo().app.name
+                }}</span>
                 <span class="truncate text-xs"
                   >Version: {{ getInfo().core.version }}</span
                 >
@@ -151,7 +154,7 @@ const { getInfo } = useContentStash();
 
       <UiSidebarContent>
         <UiSidebarGroup>
-          <UiSidebarGroupLabel>Platform</UiSidebarGroupLabel>
+          <UiSidebarGroupLabel>Application</UiSidebarGroupLabel>
           <UiSidebarMenu>
             <UiCollapsible
               v-for="item in navMain"
@@ -188,6 +191,20 @@ const { getInfo } = useContentStash();
             </UiCollapsible>
           </UiSidebarMenu>
         </UiSidebarGroup>
+
+        <UiSidebarGroup class="group-data-[collapsible=icon]:hidden">
+          <UiSidebarGroupLabel>ContentStash</UiSidebarGroupLabel>
+          <UiSidebarMenu>
+            <UiSidebarMenuItem v-for="item in navContenstash" :key="item.name">
+              <UiSidebarMenuButton as-child>
+                <a :href="item.url">
+                  <component :is="item.icon" />
+                  <span>{{ item.name }}</span>
+                </a>
+              </UiSidebarMenuButton>
+            </UiSidebarMenuItem>
+          </UiSidebarMenu>
+        </UiSidebarGroup>
       </UiSidebarContent>
 
       <UiSidebarFooter>
@@ -201,7 +218,9 @@ const { getInfo } = useContentStash();
                 >
                   <UiAvatar class="h-8 w-8 rounded-lg">
                     <UiAvatarImage :src="user.avatar" :alt="user.name" />
-                    <UiAvatarFallback class="rounded-lg"> CN </UiAvatarFallback>
+                    <UiAvatarFallback class="rounded-lg">{{
+                      avatarFallback(user.name)
+                    }}</UiAvatarFallback>
                   </UiAvatar>
                   <div class="grid flex-1 text-left text-sm leading-tight">
                     <span class="truncate font-semibold">{{ user.name }}</span>
@@ -223,7 +242,7 @@ const { getInfo } = useContentStash();
                     <UiAvatar class="h-8 w-8 rounded-lg">
                       <UiAvatarImage :src="user.avatar" :alt="user.name" />
                       <UiAvatarFallback class="rounded-lg">
-                        CN
+                        {{ avatarFallback(user.name) }}
                       </UiAvatarFallback>
                     </UiAvatar>
                     <div class="grid flex-1 text-left text-sm leading-tight">
@@ -237,19 +256,8 @@ const { getInfo } = useContentStash();
                 <UiDropdownMenuSeparator />
                 <UiDropdownMenuGroup>
                   <UiDropdownMenuItem>
-                    <Sparkles />
-                    Upgrade to Pro
-                  </UiDropdownMenuItem>
-                </UiDropdownMenuGroup>
-                <UiDropdownMenuSeparator />
-                <UiDropdownMenuGroup>
-                  <UiDropdownMenuItem>
                     <BadgeCheck />
                     Account
-                  </UiDropdownMenuItem>
-                  <UiDropdownMenuItem>
-                    <CreditCard />
-                    Billing
                   </UiDropdownMenuItem>
                   <UiDropdownMenuItem>
                     <Bell />

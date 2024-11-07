@@ -68,13 +68,6 @@ export const contentStashViteConfig = (config) => {
           "vendor/contentstash/core/resources/ts/layouts",
           path.resolve(appDir, "resources/ts/layouts"),
         ],
-        // resolvers: [
-        //   (name) => {
-        //     // if (name === 'MyCustom')
-        //     //   return path.resolve(__dirname, 'src/CustomResolved.vue').replaceAll('\\', '/')
-        //     console.info("name", name);
-        //   },
-        //     ],
         allowOverrides: true,
         directoryAsNamespace: true,
         collapseSamePrefixes: true,
@@ -91,6 +84,9 @@ export const contentStashViteConfig = (config) => {
               ["defineOptions"],
               // ['defineOptions', "definePage"],
             ],
+          },
+          {
+            "@inertiajs/vue3": [["usePage"]],
           },
         ],
         dirs: [

@@ -41,6 +41,9 @@ class HandleInertiaRequests extends Middleware
                     ? $request->user()->only('id', 'name', 'email')
                     : null;
             },
+            'app' => [
+                'name' => config('app.name'),
+            ],
             'locale' => app()->getLocale(),
 
         ]);
