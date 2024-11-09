@@ -14,3 +14,4 @@ Route::group(
     });
 
 Route::get('/translations/{locale}', [LanguageController::class, 'getTranslations']);
+Route::get('/routes/', [\ContentStash\Core\Http\Controllers\RoutesController::class, 'index']);

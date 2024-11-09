@@ -9,21 +9,8 @@ use Illuminate\Support\Facades\File;
 class LanguageController extends Controller
 {
     /**
-     * Display the dashboard.
+     * Get translations for a locale.
      */
-    public function index(): Response
-    {
-        return Inertia::render('Dashboard/Index');
-    }
-
-    /**
-     * Display the dashboard 2.
-     */
-    public function index2(): Response
-    {
-        return Inertia::render('Dashboard/Index2');
-    }
-
     public function getTranslations(
         string $locale
     ): JsonResponse {

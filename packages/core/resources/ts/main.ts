@@ -7,6 +7,8 @@ import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Page } from "@inertiajs/vue3";
 import { defu } from "defu";
 import { setLocaleMessages, setupI18n } from "./i18n";
+import { ZiggyVue } from "ziggy-js";
+import { fetchRoutes } from "./routes";
 
 interface InertiaAppProps {
   initialPage: Page;
@@ -242,13 +244,16 @@ export const createContentStashApp = (
       includeCSS: true,
       showSpinner: false,
     },
-    setup: ({ el, App, props, plugin }) => {
+    setup: async ({ el, App, props, plugin }) => {
+      const routes = await fetchRoutes();
+
       i18n = setupI18n({
         locale: props.initialPage.props.locale,
       });
 
       createApp({ render: () => h(App, props) })
         .use(plugin)
+        .use(ZiggyVue, routes)
         .use(i18n)
         .mount(el);
     },

@@ -59,7 +59,8 @@
     "radix-vue": "^1.9.8",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "vue-i18n": "10"
+    "vue-i18n": "10",
+    "ziggy-js": "^2.3.1"
   },
   "engines": {
     "node": ">=20.0.0"

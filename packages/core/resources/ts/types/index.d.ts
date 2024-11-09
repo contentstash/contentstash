@@ -9,4 +9,5 @@ try {
   //
 }
 export * from "./definePage";
+export * from "./route";
 export * from "../main";

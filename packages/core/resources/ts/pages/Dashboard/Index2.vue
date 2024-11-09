@@ -12,7 +12,7 @@ import { Head, Link } from "@inertiajs/vue3";
       <div class="aspect-video rounded-xl bg-muted/50" />
     </div>
     <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-    <Link href="/dashboard/">Dashboard</Link>
+    <Link :href="route('dashboard.index')">Dashboard</Link>
     {{ $t("foo.bar") }}
   </div>
 </template>

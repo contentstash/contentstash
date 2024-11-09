@@ -4,9 +4,10 @@
   "license": "MIT",
   "require": {
     "php": "^8.2",
+    "contentstash/core": "*",
     "laravel/framework": "^11.9",
     "laravel/tinker": "^2.9",
-    "contentstash/core": "*"
+    "tightenco/ziggy": "^2.3"
   },
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^3.2",

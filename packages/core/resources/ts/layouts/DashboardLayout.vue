@@ -21,9 +21,12 @@ import {
   // PieChart,
   // Plus,
   Settings2,
-  Sparkles,
+  // Sparkles,
   // SquareTerminal,
   // Trash2,
+  FileClock,
+  ChartSpline,
+  Images,
   Database,
   Boxes,
   MessagesSquare,
@@ -85,12 +88,39 @@ const navMain = [
     ],
   },
   {
+    title: "Audit-Log",
+    url: "#",
+    icon: FileClock,
+  },
+  {
+    title: "Monitoring",
+    url: "#",
+    icon: ChartSpline,
+  },
+  {
+    title: "Media Library",
+    url: "#",
+    icon: Images,
+  },
+  {
     title: "Settings",
     url: "#",
     icon: Settings2,
     items: [
       {
         title: "General",
+        url: "#",
+      },
+      {
+        title: "Audit-Log",
+        url: "#",
+      },
+      {
+        title: "Monitoring",
+        url: "#",
+      },
+      {
+        title: "Media Library",
         url: "#",
       },
       {
@@ -134,11 +164,11 @@ const { getInfo } = useContentStash();
         <UiSidebarMenu>
           <UiSidebarMenuItem>
             <UiSidebarMenuButton size="lg">
-              <div
-                class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground"
-              >
-                <component :is="Sparkles" class="size-4" />
-              </div>
+              <img
+                src="/contentstash/logo.png"
+                alt="ContentStash"
+                class="aspect-square size-8 rounded-lg text-sidebar-primary-foreground"
+              />
               <div class="grid flex-1 text-left text-sm leading-tight">
                 <span class="truncate font-semibold">{{
                   getInfo().app.name
@@ -169,11 +199,12 @@ const { getInfo } = useContentStash();
                     <component :is="item.icon" />
                     <span>{{ item.title }}</span>
                     <ChevronRight
+                      v-if="item.items"
                       class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
                     />
                   </UiSidebarMenuButton>
                 </UiCollapsibleTrigger>
-                <UiCollapsibleContent>
+                <UiCollapsibleContent v-if="item.items">
                   <UiSidebarMenuSub>
                     <UiSidebarMenuSubItem
                       v-for="subItem in item.items"

@@ -12,7 +12,8 @@
     "types": ["vite/client"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["resources/ts/*"]
+      "@/*": ["resources/ts/*"],
+      "ziggy-js": ["./vendor/tightenco/ziggy"]
     }
   },
   "include": ["resources/**/*.ts", "resources/**/*.d.ts", "resources/**/*.vue"],
