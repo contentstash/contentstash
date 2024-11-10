@@ -1,36 +1,22 @@
 <script setup lang="ts">
 import { useColorMode } from "@vueuse/core";
 import {
-  // AudioWaveform,
   BadgeCheck,
   Bell,
   BookOpen,
-  // Bot,
   Bug,
   ChevronRight,
   ChevronsUpDown,
-  // Command,
-  // CreditCard,
-  // Folder,
-  // Forward,
-  // Frame,
-  // GalleryVerticalEnd,
   LogOut,
-  // Map,
-  // MoreHorizontal,
-  // PieChart,
-  // Plus,
   Settings2,
-  // Sparkles,
-  // SquareTerminal,
-  // Trash2,
   FileClock,
   ChartSpline,
   Images,
   Database,
-  Boxes,
   MessagesSquare,
   ScrollText,
+  CodeXml,
+  PencilRuler,
 } from "lucide-vue-next";
 import useContentStash from "@/composables/useContentStash";
 
@@ -47,11 +33,11 @@ const avatarFallback = (name: string) => {
 };
 
 // This is sample data.
-const navMain = [
+const navContent = [
   {
-    title: "Content",
+    title: "Resources",
     url: "#",
-    icon: Boxes,
+    icon: Database,
     isActive: true,
     items: [
       {
@@ -69,10 +55,20 @@ const navMain = [
     ],
   },
   {
+    title: "Media Library",
+    url: "#",
+    icon: Images,
+  },
+  {
     title: "Resource-Builder",
     url: "#",
-    icon: Database,
+    icon: PencilRuler,
+    devOnly: true,
     items: [
+      {
+        title: "Add new Resource",
+        url: "#",
+      },
       {
         title: "Comments",
         url: "#",
@@ -87,6 +83,9 @@ const navMain = [
       },
     ],
   },
+];
+
+const navSystem = [
   {
     title: "Audit-Log",
     url: "#",
@@ -96,11 +95,6 @@ const navMain = [
     title: "Monitoring",
     url: "#",
     icon: ChartSpline,
-  },
-  {
-    title: "Media Library",
-    url: "#",
-    icon: Images,
   },
   {
     title: "Settings",
@@ -184,10 +178,62 @@ const { getInfo } = useContentStash();
 
       <UiSidebarContent>
         <UiSidebarGroup>
-          <UiSidebarGroupLabel>Application</UiSidebarGroupLabel>
+          <UiSidebarGroupLabel>Content</UiSidebarGroupLabel>
           <UiSidebarMenu>
             <UiCollapsible
-              v-for="item in navMain"
+              v-for="item in navContent"
+              :key="item.title"
+              as-child
+              :default-open="item.isActive"
+              class="group/collapsible"
+            >
+              <UiSidebarMenuItem>
+                <UiCollapsibleTrigger as-child>
+                  <UiSidebarMenuButton :tooltip="item.title">
+                    <component :is="item.icon" />
+                    <span>{{ item.title }}</span>
+
+                    <UiTooltipProvider v-if="item.devOnly">
+                      <UiTooltip>
+                        <UiTooltipTrigger>
+                          <CodeXml :size="16" />
+                        </UiTooltipTrigger>
+
+                        <UiTooltipContent>
+                          <p>Can only be accessed in development mode.</p>
+                        </UiTooltipContent>
+                      </UiTooltip>
+                    </UiTooltipProvider>
+                    <ChevronRight
+                      v-if="item.items"
+                      class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                    />
+                  </UiSidebarMenuButton>
+                </UiCollapsibleTrigger>
+                <UiCollapsibleContent v-if="item.items">
+                  <UiSidebarMenuSub>
+                    <UiSidebarMenuSubItem
+                      v-for="subItem in item.items"
+                      :key="subItem.title"
+                    >
+                      <UiSidebarMenuSubButton as-child>
+                        <a :href="subItem.url">
+                          <span>{{ subItem.title }}</span>
+                        </a>
+                      </UiSidebarMenuSubButton>
+                    </UiSidebarMenuSubItem>
+                  </UiSidebarMenuSub>
+                </UiCollapsibleContent>
+              </UiSidebarMenuItem>
+            </UiCollapsible>
+          </UiSidebarMenu>
+        </UiSidebarGroup>
+
+        <UiSidebarGroup>
+          <UiSidebarGroupLabel>System</UiSidebarGroupLabel>
+          <UiSidebarMenu>
+            <UiCollapsible
+              v-for="item in navSystem"
               :key="item.title"
               as-child
               :default-open="item.isActive"
