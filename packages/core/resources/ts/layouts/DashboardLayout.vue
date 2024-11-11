@@ -5,7 +5,6 @@ import {
   Bell,
   BookOpen,
   Bug,
-  ChevronRight,
   ChevronsUpDown,
   LogOut,
   Settings2,
@@ -15,10 +14,8 @@ import {
   Database,
   MessagesSquare,
   ScrollText,
-  CodeXml,
   PencilRuler,
 } from "lucide-vue-next";
-import useContentStash from "@/composables/useContentStash";
 
 useColorMode();
 
@@ -127,161 +124,46 @@ const navSystem = [
 
 const navContenstash = [
   {
-    name: "Bugs",
+    title: "Bugs",
     url: "#",
     icon: Bug,
   },
   {
-    name: "Changelog",
+    title: "Changelog",
     url: "#",
     icon: ScrollText,
   },
   {
-    name: "Community",
+    title: "Community",
     url: "#",
     icon: MessagesSquare,
   },
   {
-    name: "Documentation",
+    title: "Documentation",
     url: "#",
     icon: BookOpen,
   },
 ];
-
-const { getInfo } = useContentStash();
 </script>
 
 <template>
   <UiSidebarProvider>
     <UiSidebar collapsible="icon">
-      <UiSidebarHeader>
-        <UiSidebarMenu>
-          <UiSidebarMenuItem>
-            <UiSidebarMenuButton size="lg">
-              <img
-                src="/contentstash/logo.png"
-                alt="ContentStash"
-                class="aspect-square size-8 rounded-lg text-sidebar-primary-foreground"
-              />
-              <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{
-                  getInfo().app.name
-                }}</span>
-                <span class="truncate text-xs"
-                  >Version: {{ getInfo().core.version }}</span
-                >
-              </div>
-            </UiSidebarMenuButton>
-          </UiSidebarMenuItem>
-        </UiSidebarMenu>
-      </UiSidebarHeader>
+      <DashboardSidebarHeader />
 
       <UiSidebarContent>
-        <UiSidebarGroup>
-          <UiSidebarGroupLabel>Content</UiSidebarGroupLabel>
-          <UiSidebarMenu>
-            <UiCollapsible
-              v-for="item in navContent"
-              :key="item.title"
-              as-child
-              :default-open="item.isActive"
-              class="group/collapsible"
-            >
-              <UiSidebarMenuItem>
-                <UiCollapsibleTrigger as-child>
-                  <UiSidebarMenuButton :tooltip="item.title">
-                    <component :is="item.icon" />
-                    <span>{{ item.title }}</span>
-
-                    <UiTooltipProvider v-if="item.devOnly">
-                      <UiTooltip>
-                        <UiTooltipTrigger>
-                          <CodeXml :size="16" />
-                        </UiTooltipTrigger>
-
-                        <UiTooltipContent>
-                          <p>Can only be accessed in development mode.</p>
-                        </UiTooltipContent>
-                      </UiTooltip>
-                    </UiTooltipProvider>
-                    <ChevronRight
-                      v-if="item.items"
-                      class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                    />
-                  </UiSidebarMenuButton>
-                </UiCollapsibleTrigger>
-                <UiCollapsibleContent v-if="item.items">
-                  <UiSidebarMenuSub>
-                    <UiSidebarMenuSubItem
-                      v-for="subItem in item.items"
-                      :key="subItem.title"
-                    >
-                      <UiSidebarMenuSubButton as-child>
-                        <a :href="subItem.url">
-                          <span>{{ subItem.title }}</span>
-                        </a>
-                      </UiSidebarMenuSubButton>
-                    </UiSidebarMenuSubItem>
-                  </UiSidebarMenuSub>
-                </UiCollapsibleContent>
-              </UiSidebarMenuItem>
-            </UiCollapsible>
-          </UiSidebarMenu>
-        </UiSidebarGroup>
-
-        <UiSidebarGroup>
-          <UiSidebarGroupLabel>System</UiSidebarGroupLabel>
-          <UiSidebarMenu>
-            <UiCollapsible
-              v-for="item in navSystem"
-              :key="item.title"
-              as-child
-              :default-open="item.isActive"
-              class="group/collapsible"
-            >
-              <UiSidebarMenuItem>
-                <UiCollapsibleTrigger as-child>
-                  <UiSidebarMenuButton :tooltip="item.title">
-                    <component :is="item.icon" />
-                    <span>{{ item.title }}</span>
-                    <ChevronRight
-                      v-if="item.items"
-                      class="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                    />
-                  </UiSidebarMenuButton>
-                </UiCollapsibleTrigger>
-                <UiCollapsibleContent v-if="item.items">
-                  <UiSidebarMenuSub>
-                    <UiSidebarMenuSubItem
-                      v-for="subItem in item.items"
-                      :key="subItem.title"
-                    >
-                      <UiSidebarMenuSubButton as-child>
-                        <a :href="subItem.url">
-                          <span>{{ subItem.title }}</span>
-                        </a>
-                      </UiSidebarMenuSubButton>
-                    </UiSidebarMenuSubItem>
-                  </UiSidebarMenuSub>
-                </UiCollapsibleContent>
-              </UiSidebarMenuItem>
-            </UiCollapsible>
-          </UiSidebarMenu>
-        </UiSidebarGroup>
-
-        <UiSidebarGroup class="group-data-[collapsible=icon]:hidden">
-          <UiSidebarGroupLabel>ContentStash</UiSidebarGroupLabel>
-          <UiSidebarMenu>
-            <UiSidebarMenuItem v-for="item in navContenstash" :key="item.name">
-              <UiSidebarMenuButton as-child>
-                <a :href="item.url">
-                  <component :is="item.icon" />
-                  <span>{{ item.name }}</span>
-                </a>
-              </UiSidebarMenuButton>
-            </UiSidebarMenuItem>
-          </UiSidebarMenu>
-        </UiSidebarGroup>
+        <DashboardSidebarGroup
+          :items="navContent"
+          :label="$t('core.dashboard.sidebar.content.label')"
+        />
+        <DashboardSidebarGroup
+          :items="navSystem"
+          :label="$t('dashboard.sidebar.system.label')"
+        />
+        <DashboardSidebarGroup
+          :items="navContenstash"
+          :label="$t('dashboard.sidebar.contentStash.label')"
+        />
       </UiSidebarContent>
 
       <UiSidebarFooter>

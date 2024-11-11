@@ -1,5 +1,18 @@
 {
   "foo": {
     "bar": "Hello World"
+  },
+  "dashboard": {
+    "sidebar": {
+      "content": {
+        "label": "Content"
+      },
+      "system": {
+        "label": "System"
+      },
+      "contentStash": {
+        "label": "ContentStash"
+      }
+    }
   }
 }
