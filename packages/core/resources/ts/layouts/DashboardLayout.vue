@@ -35,7 +35,7 @@ const navGroups: SidebarGroup[] = [
           {
             title: "Posts",
             to: {
-              name: "dashboard.index2",
+              name: "dashboard.test.index",
             },
           },
           {
@@ -53,22 +53,26 @@ const navGroups: SidebarGroup[] = [
         title: "dashboard.sidebar.content.item.resourceBuilder.label",
         icon: PencilRuler,
         items: [
-          {
-            title: "Add new Resource",
-            disabled: true,
-          },
-          {
-            title: "Comments",
-            disabled: true,
-          },
-          {
-            title: "Posts",
-            disabled: true,
-          },
-          {
-            title: "Users",
-            disabled: true,
-          },
+          [
+            {
+              title: "Add new Resource",
+              disabled: true,
+            },
+          ],
+          [
+            {
+              title: "Comments",
+              disabled: true,
+            },
+            {
+              title: "Posts",
+              disabled: true,
+            },
+            {
+              title: "Users",
+              disabled: true,
+            },
+          ],
         ],
       },
     ],
@@ -161,17 +165,7 @@ const navGroups: SidebarGroup[] = [
       <div class="flex items-center gap-2 px-4">
         <UiSidebarTrigger class="-ml-1" />
         <UiSeparator orientation="vertical" class="mr-2 h-4" />
-        <UiBreadcrumb>
-          <UiBreadcrumbList>
-            <UiBreadcrumbItem class="hidden md:block">
-              <UiBreadcrumbLink href="#"> Dashboard </UiBreadcrumbLink>
-            </UiBreadcrumbItem>
-            <UiBreadcrumbSeparator class="hidden md:block" />
-            <UiBreadcrumbItem>
-              <UiBreadcrumbPage>Index</UiBreadcrumbPage>
-            </UiBreadcrumbItem>
-          </UiBreadcrumbList>
-        </UiBreadcrumb>
+        <AppBreadcrumbs />
       </div>
     </header>
     <div class="flex flex-1 flex-col gap-4 p-4 pt-0">

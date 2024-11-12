@@ -7,7 +7,7 @@ export type SidebarBaseItem = {
 export type SidebarSubItem = SidebarBaseItem;
 export type SidebarItem = SidebarBaseItem & {
   icon?: object;
-  items?: SidebarSubItem[];
+  items?: SidebarSubItem[] | SidebarSubItem[][];
 };
 export type SidebarGroup = {
   label?: string;
@@ -16,7 +16,7 @@ export type SidebarGroup = {
 </script>
 
 <script setup lang="ts">
-import { ChevronRight } from "lucide-vue-next";
+import { ChevronRight, Plus } from "lucide-vue-next";
 
 defineProps<SidebarGroup>();
 
@@ -49,7 +49,7 @@ const { isI18nString } = useI18nString();
           <UiCollapsibleTrigger as-child>
             <UiSidebarMenuButton
               :tooltip="isI18nString(item.title) ? $t(item.title) : item.title"
-              :as-child="!!item.to || !item.items"
+              :as-child="!!item.to || !item?.items"
               :class="{
                 'text-muted-foreground hover:text-muted-foreground hover:cursor-not-allowed':
                   item.disabled,
@@ -69,26 +69,19 @@ const { isI18nString } = useI18nString();
           </UiCollapsibleTrigger>
           <UiCollapsibleContent v-if="item.items">
             <UiSidebarMenuSub>
-              <UiSidebarMenuSubItem
-                v-for="subItem in item.items"
-                :key="subItem.title"
-              >
-                <UiSidebarMenuSubButton
-                  as-child
-                  :class="{
-                    'text-muted-foreground hover:text-muted-foreground hover:cursor-not-allowed':
-                      subItem.disabled,
-                  }"
+              <template v-if="Array.isArray(item.items[0])">
+                <template
+                  v-for="(subItems, index) in item.items as SidebarBaseItem[][]"
+                  :key="index"
                 >
-                  <AppLink :to="subItem.to" :disabled="subItem.disabled">
-                    <span>{{
-                      isI18nString(subItem.title)
-                        ? $t(subItem.title)
-                        : subItem.title
-                    }}</span>
-                  </AppLink>
-                </UiSidebarMenuSubButton>
-              </UiSidebarMenuSubItem>
+                  <DashboardSidebarGroupSubItem :items="subItems" />
+                  <UiSidebarSeparator v-if="index < item.items.length - 1" />
+                </template>
+              </template>
+              <DashboardSidebarGroupSubItem
+                v-else
+                :items="item.items as SidebarBaseItem[]"
+              />
             </UiSidebarMenuSub>
           </UiCollapsibleContent>
         </UiSidebarMenuItem>

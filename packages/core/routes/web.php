@@ -8,10 +8,33 @@ Route::group(
     [
         'as' => 'dashboard.',
         'prefix' => 'dashboard',
-    ], function () {
+    ],
+    function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
-        Route::get('/2', [DashboardController::class, 'index2'])->name('index2');
-    });
+
+        Route::group(
+            [
+                'as' => 'test.',
+                'prefix' => 'test',
+            ],
+            function () {
+                Route::get('/', [DashboardController::class, 'index2'])->name('index');
+                Route::get('/test', [DashboardController::class, 'index'])->name('test');
+
+                Route::group(
+                    [
+                        'as' => 'foo.',
+                        'prefix' => 'foo',
+                    ],
+                    function () {
+                        Route::get('/', [DashboardController::class, 'index'])->name('index');
+                        Route::get('/bar', [DashboardController::class, 'index2'])->name('bar');
+                    }
+                );
+            }
+        );
+    }
+);
 
 Route::get('/translations/{locale}', [LanguageController::class, 'getTranslations']);
 Route::get('/routes/', [\ContentStash\Core\Http\Controllers\RoutesController::class, 'index']);

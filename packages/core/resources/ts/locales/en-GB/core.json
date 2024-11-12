@@ -87,6 +87,27 @@
         "title": "Logout"
       }
     },
+    "dashboard": {
+      "index": {
+        "title": "Dashboard"
+      },
+      "test": {
+        "index": {
+          "title": "Test index"
+        },
+        "test": {
+          "title": "Test test"
+        },
+        "foo": {
+          "index": {
+            "title": "Foo index"
+          },
+          "bar": {
+            "title": "Bar"
+          }
+        }
+      }
+    },
     "user": {
       "settings": {
         "title": "Settings"

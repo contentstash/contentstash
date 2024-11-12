@@ -12,7 +12,7 @@ import { Head } from "@inertiajs/vue3";
       <div class="aspect-video rounded-xl bg-muted/50" />
     </div>
     <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-    <AppLink :to="{ name: 'dashboard.index2' }">Dashboard2</AppLink>
+    <AppLink :to="{ name: 'dashboard.test.index' }">Dashboard/Test</AppLink>
 
     {{ $t("foo.bar") }}
   </div>
