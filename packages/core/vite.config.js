@@ -80,13 +80,10 @@ export const contentStashViteConfig = (config) => {
         imports: [
           "vue",
           {
-            vue: [
-              ["defineOptions"],
-              // ['defineOptions', "definePage"],
-            ],
+            vue: ["defineOptions"],
           },
           {
-            "@inertiajs/vue3": [["usePage"]],
+            "@inertiajs/vue3": ["usePage"],
           },
           {
             "vue-i18n": ["useI18n"],

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Head, Link } from "@inertiajs/vue3";
+import { Head } from "@inertiajs/vue3";
 </script>
 
 <template>
@@ -12,7 +12,8 @@ import { Head, Link } from "@inertiajs/vue3";
       <div class="aspect-video rounded-xl bg-muted/50" />
     </div>
     <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-    <Link :href="route('dashboard.index2')">Dashboard2</Link>
+    <AppLink :to="{ name: 'dashboard.index2' }">Dashboard2</AppLink>
+
     {{ $t("foo.bar") }}
   </div>
 </template>

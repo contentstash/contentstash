@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { SidebarGroup } from "@/components/dashboard/sidebar/Group.vue";
 import { useColorMode } from "@vueuse/core";
 import {
   BookOpen,
@@ -11,19 +12,19 @@ import {
   PencilRuler,
   ScrollText,
   Settings2,
+  Shield,
+  Users,
 } from "lucide-vue-next";
 
 useColorMode();
 
-const navGroups = [
+const navGroups: SidebarGroup[] = [
   {
     label: "dashboard.sidebar.content.label",
     items: [
       {
-        title: "Resources",
-        url: "#",
+        title: "dashboard.sidebar.content.item.resources.label",
         icon: Database,
-        isActive: true,
         items: [
           {
             title: "Comments",
@@ -44,31 +45,29 @@ const navGroups = [
         ],
       },
       {
-        title: "Media Library",
-        url: "#",
+        title: "dashboard.sidebar.content.item.media.label",
         icon: Images,
+        disabled: true,
       },
       {
-        title: "Resource-Builder",
-        url: "#",
+        title: "dashboard.sidebar.content.item.resourceBuilder.label",
         icon: PencilRuler,
-        devOnly: true,
         items: [
           {
             title: "Add new Resource",
-            url: "#",
+            disabled: true,
           },
           {
             title: "Comments",
-            url: "#",
+            disabled: true,
           },
           {
             title: "Posts",
-            url: "#",
+            disabled: true,
           },
           {
             title: "Users",
-            url: "#",
+            disabled: true,
           },
         ],
       },
@@ -78,39 +77,49 @@ const navGroups = [
     label: "dashboard.sidebar.system.label",
     items: [
       {
-        title: "Audit-Log",
-        url: "#",
+        title: "dashboard.sidebar.system.item.auditLog.label",
         icon: FileClock,
+        disabled: true,
       },
       {
-        title: "Monitoring",
-        url: "#",
+        title: "dashboard.sidebar.system.item.monitoring.label",
         icon: ChartSpline,
+        disabled: true,
       },
       {
-        title: "Settings",
-        url: "#",
+        title: "dashboard.sidebar.system.item.users.label",
+        icon: Users,
+        disabled: true,
+      },
+      {
+        title: "dashboard.sidebar.system.item.roles.label",
+        icon: Shield,
+        disabled: true,
+      },
+      {
+        title: "dashboard.sidebar.system.item.settings.label",
         icon: Settings2,
         items: [
           {
-            title: "General",
-            url: "#",
+            title: "dashboard.sidebar.system.item.settings.item.general.label",
+            disabled: true,
           },
           {
-            title: "Audit-Log",
-            url: "#",
+            title: "dashboard.sidebar.system.item.settings.item.auditLog.label",
+            disabled: true,
           },
           {
-            title: "Monitoring",
-            url: "#",
+            title:
+              "dashboard.sidebar.system.item.settings.item.monitoring.label",
+            disabled: true,
           },
           {
-            title: "Media Library",
-            url: "#",
+            title: "dashboard.sidebar.system.item.settings.item.media.label",
+            disabled: true,
           },
           {
-            title: "Plugins",
-            url: "#",
+            title: "dashboard.sidebar.system.item.settings.item.plugins.label",
+            disabled: true,
           },
         ],
       },
@@ -120,24 +129,24 @@ const navGroups = [
     label: "dashboard.sidebar.contentStash.label",
     items: [
       {
-        title: "Bugs",
-        url: "#",
+        title: "dashboard.sidebar.contentStash.item.bugs.label",
         icon: Bug,
+        to: "https://github.com/contentstash/contentstash/issues",
       },
       {
-        title: "Changelog",
-        url: "#",
+        title: "dashboard.sidebar.contentStash.item.changelog.label",
         icon: ScrollText,
+        to: "https://github.com/contentstash/contentstash/releases",
       },
       {
-        title: "Community",
-        url: "#",
+        title: "dashboard.sidebar.contentStash.item.community.label",
         icon: MessagesSquare,
+        to: "https://github.com/contentstash/contentstash/discussions",
       },
       {
-        title: "Documentation",
-        url: "#",
+        title: "dashboard.sidebar.contentStash.item.documentation.label",
         icon: BookOpen,
+        disabled: true,
       },
     ],
   },

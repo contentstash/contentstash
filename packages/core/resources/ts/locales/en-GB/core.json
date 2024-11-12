@@ -5,13 +5,72 @@
   "dashboard": {
     "sidebar": {
       "content": {
-        "label": "Content"
+        "label": "Content",
+        "item": {
+          "resources": {
+            "label": "Resources"
+          },
+          "media": {
+            "label": "Media"
+          },
+          "resourceBuilder": {
+            "label": "Resource Builder"
+          }
+        }
       },
       "system": {
-        "label": "System"
+        "label": "System",
+        "item": {
+          "auditLog": {
+            "label": "Audit Log"
+          },
+          "monitoring": {
+            "label": "Monitoring"
+          },
+          "users": {
+            "label": "Users"
+          },
+          "roles": {
+            "label": "Roles"
+          },
+          "settings": {
+            "label": "Settings",
+            "item": {
+              "general": {
+                "label": "General"
+              },
+              "auditLog": {
+                "label": "Audit Log"
+              },
+              "monitoring": {
+                "label": "Monitoring"
+              },
+              "media": {
+                "label": "Media"
+              },
+              "plugins": {
+                "label": "Plugins"
+              }
+            }
+          }
+        }
       },
       "contentStash": {
-        "label": "ContentStash"
+        "label": "ContentStash",
+        "item": {
+          "bugs": {
+            "label": "Bugs"
+          },
+          "changelog": {
+            "label": "Changelog"
+          },
+          "community": {
+            "label": "Community"
+          },
+          "documentation": {
+            "label": "Documentation"
+          }
+        }
       }
     }
   },
