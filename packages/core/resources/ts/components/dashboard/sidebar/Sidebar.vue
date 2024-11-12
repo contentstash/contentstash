@@ -10,9 +10,28 @@ defineProps<{
 </script>
 
 <template>
-  <div>
-    <!-- TODO -->
-  </div>
+  <UiSidebarProvider>
+    <UiSidebar collapsible="icon">
+      <DashboardSidebarHeader />
+
+      <UiSidebarContent>
+        <DashboardSidebarGroup
+          v-for="group in groups"
+          :key="group.label"
+          :items="group.items"
+          :label="group.label"
+        />
+      </UiSidebarContent>
+
+      <UiSidebarRail />
+
+      <DashboardSidebarFooter />
+    </UiSidebar>
+
+    <UiSidebarInset>
+      <slot />
+    </UiSidebarInset>
+  </UiSidebarProvider>
 </template>
 
 <style scoped></style>

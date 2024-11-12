@@ -14,5 +14,27 @@
         "label": "ContentStash"
       }
     }
+  },
+  "user": {
+    "action": {
+      "logOut": {
+        "label": "Log Out"
+      }
+    }
+  },
+  "page": {
+    "auth": {
+      "logout": {
+        "title": "Logout"
+      }
+    },
+    "user": {
+      "settings": {
+        "title": "Settings"
+      },
+      "notifications": {
+        "title": "Notifications"
+      }
+    }
   }
 }

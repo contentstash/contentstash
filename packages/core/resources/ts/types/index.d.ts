@@ -10,4 +10,6 @@ try {
 }
 export * from "./definePage";
 export * from "./route";
+export * from "./user";
+
 export * from "../main";

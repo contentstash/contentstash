@@ -2,6 +2,7 @@
 export type SidebarBaseItem = {
   title: string;
   to?: Route;
+  disabled?: boolean;
 };
 export type SidebarSubItem = SidebarBaseItem;
 export type SidebarItem = SidebarBaseItem & {
@@ -21,7 +22,7 @@ defineProps<{
 
 <template>
   <UiSidebarGroup>
-    <UiSidebarGroupLabel v-if="label">{{ label }}</UiSidebarGroupLabel>
+    <UiSidebarGroupLabel v-if="label">{{ $t(label) }}</UiSidebarGroupLabel>
     <UiSidebarMenu>
       <UiCollapsible
         v-for="item in items"
@@ -29,7 +30,12 @@ defineProps<{
         as-child
         class="group/collapsible"
       >
-        <!--        :default-open="item.isActive"-->
+        <!--
+          TODO: Add default open state base on route
+            - item.isActive doesnt exist and is from the sample data
+            - need to implement own logic (e.g. a composable and a attribute for matching routes?)
+         :default-open="item.isActive"
+         -->
         <UiSidebarMenuItem>
           <UiCollapsibleTrigger as-child>
             <UiSidebarMenuButton :tooltip="item.title">
@@ -47,10 +53,16 @@ defineProps<{
                 v-for="subItem in item.items"
                 :key="subItem.title"
               >
-                <UiSidebarMenuSubButton as-child>
-                  <!--                  <a :href="subItem.url">-->
-                  <span>{{ subItem.title }}</span>
-                  <!--                  </a>-->
+                <UiSidebarMenuSubButton
+                  as-child
+                  :class="{
+                    'text-muted-foreground hover:text-muted-foreground hover:cursor-not-allowed':
+                      subItem.disabled,
+                  }"
+                >
+                  <AppLink :to="subItem.to" :disabled="subItem.disabled">
+                    <span>{{ subItem.title }}</span>
+                  </AppLink>
                 </UiSidebarMenuSubButton>
               </UiSidebarMenuSubItem>
             </UiSidebarMenuSub>

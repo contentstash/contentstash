@@ -88,6 +88,9 @@ export const contentStashViteConfig = (config) => {
           {
             "@inertiajs/vue3": [["usePage"]],
           },
+          {
+            "vue-i18n": ["useI18n"],
+          },
         ],
         dirs: [
           "vendor/contentstash/core/resources/ts/composables",
