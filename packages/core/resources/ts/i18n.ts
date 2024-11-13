@@ -1,6 +1,6 @@
 import { createI18n } from "vue-i18n";
-import { nextTick } from "vue";
 import { defu } from "defu";
+import { nextTick } from "vue";
 
 /**
  * Get datetime formats

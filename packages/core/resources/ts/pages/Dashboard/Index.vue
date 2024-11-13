@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { Head } from "@inertiajs/vue3";
+
+const test = usePage();
 </script>
 
 <template>
@@ -15,5 +17,9 @@ import { Head } from "@inertiajs/vue3";
     <AppLink :to="{ name: 'dashboard.test.index' }">Dashboard/Test</AppLink>
 
     {{ $t("foo.bar") }}
+
+    <pre>
+      {{ test }}
+    </pre>
   </div>
 </template>

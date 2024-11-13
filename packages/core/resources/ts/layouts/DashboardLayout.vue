@@ -18,143 +18,149 @@ import {
 
 useColorMode();
 
-const navGroups: SidebarGroup[] = [
-  {
-    label: "dashboard.sidebar.content.label",
-    items: [
-      {
-        title: "dashboard.sidebar.content.item.resources.label",
-        icon: Database,
-        items: [
-          {
-            title: "Comments",
-            to: {
-              name: "dashboard.index",
-            },
-          },
-          {
-            title: "Posts",
-            to: {
-              name: "dashboard.test.index",
-            },
-          },
-          {
-            title: "Users",
-            disabled: true,
-          },
-        ],
+const navGroups = computed<SidebarGroup[]>(() => {
+  const {
+    props: { resources },
+  }: {
+    props: {
+      resources: ResourceModelData[];
+    };
+  } = usePage();
+
+  const resourcesLinks = [];
+  const resourceBuilderLinks = [];
+  for (const resource of resources) {
+    resourcesLinks.push({
+      title: resource.title,
+      to: {
+        name: "dashboard.resources.show",
+        params: {
+          slug: resource.slug,
+        },
       },
-      {
-        title: "dashboard.sidebar.content.item.media.label",
-        icon: Images,
-        disabled: true,
+    });
+    resourceBuilderLinks.push({
+      title: resource.title,
+      to: {
+        name: "dashboard.resource-builder.show",
+        params: {
+          slug: resource.slug,
+        },
       },
-      {
-        title: "dashboard.sidebar.content.item.resourceBuilder.label",
-        icon: PencilRuler,
-        items: [
-          [
+    });
+  }
+
+  return [
+    {
+      label: "dashboard.sidebar.content.label",
+      items: [
+        {
+          title: "dashboard.sidebar.content.item.resources.label",
+          icon: Database,
+          items: resourcesLinks,
+        },
+        {
+          title: "dashboard.sidebar.content.item.media.label",
+          icon: Images,
+          disabled: true,
+        },
+        {
+          title: "dashboard.sidebar.content.item.resourceBuilder.label",
+          icon: PencilRuler,
+          items: [
+            [
+              {
+                title: "Add new Resource",
+                disabled: true,
+              },
+            ],
+            resourceBuilderLinks,
+          ],
+        },
+      ],
+    },
+    {
+      label: "dashboard.sidebar.system.label",
+      items: [
+        {
+          title: "dashboard.sidebar.system.item.auditLog.label",
+          icon: FileClock,
+          disabled: true,
+        },
+        {
+          title: "dashboard.sidebar.system.item.monitoring.label",
+          icon: ChartSpline,
+          disabled: true,
+        },
+        {
+          title: "dashboard.sidebar.system.item.users.label",
+          icon: Users,
+          disabled: true,
+        },
+        {
+          title: "dashboard.sidebar.system.item.roles.label",
+          icon: Shield,
+          disabled: true,
+        },
+        {
+          title: "dashboard.sidebar.system.item.settings.label",
+          icon: Settings2,
+          items: [
             {
-              title: "Add new Resource",
+              title:
+                "dashboard.sidebar.system.item.settings.item.general.label",
+              disabled: true,
+            },
+            {
+              title:
+                "dashboard.sidebar.system.item.settings.item.auditLog.label",
+              disabled: true,
+            },
+            {
+              title:
+                "dashboard.sidebar.system.item.settings.item.monitoring.label",
+              disabled: true,
+            },
+            {
+              title: "dashboard.sidebar.system.item.settings.item.media.label",
+              disabled: true,
+            },
+            {
+              title:
+                "dashboard.sidebar.system.item.settings.item.plugins.label",
               disabled: true,
             },
           ],
-          [
-            {
-              title: "Comments",
-              disabled: true,
-            },
-            {
-              title: "Posts",
-              disabled: true,
-            },
-            {
-              title: "Users",
-              disabled: true,
-            },
-          ],
-        ],
-      },
-    ],
-  },
-  {
-    label: "dashboard.sidebar.system.label",
-    items: [
-      {
-        title: "dashboard.sidebar.system.item.auditLog.label",
-        icon: FileClock,
-        disabled: true,
-      },
-      {
-        title: "dashboard.sidebar.system.item.monitoring.label",
-        icon: ChartSpline,
-        disabled: true,
-      },
-      {
-        title: "dashboard.sidebar.system.item.users.label",
-        icon: Users,
-        disabled: true,
-      },
-      {
-        title: "dashboard.sidebar.system.item.roles.label",
-        icon: Shield,
-        disabled: true,
-      },
-      {
-        title: "dashboard.sidebar.system.item.settings.label",
-        icon: Settings2,
-        items: [
-          {
-            title: "dashboard.sidebar.system.item.settings.item.general.label",
-            disabled: true,
-          },
-          {
-            title: "dashboard.sidebar.system.item.settings.item.auditLog.label",
-            disabled: true,
-          },
-          {
-            title:
-              "dashboard.sidebar.system.item.settings.item.monitoring.label",
-            disabled: true,
-          },
-          {
-            title: "dashboard.sidebar.system.item.settings.item.media.label",
-            disabled: true,
-          },
-          {
-            title: "dashboard.sidebar.system.item.settings.item.plugins.label",
-            disabled: true,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    label: "dashboard.sidebar.contentStash.label",
-    items: [
-      {
-        title: "dashboard.sidebar.contentStash.item.bugs.label",
-        icon: Bug,
-        to: "https://github.com/contentstash/contentstash/issues",
-      },
-      {
-        title: "dashboard.sidebar.contentStash.item.changelog.label",
-        icon: ScrollText,
-        to: "https://github.com/contentstash/contentstash/releases",
-      },
-      {
-        title: "dashboard.sidebar.contentStash.item.community.label",
-        icon: MessagesSquare,
-        to: "https://github.com/contentstash/contentstash/discussions",
-      },
-      {
-        title: "dashboard.sidebar.contentStash.item.documentation.label",
-        icon: BookOpen,
-        disabled: true,
-      },
-    ],
-  },
-];
+        },
+      ],
+    },
+    {
+      label: "dashboard.sidebar.contentStash.label",
+      items: [
+        {
+          title: "dashboard.sidebar.contentStash.item.bugs.label",
+          icon: Bug,
+          to: "https://github.com/contentstash/contentstash/issues",
+        },
+        {
+          title: "dashboard.sidebar.contentStash.item.changelog.label",
+          icon: ScrollText,
+          to: "https://github.com/contentstash/contentstash/releases",
+        },
+        {
+          title: "dashboard.sidebar.contentStash.item.community.label",
+          icon: MessagesSquare,
+          to: "https://github.com/contentstash/contentstash/discussions",
+        },
+        {
+          title: "dashboard.sidebar.contentStash.item.documentation.label",
+          icon: BookOpen,
+          disabled: true,
+        },
+      ],
+    },
+  ];
+});
 </script>
 
 <template>

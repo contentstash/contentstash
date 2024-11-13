@@ -9,6 +9,7 @@ try {
   //
 }
 export * from "./definePage";
+export * from "./resource";
 export * from "./route";
 export * from "./user";
 

@@ -34,7 +34,8 @@
     "php": "^8.2",
     "laravel/framework": "^11.9",
     "inertiajs/inertia-laravel": "2.x-dev",
-    "tightenco/ziggy": "^2.3"
+    "tightenco/ziggy": "^2.3",
+    "spatie/laravel-model-info": "^2.0"
   },
   "autoload": {
     "psr-4": {

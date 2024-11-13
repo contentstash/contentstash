@@ -2,12 +2,12 @@ import "./../css/index.css";
 
 import type { DefineComponent, Plugin, App as VueApp } from "vue";
 import { createApp, h } from "vue";
+import { setLocaleMessages, setupI18n } from "./i18n";
 
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { Page } from "@inertiajs/vue3";
-import { defu } from "defu";
-import { setLocaleMessages, setupI18n } from "./i18n";
 import { ZiggyVue } from "ziggy-js";
+import { defu } from "defu";
 import { fetchRoutes } from "./routes";
 
 interface InertiaAppProps {
@@ -259,7 +259,6 @@ export const createContentStashApp = (
     },
     resolve: async (name: string) => {
       const pages = getPages(props);
-      // console.info("pages", pages);
       const page = pages[name];
       page.default.layout = getLayout({
         layouts: getLayouts(props),
