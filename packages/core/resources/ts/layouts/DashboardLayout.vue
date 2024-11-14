@@ -33,7 +33,7 @@ const navGroups = computed<SidebarGroup[]>(() => {
     resourcesLinks.push({
       title: resource.title,
       to: {
-        name: "dashboard.resources.show",
+        name: "dashboard.resources.slug.show",
         params: {
           slug: resource.slug,
         },
@@ -42,7 +42,7 @@ const navGroups = computed<SidebarGroup[]>(() => {
     resourceBuilderLinks.push({
       title: resource.title,
       to: {
-        name: "dashboard.resource-builder.show",
+        name: "dashboard.resource-builder.slug.show",
         params: {
           slug: resource.slug,
         },

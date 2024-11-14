@@ -19,20 +19,36 @@ Route::group(
         Route::group(
             [
                 'as' => 'resources.',
-                'prefix' => 'resources/{slug}',
+                'prefix' => 'resources',
             ],
             function () {
-                Route::get('/', [DashboardResourceController::class, 'show'])->name('show');
+                Route::group(
+                    [
+                        'as' => 'slug.',
+                        'prefix' => '{slug}',
+                    ],
+                    function () {
+                        Route::get('/', [DashboardResourceController::class, 'show'])->name('show');
+                    }
+                );
             }
         );
 
         Route::group(
             [
                 'as' => 'resource-builder.',
-                'prefix' => 'resource-builder/{slug}',
+                'prefix' => 'resource-builder',
             ],
             function () {
-                Route::get('/', [DashboardResourceBuilderController::class, 'show'])->name('show');
+                Route::group(
+                    [
+                        'as' => 'slug.',
+                        'prefix' => '{slug}',
+                    ],
+                    function () {
+                        Route::get('/', [DashboardResourceBuilderController::class, 'show'])->name('show');
+                    }
+                );
             }
         );
 

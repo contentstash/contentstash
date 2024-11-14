@@ -74,6 +74,26 @@
       }
     }
   },
+  "data": {
+    "table": {
+      "columnOptions": {
+        "button": {
+          "label": "Columns"
+        }
+      }
+    }
+  },
+  "resource": {
+    "model": {
+      "attributes": {
+        "dataTableColumnNameHeader": {
+          "locked": {
+            "tooltip": "This column is locked"
+          }
+        }
+      }
+    }
+  },
   "user": {
     "action": {
       "logOut": {
@@ -90,6 +110,20 @@
     "dashboard": {
       "index": {
         "title": "Dashboard"
+      },
+      "resources": {
+        "slug": {
+          "show": {
+            "title": "Resource"
+          }
+        }
+      },
+      "resource-builder": {
+        "slug": {
+          "show": {
+            "title": "Resource Builder"
+          }
+        }
       },
       "test": {
         "index": {

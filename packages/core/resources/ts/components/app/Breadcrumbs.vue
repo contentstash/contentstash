@@ -23,6 +23,11 @@ const setBreadcrumbs = () => {
       });
     }
   }
+
+  breadcrumbs.value.push({
+    to: route().current(),
+    title: `page.${currentRouteName}.title`,
+  });
 };
 watch(
   () => usePage().url,
