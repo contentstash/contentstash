@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
-import { columns } from "@/components/resource/model/attributes/columns";
+import { columns } from "@/components/resource/model/attributes/data/table/columns";
 const {
   props: { model, modelInfo },
 }: {
@@ -16,18 +15,34 @@ const title = computed(() => {
 </script>
 
 <template>
-  <Head :title="title" />
-
-  <div class="container py-10 mx-auto">
+  <DashboardPage
+    :title="
+      $t('page.dashboard.resource-builder.slug.show.meta.title', {
+        modelTitle: title,
+      })
+    "
+  >
+    <DashboardPageHeader>
+      <template #title>
+        {{
+          $t("page.dashboard.resource-builder.slug.show.header.title", {
+            modelTitle: title,
+          })
+        }}
+      </template>
+      <template #description>
+        {{ $t("page.dashboard.resource-builder.slug.show.header.description") }}
+      </template>
+    </DashboardPageHeader>
     <ResourceModelAttributesDataTable
       :columns="columns"
       :data="modelInfo.attributes"
     />
-  </div>
 
-  <div>
+    <!-- <div class="overflow-x w-10">
     <pre>
       {{ modelInfo }}
     </pre>
-  </div>
+  </div> -->
+  </DashboardPage>
 </template>

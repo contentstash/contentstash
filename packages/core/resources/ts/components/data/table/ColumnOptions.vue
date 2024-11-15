@@ -23,10 +23,9 @@ const columns = computed(() =>
 <template>
   <UiDropdownMenu>
     <UiDropdownMenuTrigger as-child>
-      <UiButton variant="outline" size="sm" class="hidden h-8 ml-auto lg:flex">
-        <SlidersHorizontal class="w-4 h-4 mr-2" />
+      <DataTableActionButton :icon="SlidersHorizontal">
         {{ $t("data.table.columnOptions.button.label") }}
-      </UiButton>
+      </DataTableActionButton>
     </UiDropdownMenuTrigger>
     <UiDropdownMenuContent align="end" class="w-[150px]">
       <UiDropdownMenuCheckboxItem

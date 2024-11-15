@@ -1,12 +1,19 @@
 <script setup lang="ts">
 const { getInfo } = useContentStash();
+import AppLink from "@/components/app/Link.vue";
 </script>
 
 <template>
   <UiSidebarHeader>
     <UiSidebarMenu>
       <UiSidebarMenuItem>
-        <UiSidebarMenuButton size="lg">
+        <UiSidebarMenuButton
+          size="lg"
+          :as="AppLink"
+          :to="{
+            name: 'dashboard.index',
+          }"
+        >
           <img
             src="/contentstash/logo.png"
             alt="ContentStash"

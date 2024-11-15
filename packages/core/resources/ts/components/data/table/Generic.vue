@@ -1,0 +1,104 @@
+<script setup lang="ts" generic="TData, TValue">
+import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
+import {
+  FlexRender,
+  getCoreRowModel,
+  useVueTable,
+  getSortedRowModel,
+} from "@tanstack/vue-table";
+
+import { valueUpdater } from "@/lib/utils";
+
+const props = defineProps<{
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+}>();
+defineSlots<{
+  description?({ table }: { table: Table<TData> }): HTMLElement[];
+  header?({ table }: { table: Table<TData> }): HTMLElement[];
+  headerActions?({ table }: { table: Table<TData> }): HTMLElement[];
+  title?({ table }: { table: Table<TData> }): HTMLElement[];
+}>();
+
+const sorting = ref<SortingState>([]);
+
+const table = useVueTable({
+  get data() {
+    return props.data;
+  },
+  get columns() {
+    return props.columns;
+  },
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  state: {
+    get sorting() {
+      return sorting.value;
+    },
+  },
+});
+</script>
+
+<template>
+  <UiCard>
+    <div class="flex justify-between w-full">
+      <UiCardHeader v-if="$slots.header || $slots.title || $slots.description">
+        <slot name="header" v-bind="{ table }">
+          <UiCardTitle v-if="$slots.title">
+            <slot name="title" v-bind="{ table }" />
+          </UiCardTitle>
+          <UiCardDescription v-if="$slots.description">
+            <slot name="description" v-bind="{ table }" />
+          </UiCardDescription>
+        </slot>
+      </UiCardHeader>
+      <div v-else />
+      <div class="p-6 flex items-center gap-2">
+        <slot name="headerActions" v-bind="{ table }" />
+        <DataTableColumnOptions :table="table" />
+      </div>
+    </div>
+    <UiCardContent>
+      <UiTable>
+        <UiTableHeader>
+          <UiTableRow
+            v-for="headerGroup in table.getHeaderGroups()"
+            :key="headerGroup.id"
+          >
+            <UiTableHead v-for="header in headerGroup.headers" :key="header.id">
+              <FlexRender
+                v-if="!header.isPlaceholder"
+                :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
+            </UiTableHead>
+          </UiTableRow>
+        </UiTableHeader>
+        <UiTableBody>
+          <template v-if="table.getRowModel().rows?.length">
+            <UiTableRow
+              v-for="row in table.getRowModel().rows"
+              :key="row.id"
+              :data-state="row.getIsSelected() ? 'selected' : undefined"
+            >
+              <UiTableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+                <FlexRender
+                  :render="cell.column.columnDef.cell"
+                  :props="cell.getContext()"
+                />
+              </UiTableCell>
+            </UiTableRow>
+          </template>
+          <template v-else>
+            <UiTableRow>
+              <UiTableCell :colspan="columns.length" class="h-24 text-center">
+                {{ $t("data.table.noData") }}
+              </UiTableCell>
+            </UiTableRow>
+          </template>
+        </UiTableBody>
+      </UiTable>
+    </UiCardContent>
+  </UiCard>
+</template>

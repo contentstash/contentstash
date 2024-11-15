@@ -76,6 +76,7 @@
   },
   "data": {
     "table": {
+      "noData": "No records found",
       "columnOptions": {
         "button": {
           "label": "Columns"
@@ -86,9 +87,18 @@
   "resource": {
     "model": {
       "attributes": {
-        "dataTableColumnNameHeader": {
-          "locked": {
-            "tooltip": "This column is locked"
+        "dataTable": {
+          "title": "Attributes",
+          "description": "The resource has {count} attribute.|The resource has {count} attributes.",
+          "action": {
+            "addAttribute": {
+              "label": "Add Attribute"
+            }
+          },
+          "columnNameHeader": {
+            "locked": {
+              "tooltip": "This column is locked"
+            }
           }
         }
       }
@@ -121,7 +131,14 @@
       "resource-builder": {
         "slug": {
           "show": {
-            "title": "Resource Builder"
+            "title": "Resource Builder",
+            "header": {
+              "title": "Resource Builder: {modelTitle}",
+              "description": "Manage the attributes of the resource."
+            },
+            "meta": {
+              "title": "{modelTitle} - Resource Builder"
+            }
           }
         }
       },

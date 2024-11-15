@@ -22,7 +22,7 @@ defineProps<{
           <p>
             {{
               $t(
-                "resource.model.attributes.dataTableColumnNameHeader.locked.tooltip",
+                "resource.model.attributes.dataTable.columnNameHeader.locked.tooltip",
               )
             }}
           </p>

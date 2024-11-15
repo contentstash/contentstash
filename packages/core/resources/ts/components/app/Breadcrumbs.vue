@@ -24,10 +24,15 @@ const setBreadcrumbs = () => {
     }
   }
 
-  breadcrumbs.value.push({
-    to: route().current(),
-    title: `page.${currentRouteName}.title`,
-  });
+  if (
+    breadcrumbs.value.length != 1 ||
+    breadcrumbs.value[0].to.name != currentRouteName
+  ) {
+    breadcrumbs.value.push({
+      to: route().current(),
+      title: `page.${currentRouteName}.title`,
+    });
+  }
 };
 watch(
   () => usePage().url,

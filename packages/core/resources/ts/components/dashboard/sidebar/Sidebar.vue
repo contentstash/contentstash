@@ -28,7 +28,7 @@ defineProps<{
       <DashboardSidebarFooter />
     </UiSidebar>
 
-    <UiSidebarInset>
+    <UiSidebarInset class="max-w-full">
       <slot />
     </UiSidebarInset>
   </UiSidebarProvider>
