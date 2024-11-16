@@ -49,10 +49,13 @@ onBeforeUnmount(() => {
   >
     <slot />
   </SidebarMenuButtonChild>
-  <Tooltip v-else v-model:open="tooltipIsOpen">
+  <Tooltip
+    v-else
+    v-model:open="tooltipIsOpen"
+    :ignore-non-keyboard-focus="true"
+  >
     <TooltipTrigger as-child>
       <SidebarMenuButtonChild v-bind="{ ...delegatedProps, ...$attrs }">
-        {{ tooltipIsOpen }}
         <slot />
       </SidebarMenuButtonChild>
     </TooltipTrigger>
