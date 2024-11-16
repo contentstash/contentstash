@@ -1,16 +1,24 @@
 <script setup lang="ts">
-import { ChevronRight, Plus } from "lucide-vue-next";
 import type { SidebarSubItem } from "@/components/dashboard/sidebar/Group.vue";
+import { useSidebar } from "@/components/ui/sidebar/utils";
+import UiDropdownMenuItem from "@/components/ui/dropdown-menu/DropdownMenuItem.vue";
+import UiSidebarMenuSubItem from "@/components/ui/sidebar/SidebarMenuSubItem.vue";
+import UiSidebarMenuAction from "@/components/ui/sidebar/SidebarMenuAction.vue";
 
 defineProps<{
   items: SidebarSubItem[];
 }>();
 
 const { isI18nString } = useI18nString();
+const { state } = useSidebar();
 </script>
 
 <template>
-  <UiSidebarMenuSubItem v-for="subItem in items" :key="subItem.title">
+  <component
+    :is="state == 'expanded' ? UiSidebarMenuSubItem : 'div'"
+    v-for="subItem in items"
+    :key="subItem.title"
+  >
     <UiSidebarMenuSubButton
       as-child
       :class="{
@@ -24,5 +32,5 @@ const { isI18nString } = useI18nString();
         }}</span>
       </AppLink>
     </UiSidebarMenuSubButton>
-  </UiSidebarMenuSubItem>
+  </component>
 </template>

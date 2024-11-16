@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { router } from "@inertiajs/vue3";
+
 const breadcrumbs = ref<
   {
     to: Route;
@@ -34,12 +36,12 @@ const setBreadcrumbs = () => {
     });
   }
 };
-watch(
-  () => usePage().url,
-  () => {
-    setBreadcrumbs();
-  },
-);
+const removeSuccessEventListener = router.on("success", (event) => {
+  setBreadcrumbs();
+});
+onBeforeUnmount(() => {
+  removeSuccessEventListener();
+});
 onMounted(() => {
   setBreadcrumbs();
 });
