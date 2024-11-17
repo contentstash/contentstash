@@ -22,7 +22,7 @@ class HandleInertiaDashboardRequests extends HandleInertiaRequests
                     'title' => explode('\\', $model)[count(explode('\\', $model)) - 1],
                     'slug' => ModelSlugHelper::generateSlug($model),
                 ];
-            })->values(),
+            })->sortBy('title')->values()->toArray(),
         ]);
     }
 }

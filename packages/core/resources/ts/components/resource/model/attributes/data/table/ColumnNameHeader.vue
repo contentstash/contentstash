@@ -8,10 +8,7 @@ defineProps<{
 
 <template>
   <div class="flex items-center">
-    <ResourceModelAttributesPhpTypeIconBadge
-      :type="attribute.phpType"
-      class="mr-3"
-    />
+    <ResourceModelAttributesTypeIconBadge :attribute="attribute" class="mr-3" />
     <span>{{ attribute.name }}</span>
     <UiTooltipProvider v-if="attribute.locked">
       <UiTooltip>

@@ -84,6 +84,21 @@
       }
     }
   },
+  "action": {
+    "edit": {
+      "label": "Edit"
+    },
+    "delete": {
+      "label": "Delete"
+    }
+  },
+  "dropdown": {
+    "menu": {
+      "trigger": {
+        "srOnly": "Open menu"
+      }
+    }
+  },
   "resource": {
     "model": {
       "attributes": {

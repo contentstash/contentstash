@@ -55,17 +55,17 @@ const { getFallbackAvatar } = useUser();
             </UiDropdownMenuLabel>
             <UiDropdownMenuSeparator />
             <UiDropdownMenuGroup>
-              <UiDropdownMenuItem>
+              <UiDropdownMenuItem :disabled="true">
                 <Settings />
                 {{ $t("page.user.settings.title") }}
               </UiDropdownMenuItem>
-              <UiDropdownMenuItem>
+              <UiDropdownMenuItem :disabled="true">
                 <Bell />
                 {{ $t("page.user.notifications.title") }}
               </UiDropdownMenuItem>
             </UiDropdownMenuGroup>
             <UiDropdownMenuSeparator />
-            <UiDropdownMenuItem>
+            <UiDropdownMenuItem :disabled="true">
               <LogOut />
               {{ $t("user.action.logOut.label") }}
             </UiDropdownMenuItem>

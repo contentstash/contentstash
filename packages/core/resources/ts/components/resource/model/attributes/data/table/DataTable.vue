@@ -22,7 +22,7 @@ defineProps<{
         }}
       </template>
       <template #headerActions>
-        <DataTableActionButton :icon="Plus">
+        <DataTableActionButton :icon="Plus" :disabled="true">
           {{
             $t("resource.model.attributes.dataTable.action.addAttribute.label")
           }}

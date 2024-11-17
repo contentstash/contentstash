@@ -256,6 +256,13 @@ export const createContentStashApp = (
         .use(ZiggyVue, routes)
         .use(i18n)
         .mount(el);
+
+      // TODO: improve logic
+      if (i18n) {
+        // TODO: Use fallback locale from env
+        await setLocaleMessages(i18n, "en-GB");
+        i18n.global.locale.value = "en-GB";
+      }
     },
     resolve: async (name: string) => {
       const pages = getPages(props);

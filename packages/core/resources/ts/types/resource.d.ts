@@ -10,11 +10,13 @@ declare global {
   type ResourceModelAttributePhpType =
     | "string"
     | "int"
-    | "\\Carbon\\CarbonInterface";
+    | "\\Carbon\\CarbonInterface"
+    | "mixed";
+  type ResourceModelAttributeType = "bigint" | "text" | "json" | unknown;
   type ResourceModelAttribute = {
     name: string;
     phpType: ResourceModelAttributePhpType;
-    type: string;
+    type: ResourceModelAttributeType;
     increments: boolean;
     nullable: boolean;
     default: string;
