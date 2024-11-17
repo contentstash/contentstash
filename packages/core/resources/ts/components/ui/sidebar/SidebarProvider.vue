@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useEventListener, useVModel, useMediaQuery } from "@vueuse/core";
 import { TooltipProvider } from "radix-vue";
 import { computed, type HTMLAttributes, type Ref, ref } from "vue";
+import { router } from "@inertiajs/vue3";
 import {
   provideSidebarContext,
   SIDEBAR_COOKIE_MAX_AGE,
@@ -77,6 +78,16 @@ provideSidebarContext({
   openMobile,
   setOpenMobile,
   toggleSidebar,
+});
+
+// close sidebar on navigation
+const removeStartEventListener = router.on("start", (event) => {
+  if (isMobile.value) {
+    setOpenMobile(false);
+  }
+});
+onBeforeUnmount(() => {
+  removeStartEventListener();
 });
 </script>
 

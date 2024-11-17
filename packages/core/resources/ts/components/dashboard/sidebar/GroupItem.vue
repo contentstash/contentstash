@@ -10,7 +10,7 @@ defineSlots<{
   content?: HTMLElement[];
 }>();
 
-const { state } = useSidebar();
+const { isMobile, state } = useSidebar();
 
 const dropdownMenuIsOpen = ref(false);
 const removeStartEventListener = router.on("start", (event) => {
@@ -27,7 +27,7 @@ onBeforeUnmount(() => {
       <slot name="trigger" />
     </UiSidebarMenuItem>
     <UiCollapsible
-      v-else-if="state == 'expanded'"
+      v-else-if="state == 'expanded' || isMobile"
       as-child
       class="group/collapsible"
       :default-open="defaultOpen"

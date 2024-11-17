@@ -32,7 +32,7 @@ const checkIfSubItemIsActive = ({ item }: { item: SidebarItem }) => {
 };
 
 const { isI18nString } = useI18nString();
-const { state } = useSidebar();
+const { isMobile, state } = useSidebar();
 </script>
 
 <template>
@@ -78,7 +78,7 @@ const { state } = useSidebar();
               <UiSidebarSeparator
                 v-if="index < item.items.length - 1"
                 :class="{
-                  'my-1': state === 'collapsed',
+                  'my-1': state === 'collapsed' && !isMobile,
                 }"
               />
             </template>

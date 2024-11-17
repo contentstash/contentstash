@@ -10,12 +10,12 @@ defineProps<{
 }>();
 
 const { isI18nString } = useI18nString();
-const { state } = useSidebar();
+const { isMobile, state } = useSidebar();
 </script>
 
 <template>
   <component
-    :is="state == 'expanded' ? UiSidebarMenuSubItem : 'div'"
+    :is="state == 'expanded' || isMobile ? UiSidebarMenuSubItem : 'div'"
     v-for="subItem in items"
     :key="subItem.title"
   >
