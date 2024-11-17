@@ -18,9 +18,12 @@ class DashboardResourceController extends Controller
         $model = ModelSlugHelper::parseSlug($slug);
         $modelInfo = ModelInfo::forModel($model);
 
+        $items = $model::all();
+
         return Inertia::render('Dashboard/Resources/[slug]/Show', [
             'model' => $model,
             'modelInfo' => $modelInfo,
+            'items' => $items,
         ]);
     }
 }

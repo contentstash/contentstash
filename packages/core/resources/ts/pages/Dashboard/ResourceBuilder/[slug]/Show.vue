@@ -38,11 +38,13 @@ const title = computed(() => {
       :columns="columns"
       :data="modelInfo.attributes"
     />
-
-    <!-- <div class="overflow-x w-10">
-    <pre>
-      {{ modelInfo }}
-    </pre>
-  </div> -->
   </DashboardPage>
+
+  <div>
+    <pre>
+      <!-- {{  items }} -->
+      <!-- {{ model }} -->
+      {{ modelInfo}}
+    </pre>
+  </div>
 </template>

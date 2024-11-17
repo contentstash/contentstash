@@ -12,20 +12,18 @@ defineProps<{
   <div>
     <DataTableGeneric :columns="columns" :data="data">
       <template #title>
-        {{ $t("resource.model.attributes.data.table.title") }}
+        {{ $t("resource.items.data.table.title") }}
       </template>
       <template #description="{ table }">
         {{
-          $t("resource.model.attributes.data.table.description", {
+          $t("resource.items.data.table.description", {
             count: table.getRowModel().rows?.length,
           })
         }}
       </template>
       <template #headerActions>
         <DataTableActionButton :icon="Plus" :disabled="true">
-          {{
-            $t("resource.model.attributes.data.table.action.addAttribute.label")
-          }}
+          {{ $t("resource.items.data.table.action.addItem.label") }}
         </DataTableActionButton>
       </template>
     </DataTableGeneric>

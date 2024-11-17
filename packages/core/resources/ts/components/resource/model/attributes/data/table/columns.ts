@@ -1,6 +1,6 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableColumnHeader from "@/components/data/table/ColumnHeader.vue";
-import ResourceModelAttributesDataTableColumnNameHeader from "@/components/resource/model/attributes/data/table/ColumnNameHeader.vue";
+import ResourceModelAttributesDataTableColumnName from "@/components/resource/model/attributes/data/table/ColumnName.vue";
 import ResourceModelAttributesDataTableDropdownAction from "@/components/resource/model/attributes/data/table/DropDown.vue";
 import { h } from "vue";
 
@@ -15,7 +15,7 @@ export const columns: ColumnDef<ResourceModelAttribute>[] = [
       }),
     cell: ({ row }) => {
       return h(
-        ResourceModelAttributesDataTableColumnNameHeader,
+        ResourceModelAttributesDataTableColumnName,
         { attribute: row.original },
         row.getValue("name"),
       );

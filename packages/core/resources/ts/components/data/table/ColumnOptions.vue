@@ -31,7 +31,6 @@ const columns = computed(() =>
       <UiDropdownMenuCheckboxItem
         v-for="column in columns"
         :key="column.id"
-        class="capitalize"
         :checked="column.getIsVisible()"
         :min="1"
         @update:checked="(value) => column.toggleVisibility(!!value)"

@@ -100,19 +100,34 @@
     }
   },
   "resource": {
+    "items": {
+      "data": {
+        "table": {
+          "title": "Items",
+          "description": "The resource has {count} item.|The resource has {count} items.",
+          "action": {
+            "addItem": {
+              "label": "Add Item"
+            }
+          }
+        }
+      }
+    },
     "model": {
       "attributes": {
-        "dataTable": {
-          "title": "Attributes",
-          "description": "The resource has {count} attribute.|The resource has {count} attributes.",
-          "action": {
-            "addAttribute": {
-              "label": "Add Attribute"
-            }
-          },
-          "columnNameHeader": {
-            "locked": {
-              "tooltip": "This column is locked"
+        "data": {
+          "table": {
+            "title": "Attributes",
+            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
+            "action": {
+              "addAttribute": {
+                "label": "Add Attribute"
+              }
+            },
+            "columnNameHeader": {
+              "locked": {
+                "tooltip": "This column is locked"
+              }
             }
           }
         }
@@ -136,10 +151,17 @@
       "index": {
         "title": "Dashboard"
       },
-      "resources": {
+      "resource": {
         "slug": {
           "show": {
-            "title": "Resource"
+            "title": "Resource",
+            "header": {
+              "title": "Resource: {modelTitle}",
+              "description": "Manage the resource."
+            },
+            "meta": {
+              "title": "{modelTitle} - Resource"
+            }
           }
         }
       },

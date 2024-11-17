@@ -11,6 +11,7 @@ declare global {
     | "string"
     | "int"
     | "\\Carbon\\CarbonInterface"
+    | "array"
     | "mixed";
   type ResourceModelAttributeType = "bigint" | "text" | "json" | unknown;
   type ResourceModelAttribute = {
@@ -39,4 +40,5 @@ declare global {
     traits: string[];
     extra: null;
   };
+  type ResourceItem = Record<string, unknown>;
 }

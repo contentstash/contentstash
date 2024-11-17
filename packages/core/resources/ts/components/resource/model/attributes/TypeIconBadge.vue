@@ -32,6 +32,10 @@ const phpTypeMap: Record<
     class: "bg-yellow-100 text-yellow-700",
     icon: CalendarClock,
   },
+  [PHP_TYPE.array]: {
+    class: "bg-green-100 text-green-700",
+    icon: Braces,
+  },
 };
 const typeMap: Record<
   ResourceModelAttributeType,
@@ -39,12 +43,7 @@ const typeMap: Record<
     class: string;
     icon: string;
   }
-> = {
-  [TYPE.json]: {
-    class: "bg-green-100 text-green-700",
-    icon: Braces,
-  },
-};
+> = {};
 
 const type = computed<{
   class: string;
