@@ -33,8 +33,8 @@ export default function () {
     value,
   }: {
     attribute: ResourceModelAttribute;
-    value: ResourceItem;
-  }) => {
+    value?: string;
+  }): string | undefined => {
     if (!value) {
       return value;
     }
@@ -43,8 +43,6 @@ export default function () {
       return new Date(value as string | number).toLocaleString();
     } else if (attribute.phpType === PHP_TYPE.array) {
       return JSON.stringify(value);
-    } else {
-      console.info("attribute.phpType", attribute.phpType);
     }
 
     return value;
@@ -69,7 +67,10 @@ export default function () {
           return h(
             getCellComponent({ attribute }),
             undefined,
-            parseCellValue({ attribute, value: row.getValue(attribute.name) }),
+            parseCellValue({
+              attribute,
+              value: row.getValue(attribute.name),
+            }),
           );
         },
       };

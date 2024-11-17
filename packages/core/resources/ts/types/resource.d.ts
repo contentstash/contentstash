@@ -30,12 +30,22 @@ declare global {
     hidden: boolean;
     locked: boolean;
   };
+  type RelationType =
+    | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"
+    | "Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany"
+    | "Illuminate\\Database\\Eloquent\\Relations\\HasMany"
+    | "Illuminate\\Database\\Eloquent\\Relations\\HasOne";
+  type ResourceModelRelation = {
+    name: string;
+    type: RelationType;
+    related: ResourceModel;
+  };
   type ResourceModelInfo = {
     class: ResourceModel;
     fileName: string;
     connectionName: string;
     tableName: string;
-    relations: never[];
+    relations: Record<string, ResourceModelRelation>;
     attributes: ResourceModelAttribute[];
     traits: string[];
     extra: null;
