@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  Binary,
   Braces,
   CalendarClock,
   CircleHelp,
@@ -35,6 +36,10 @@ const phpTypeMap: Record<
   [PHP_TYPE.array]: {
     class: "bg-green-100 text-green-700",
     icon: Braces,
+  },
+  [PHP_TYPE.bool]: {
+    class: "bg-purple-100 text-purple-700",
+    icon: Binary,
   },
 };
 const typeMap: Record<

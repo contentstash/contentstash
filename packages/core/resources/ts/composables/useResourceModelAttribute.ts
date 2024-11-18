@@ -9,12 +9,14 @@ export default function () {
     CarbonCarbonInterface: "\\Carbon\\CarbonInterface",
     array: "array",
     mixed: "mixed",
+    bool: "bool",
   };
   const TYPE: Record<string, ResourceModelAttributeType> = {
     bigint: "bigint",
     text: "text",
     json: "json",
     unknown: "unknown",
+    boolean: "boolean",
   };
 
   const getCellComponent = ({
