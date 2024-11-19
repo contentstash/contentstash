@@ -39,11 +39,12 @@ class DashboardResourceBuilderController extends Controller
         // check if model is protected
         if (array_key_exists($model, $this->protectedFields)) {
             $modelInfo->attributes = $modelInfo->attributes->map(function ($attribute) use ($model) {
+                $attributeArray = (array) $attribute;
                 if (in_array($attribute->name, $this->protectedFields[$model])) {
-                    $attribute->locked = true;
+                    $attributeArray['locked'] = true;
                 }
 
-                return $attribute;
+                return (object) $attributeArray;
             });
         }
 
