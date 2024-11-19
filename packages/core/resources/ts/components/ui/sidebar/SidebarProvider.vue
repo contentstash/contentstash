@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { cn } from "@/lib/utils";
-import { useEventListener, useVModel, useMediaQuery } from "@vueuse/core";
+import { useEventListener, useMediaQuery, useVModel } from "@vueuse/core";
 import { TooltipProvider } from "radix-vue";
 import { computed, type HTMLAttributes, type Ref, ref } from "vue";
 import { router } from "@inertiajs/vue3";
@@ -29,7 +29,6 @@ const emits = defineEmits<{
   "update:open": [open: boolean];
 }>();
 
-// const isMobile = ref(false); // useIsMobile()
 const isMobile = useMediaQuery("(max-width: 768px)");
 const openMobile = ref(false);
 
