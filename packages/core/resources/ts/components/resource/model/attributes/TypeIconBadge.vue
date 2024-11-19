@@ -7,20 +7,21 @@ import {
   Sigma,
   Type,
 } from "lucide-vue-next";
+import type { LucideIcon } from "lucide-vue-next";
+import { type HTMLAttributes } from "vue";
+import { cn } from "@/lib/utils";
 
-const { attribute } = defineProps<{
-  attribute: ResourceModelAttribute;
+const { size = "lg", ...props } = defineProps<{
+  attribute?: ResourceModelAttribute;
+  phpType?: ResourceModelAttributePhpType;
+  type?: ResourceModelAttributeType;
+  class?: HTMLAttributes["class"];
+  size?: "lg";
 }>();
 
 const { PHP_TYPE, TYPE } = useResourceModelAttribute();
 
-const phpTypeMap: Record<
-  ResourceModelAttributePhpType,
-  {
-    class: string;
-    icon: string;
-  }
-> = {
+const phpTypeMap = {
   [PHP_TYPE.int]: {
     class: "bg-blue-100 text-blue-700",
     icon: Sigma,
@@ -41,26 +42,26 @@ const phpTypeMap: Record<
     class: "bg-purple-100 text-purple-700",
     icon: Binary,
   },
-};
-const typeMap: Record<
+} as Record<ResourceModelAttributePhpType, { class: string; icon: LucideIcon }>;
+const typeMap = {} as Record<
   ResourceModelAttributeType,
   {
     class: string;
-    icon: string;
+    icon: LucideIcon;
   }
-> = {};
+>;
 
-const type = computed<{
+const type = props?.attribute?.type || props?.type;
+const phpType = props?.attribute?.phpType || props?.phpType;
+
+const typeData = computed<{
   class: string;
-  icon: string;
+  icon: LucideIcon;
 }>(() => {
-  if (attribute.phpType in phpTypeMap) {
-    return phpTypeMap[attribute.phpType];
-  } else if (
-    attribute.phpType === PHP_TYPE.mixed &&
-    attribute.type in typeMap
-  ) {
-    return typeMap[attribute.type];
+  if (phpType && phpType in phpTypeMap) {
+    return phpTypeMap[phpType];
+  } else if (phpType && type && phpType === PHP_TYPE.mixed && type in typeMap) {
+    return typeMap[type];
   }
 
   return {
@@ -68,13 +69,31 @@ const type = computed<{
     icon: CircleHelp,
   };
 });
+const sizeClass = computed(() => {
+  switch (size) {
+    default: // lg
+      return "h-8 w-8";
+  }
+});
+const iconSize = computed(() => {
+  switch (size) {
+    default: // lg
+      return 24;
+  }
+});
 </script>
 
 <template>
   <div
-    :class="type.class"
-    class="h-8 w-8 rounded-lg flex items-center justify-center"
+    :class="
+      cn(
+        'h-8 w-8 rounded-lg flex items-center justify-center',
+        typeData.class,
+        sizeClass,
+        props.class,
+      )
+    "
   >
-    <component :is="type.icon" :size="20" />
+    <component :is="typeData.icon" :size="iconSize" />
   </div>
 </template>

@@ -1,6 +1,7 @@
 import "./../css/index.css";
 
 import type { DefineComponent, Plugin, App as VueApp } from "vue";
+import { DrawerClose, DrawerPortal, DrawerTrigger } from "vaul-vue";
 import { createApp, h } from "vue";
 import { setLocaleMessages, setupI18n } from "./i18n";
 
@@ -255,6 +256,9 @@ export const createContentStashApp = (
         .use(plugin)
         .use(ZiggyVue, routes)
         .use(i18n)
+        .component("UiDrawerClose", DrawerClose)
+        .component("UiDrawerPortal", DrawerPortal)
+        .component("UiDrawerTrigger", DrawerTrigger)
         .mount(el);
 
       // TODO: improve logic

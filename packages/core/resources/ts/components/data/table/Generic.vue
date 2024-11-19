@@ -42,7 +42,7 @@ const table = useVueTable({
 
 <template>
   <UiCard>
-    <div class="flex justify-between w-full">
+    <div class="flex justify-between w-full flex-col lg:flex-row">
       <UiCardHeader v-if="$slots.header || $slots.title || $slots.description">
         <slot name="header" v-bind="{ table }">
           <UiCardTitle v-if="$slots.title">
@@ -54,7 +54,9 @@ const table = useVueTable({
         </slot>
       </UiCardHeader>
       <div v-else />
-      <div class="p-6 flex items-center gap-2">
+      <div
+        class="p-6 pt-0 lg:pt-6 grid sm:grid-cols-2 lg:flex items-center gap-2"
+      >
         <slot name="headerActions" v-bind="{ table }" />
         <DataTableColumnOptions :table="table" />
       </div>

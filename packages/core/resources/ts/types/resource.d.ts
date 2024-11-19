@@ -12,8 +12,9 @@ declare global {
     | "int"
     | "\\Carbon\\CarbonInterface"
     | "array"
-    | "mixed";
-  type ResourceModelAttributeType = "bigint" | "text" | "json" | unknown;
+    | "mixed"
+    | "bool";
+  type ResourceModelAttributeType = "bigint" | "text" | "json";
   type ResourceModelAttribute = {
     name: string;
     phpType: ResourceModelAttributePhpType;

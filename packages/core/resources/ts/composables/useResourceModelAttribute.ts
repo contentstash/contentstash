@@ -3,7 +3,14 @@ import DataTableColumnHeader from "@/components/data/table/ColumnHeader.vue";
 import ResourceItemsDataTableColumnAttributeTypeText from "@/components/resource/items/data/table/ColumnAttributeTypeText.vue";
 
 export default function () {
-  const PHP_TYPE: Record<string, ResourceModelAttributePhpType> = {
+  type PHP_TYPES =
+    | "string"
+    | "int"
+    | "CarbonCarbonInterface"
+    | "array"
+    | "mixed"
+    | "bool";
+  const PHP_TYPE: Record<PHP_TYPES, ResourceModelAttributePhpType> = {
     string: "string",
     int: "int",
     CarbonCarbonInterface: "\\Carbon\\CarbonInterface",
@@ -11,7 +18,8 @@ export default function () {
     mixed: "mixed",
     bool: "bool",
   };
-  const TYPE: Record<string, ResourceModelAttributeType> = {
+  type TYPES = "bigint" | "text" | "json" | "unknown" | "boolean";
+  const TYPE: Record<TYPES, ResourceModelAttributeType> = {
     bigint: "bigint",
     text: "text",
     json: "json",
