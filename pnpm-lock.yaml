@@ -99,6 +99,9 @@ importers:
 
   packages/core:
     dependencies:
+      '@inertiajs/core':
+        specifier: 2.0.0-beta.3
+        version: 2.0.0-beta.3
       '@radix-icons/vue':
         specifier: ^1.0.0
         version: 1.0.0(vue@3.5.13(typescript@5.7.2))

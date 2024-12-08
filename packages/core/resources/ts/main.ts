@@ -2,26 +2,17 @@ import "./../css/index.css";
 
 import type { DefineComponent, Plugin, App as VueApp } from "vue";
 import { DrawerClose, DrawerPortal, DrawerTrigger } from "vaul-vue";
+import type { InertiaApp, InertiaAppProps } from "@inertiajs/vue3/types/app";
 import { createApp, h } from "vue";
 import { setLocaleMessages, setupI18n } from "./i18n";
 
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import type { Page } from "@inertiajs/vue3";
+import type { I18n } from "vue-i18n";
 import { ZiggyVue } from "ziggy-js";
 import { defu } from "defu";
 import { fetchRoutes } from "./routes";
 
-interface InertiaAppProps {
-  initialPage: Page;
-  initialComponent?: object;
-  resolveComponent?: (
-    name: string,
-  ) => DefineComponent | Promise<DefineComponent>;
-  titleCallback?: (title: string) => string;
-  onHeadUpdate?: (elements: string[]) => void;
-}
-type InertiaApp = DefineComponent<InertiaAppProps>;
-
+// TODO: Can be removed when this is implemented https://github.com/inertiajs/inertia/discussions/2123
 interface CreateInertiaAppProps {
   id?: string;
   resolve: (name: string) =>
@@ -97,13 +88,13 @@ export const getLayouts = (props: ContentStashAppProps) => {
  *
  * @param {ContentStashAppProps} props - The props of the app
  *
- * @returns Record<string, DefineComponent>
+ * @returns Record<string, DefinePageComponent>
  */
 export const getPages = (props: ContentStashAppProps) => {
   // get core pages
   const corePages = import.meta.glob("./pages/**/*.vue", {
     eager: true,
-  }) as Record<string, DefineComponent>;
+  }) as Record<string, DefinePageComponent>;
 
   // merge all page sources
   return defu(
@@ -121,7 +112,7 @@ export const getPages = (props: ContentStashAppProps) => {
         value,
       ]),
     ),
-  ) as Record<string, DefineComponent>;
+  ) as Record<string, DefinePageComponent>;
 };
 
 /**
@@ -144,7 +135,7 @@ export const parsedLayoutName = ({ name }: { name: string }) => {
  *
  * @param {Record<string, DefineComponent>} layouts - The layouts of the app
  * @param {string} name - The name of the page
- * @param {Page} page - The page object
+ * @param {DefinePageComponent} page - The page object
  * @param {Record<string, DefineComponent>} pages - The pages of the app
  *
  * @returns Array<DefineComponent>
@@ -157,7 +148,7 @@ export const getLayout = ({
 }: {
   layouts: Record<string, DefineComponent>;
   name: string;
-  page: Page;
+  page: DefinePageComponent;
   pages: Record<string, DefineComponent>;
 }) => {
   // return is layout is already resolved (it is an array) or if it is explicitly set to false
@@ -213,10 +204,10 @@ export const getLayout = ({
     }
 
     if (addDefaultLayout) {
-      layoutArray.unshift(DefaultLayout);
+      layoutArray.unshift(DefaultLayout as DefineComponent);
     }
   } else {
-    layoutArray.unshift(DefaultLayout);
+    layoutArray.unshift(DefaultLayout as DefineComponent);
   }
 
   return layoutArray;
@@ -225,7 +216,7 @@ export const getLayout = ({
 /**
  * The i18n instance of the app (only for internal use)
  */
-let i18n = null;
+let i18n: I18n | undefined;
 
 /**
  * Create a ContentStash app
@@ -265,7 +256,12 @@ export const createContentStashApp = (
       if (i18n) {
         // TODO: Use fallback locale from env
         await setLocaleMessages(i18n, "en-GB");
-        i18n.global.locale.value = "en-GB";
+
+        if (typeof i18n.global.locale === "string") {
+          i18n.global.locale = "en-GB";
+        } else {
+          i18n.global.locale.value = "en-GB";
+        }
       }
     },
     resolve: async (name: string) => {
@@ -281,12 +277,16 @@ export const createContentStashApp = (
       if (i18n) {
         const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
         await setLocaleMessages(i18n, locale);
-        i18n.global.locale.value = locale;
+        if (typeof i18n.global.locale === "string") {
+          i18n.global.locale = locale;
+        } else {
+          i18n.global.locale.value = locale;
+        }
       }
 
       return page;
     },
-  });
+  }) as CreateInertiaAppProps;
 };
 
 export default {
