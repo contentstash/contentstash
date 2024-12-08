@@ -5,6 +5,7 @@ namespace ContentStash\Core\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
+use PluginRegistry;
 
 class LanguageController extends Controller
 {
@@ -15,8 +16,9 @@ class LanguageController extends Controller
         string $locale
     ): JsonResponse {
         $translations = [];
+        $plugins = PluginRegistry::all();
 
-        foreach ($GLOBALS['CONTENTSTASH_PLUGINS'] as $plugin) {
+        foreach ($plugins as $plugin) {
             $files = File::files("{$plugin->getLocalPath()}/{$locale}");
             foreach ($files as $file) {
                 $pluginTranslations = json_decode(File::get($file), true);

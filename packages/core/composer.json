@@ -44,6 +44,9 @@
   },
   "extra": {
     "laravel": {
+      "aliases": {
+        "PluginRegistry": "ContentStash\\Core\\Facades\\PluginRegistryFacade"
+      },
       "providers": [
         "ContentStash\\Core\\ContentStashServiceProvider"
       ]

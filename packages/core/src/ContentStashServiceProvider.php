@@ -2,7 +2,9 @@
 
 namespace ContentStash\Core;
 
-use ContentStash\Core\Plugins\ContentStashPlugin;
+use ContentStash\Core\Facades\PluginRegistryFacade;
+use ContentStash\Core\Services\PluginRegistry;
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class ContentStashServiceProvider extends ServiceProvider
@@ -20,14 +22,24 @@ class ContentStashServiceProvider extends ServiceProvider
 
     public function register()
     {
-        if (! defined('CONTENTSTASH_PLUGINS')) {
-            $GLOBALS['CONTENTSTASH_PLUGINS'] = [];
-        }
+        $this->app->singleton(PluginRegistry::class, function ($app) {
+            return new PluginRegistry;
+        });
 
-        $GLOBALS['CONTENTSTASH_PLUGINS'][] = new ContentStashPlugin([
+        $this->registerAliases();
+
+        PluginRegistryFacade::register([
             'name' => '@contentstash/core',
             'path' => __DIR__.'/../',
             'local_path' => __DIR__.'/../resources/ts/locales/',
         ]);
+    }
+
+    /**
+     * Register aliases for the plugin
+     */
+    protected function registerAliases(): void
+    {
+        AliasLoader::getInstance()->alias('PluginRegistry', PluginRegistryFacade::class);
     }
 }

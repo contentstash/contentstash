@@ -2,7 +2,7 @@
 
 namespace ContentStash\Core\Plugins;
 
-class ContentStashPlugin
+class Plugin
 {
     /**
      * The name of the plugin.
