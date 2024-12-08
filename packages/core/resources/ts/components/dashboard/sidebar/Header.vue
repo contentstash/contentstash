@@ -17,7 +17,7 @@ import AppLink from "@/components/app/Link.vue";
           <img
             src="/contentstash/logo.png"
             alt="ContentStash"
-            class="aspect-square size-8 rounded-lg text-sidebar-primary-foreground"
+            class="aspect-square size-8 text-sidebar-primary-foreground"
           />
           <div class="grid flex-1 text-left text-sm leading-tight">
             <span class="truncate font-semibold">
