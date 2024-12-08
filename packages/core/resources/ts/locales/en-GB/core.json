@@ -151,7 +151,7 @@
       "index": {
         "title": "Dashboard"
       },
-      "resource": {
+      "resources": {
         "slug": {
           "show": {
             "title": "Resource",

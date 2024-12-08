@@ -29,7 +29,7 @@ const resourceColumns = computed(() => {
 <template>
   <DashboardPage
     :title="
-      $t('page.dashboard.resource.slug.show.meta.title', {
+      $t('page.dashboard.resources.slug.show.meta.title', {
         modelTitle: title,
       })
     "
@@ -37,13 +37,13 @@ const resourceColumns = computed(() => {
     <DashboardPageHeader>
       <template #title>
         {{
-          $t("page.dashboard.resource.slug.show.header.title", {
+          $t("page.dashboard.resources.slug.show.header.title", {
             modelTitle: title,
           })
         }}
       </template>
       <template #description>
-        {{ $t("page.dashboard.resource.slug.show.header.description") }}
+        {{ $t("page.dashboard.resources.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
     <ResourceItemsDataTable
