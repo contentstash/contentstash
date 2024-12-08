@@ -3,9 +3,10 @@
 namespace ContentStash\Core;
 
 use ContentStash\Core\Facades\PluginRegistryFacade;
-use ContentStash\Core\Services\PluginRegistry;
+use ContentStash\Core\Services\PluginRegistry as PluginRegistryService;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
+use PluginRegistry;
 
 class ContentStashServiceProvider extends ServiceProvider
 {
@@ -22,13 +23,13 @@ class ContentStashServiceProvider extends ServiceProvider
 
     public function register()
     {
-        $this->app->singleton(PluginRegistry::class, function ($app) {
-            return new PluginRegistry;
+        $this->app->singleton(PluginRegistryService::class, function ($app) {
+            return new PluginRegistryService;
         });
 
         $this->registerAliases();
 
-        PluginRegistryFacade::register([
+        PluginRegistry::register([
             'name' => '@contentstash/core',
             'path' => __DIR__.'/../',
             'local_path' => __DIR__.'/../resources/ts/locales/',
