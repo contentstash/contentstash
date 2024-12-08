@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const { getInfo } = useContentStash();
 import AppLink from "@/components/app/Link.vue";
+
+const { getInfo } = useContentStash();
 </script>
 
 <template>
@@ -17,7 +18,7 @@ import AppLink from "@/components/app/Link.vue";
           <img
             src="/contentstash/logo.png"
             alt="ContentStash"
-            class="aspect-square size-8 text-sidebar-primary-foreground"
+            class="aspect-square size-8 text-sidebar-primary-foreground rounded-md"
           />
           <div class="grid flex-1 text-left text-sm leading-tight">
             <span class="truncate font-semibold">
