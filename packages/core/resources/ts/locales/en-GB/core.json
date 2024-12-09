@@ -1,7 +1,4 @@
 {
-  "foo": {
-    "bar": "Hello World"
-  },
   "dashboard": {
     "sidebar": {
       "content": {
@@ -176,22 +173,6 @@
             "meta": {
               "title": "{modelTitle} - Resource Builder"
             }
-          }
-        }
-      },
-      "test": {
-        "index": {
-          "title": "Test index"
-        },
-        "test": {
-          "title": "Test test"
-        },
-        "foo": {
-          "index": {
-            "title": "Foo index"
-          },
-          "bar": {
-            "title": "Bar"
           }
         }
       }

@@ -34,6 +34,20 @@ class AttributeTypeRegistry
     }
 
     /**
+     * Register multiple attribute types.
+     */
+    public function registerMany(array $attributesList): Collection
+    {
+        $attributeTypes = collect();
+
+        foreach ($attributesList as $attributes) {
+            $attributeTypes->push($this->register($attributes));
+        }
+
+        return $attributeTypes;
+    }
+
+    /**
      * Get all registered attribute types.
      */
     public function all(): Collection

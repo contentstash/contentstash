@@ -22,25 +22,14 @@ export const columns: ColumnDef<ResourceModelAttribute>[] = [
     },
   },
   {
-    accessorKey: "phpType",
+    accessorKey: "attributeType",
     header: ({ column }) =>
       h(DataTableColumnHeader, {
         column,
-        title: "PHP Type",
+        title: "attributeType",
       }),
     cell: ({ row }) => {
-      return h("div", undefined, row.getValue("phpType"));
-    },
-  },
-  {
-    accessorKey: "type",
-    header: ({ column }) =>
-      h(DataTableColumnHeader, {
-        column,
-        title: "Type",
-      }),
-    cell: ({ row }) => {
-      return h("div", undefined, row.getValue("type"));
+      return h("div", undefined, row.original?.attributeType.name);
     },
   },
   {

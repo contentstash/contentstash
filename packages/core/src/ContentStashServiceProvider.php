@@ -64,31 +64,33 @@ class ContentStashServiceProvider extends ServiceProvider
      */
     protected function registerAttributeTypes(): void
     {
-        AttributeTypeRegistry::register([
-            'name' => 'int',
-            'phpType' => 'int',
-        ]);
-        AttributeTypeRegistry::register([
-            'name' => 'bigint',
-            'phpType' => 'int',
-            'type' => 'bigint',
-        ]);
-        AttributeTypeRegistry::register([
-            'name' => 'string',
-            'phpType' => 'string',
-        ]);
-        AttributeTypeRegistry::register([
-            'name' => 'timestamp',
-            'phpType' => '\Carbon\CarbonInterface',
-        ]);
-        AttributeTypeRegistry::register([
-            'name' => 'boolean',
-            'phpType' => 'bool',
-        ]);
-        AttributeTypeRegistry::register([
-            'name' => 'json',
-            'phpType' => 'array',
-            'type' => 'json',
+        AttributeTypeRegistry::registerMany([
+            [
+                'name' => 'int',
+                'phpType' => 'int',
+            ],
+            [
+                'name' => 'bigint',
+                'phpType' => 'int',
+                'type' => 'bigint',
+            ],
+            [
+                'name' => 'string',
+                'phpType' => 'string',
+            ],
+            [
+                'name' => 'timestamp',
+                'phpType' => '\Carbon\CarbonInterface',
+            ],
+            [
+                'name' => 'boolean',
+                'phpType' => 'bool',
+            ],
+            [
+                'name' => 'json',
+                'phpType' => 'array',
+                'type' => 'json',
+            ],
         ]);
     }
 }

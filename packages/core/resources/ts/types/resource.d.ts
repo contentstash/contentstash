@@ -1,6 +1,13 @@
 export {};
 
 declare global {
+  type AttributeType = {
+    name: string;
+    phpType: string;
+    type: string;
+    additional_attributes: Record<string, unknown>;
+  };
+
   type ResourceModel = string;
   type ResourceModelData = {
     class: ResourceModel;
@@ -30,6 +37,7 @@ declare global {
     virtual: boolean;
     hidden: boolean;
     locked: boolean;
+    attributes: AttributeType;
   };
   type RelationType =
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"
