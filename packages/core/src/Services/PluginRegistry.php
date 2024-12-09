@@ -3,13 +3,19 @@
 namespace ContentStash\Core\Services;
 
 use ContentStash\Core\Plugins\Plugin;
+use Illuminate\Support\Collection;
 
 class PluginRegistry
 {
     /**
      * List of registered plugins.
      */
-    protected array $plugins = [];
+    protected Collection $plugins;
+
+    public function __construct()
+    {
+        $this->plugins = collect();
+    }
 
     /**
      * Register a new plugin.
@@ -18,11 +24,11 @@ class PluginRegistry
     {
         $plugin = new Plugin($attributes);
 
-        if ($this->findByName($plugin->getName())) {
+        if ($this->get($plugin->getName())) {
             throw new \Exception('Plugin with name '.$plugin->getName().' already exists.');
         }
 
-        $this->plugins[] = $plugin;
+        $this->plugins[$plugin->getName()] = $plugin;
 
         return $plugin;
     }
@@ -30,22 +36,16 @@ class PluginRegistry
     /**
      * Get all registered plugins.
      */
-    public function all(): array
+    public function all(): Collection
     {
         return $this->plugins;
     }
 
     /**
-     * Find a plugin by name.
+     * Get a plugin by name.
      */
-    public function findByName(string $name): ?Plugin
+    public function get(string $name): ?Plugin
     {
-        foreach ($this->plugins as $plugin) {
-            if ($plugin->getName() === $name) {
-                return $plugin;
-            }
-        }
-
-        return null;
+        return $this->plugins->get($name);
     }
 }

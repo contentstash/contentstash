@@ -2,16 +2,16 @@
 
 namespace ContentStash\Core\Facades;
 
-use ContentStash\Core\Services\PluginRegistry;
+use ContentStash\Core\Services\AttributeTypeRegistry;
 use Illuminate\Support\Facades\Facade;
 
-class PluginRegistryFacade extends Facade
+class AttributeTypeRegistryFacade extends Facade
 {
     /**
      * {@inheritDoc}
      */
     protected static function getFacadeAccessor()
     {
-        return PluginRegistry::class;
+        return AttributeTypeRegistry::class;
     }
 }

@@ -2,7 +2,10 @@
 
 namespace ContentStash\Core;
 
+use AttributeTypeRegistry;
+use ContentStash\Core\Facades\AttributeTypeRegistryFacade;
 use ContentStash\Core\Facades\PluginRegistryFacade;
+use ContentStash\Core\Services\AttributeTypeRegistry as AttributeTypeRegistryService;
 use ContentStash\Core\Services\PluginRegistry as PluginRegistryService;
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
@@ -10,6 +13,9 @@ use PluginRegistry;
 
 class ContentStashServiceProvider extends ServiceProvider
 {
+    /**
+     * {@inheritDoc}
+     */
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'contentstash');
@@ -21,26 +27,37 @@ class ContentStashServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function register()
     {
-        $this->app->singleton(PluginRegistryService::class, function ($app) {
-            return new PluginRegistryService;
-        });
-
-        $this->registerAliases();
+        $this->registerSingleton();
 
         PluginRegistry::register([
             'name' => '@contentstash/core',
             'path' => __DIR__.'/../',
             'local_path' => __DIR__.'/../resources/ts/locales/',
         ]);
+
+        AttributeTypeRegistry::register([
+            'name' => 'text',
+        ]);
     }
 
     /**
-     * Register aliases for the plugin
+     * Register singletons
      */
-    protected function registerAliases(): void
+    protected function registerSingleton(): void
     {
+        $this->app->singleton(PluginRegistryService::class, function ($app) {
+            return new PluginRegistryService;
+        });
+        $this->app->singleton(AttributeTypeRegistryService::class, function ($app) {
+            return new AttributeTypeRegistryService;
+        });
+
         AliasLoader::getInstance()->alias('PluginRegistry', PluginRegistryFacade::class);
+        AliasLoader::getInstance()->alias('AttributeTypeRegistry', AttributeTypeRegistryFacade::class);
     }
 }
