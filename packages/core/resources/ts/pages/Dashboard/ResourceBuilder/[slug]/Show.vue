@@ -38,5 +38,7 @@ const title = computed(() => {
       :columns="columns"
       :data="modelInfo.attributes"
     />
+
+    <pre>{{ modelInfo }}</pre>
   </DashboardPage>
 </template>

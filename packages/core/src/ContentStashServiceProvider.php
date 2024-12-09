@@ -79,6 +79,11 @@ class ContentStashServiceProvider extends ServiceProvider
                 'phpType' => 'string',
             ],
             [
+                'name' => 'text',
+                'phpType' => 'string',
+                'type' => 'text',
+            ],
+            [
                 'name' => 'timestamp',
                 'phpType' => '\Carbon\CarbonInterface',
             ],

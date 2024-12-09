@@ -37,7 +37,7 @@ declare global {
     virtual: boolean;
     hidden: boolean;
     locked: boolean;
-    attributes: AttributeType;
+    attributeType: AttributeType;
   };
   type RelationType =
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"
