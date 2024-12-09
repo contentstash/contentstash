@@ -1,6 +1,6 @@
 <?php
 
-namespace ContentStash\Core\Plugins;
+namespace ContentStash\Core;
 
 class Plugin
 {
@@ -49,6 +49,19 @@ class Plugin
         $this->path = $attributes['path'];
         $this->localPath = $attributes['local_path'] ?? $attributes['path'].'resources/ts/locales/';
         $this->additionalAttributes = array_diff_key($attributes, array_flip(array_merge(self::$requiredAttributes, ['local_path'])));
+    }
+
+    /**
+     * Get plugin as array.
+     */
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->getName(),
+            'path' => $this->getPath(),
+            'local_path' => $this->getLocalPath(),
+            'additional_attributes' => $this->getAdditionalAttributes(),
+        ];
     }
 
     /**

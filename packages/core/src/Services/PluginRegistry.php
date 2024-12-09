@@ -2,7 +2,7 @@
 
 namespace ContentStash\Core\Services;
 
-use ContentStash\Core\Plugins\Plugin;
+use ContentStash\Core\Plugin;
 use Illuminate\Support\Collection;
 
 class PluginRegistry
@@ -39,6 +39,16 @@ class PluginRegistry
     public function all(): Collection
     {
         return $this->plugins;
+    }
+
+    /**
+     * Get all registered plugins as array.
+     */
+    public function allAsArray(): array
+    {
+        return $this->plugins->map(function (Plugin $plugin) {
+            return $plugin->toArray();
+        })->toArray();
     }
 
     /**

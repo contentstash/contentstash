@@ -24,11 +24,11 @@ class AttributeTypeRegistry
     {
         $attributeType = new Type($attributes);
 
-        if ($this->get($attributeType->getName())) {
-            throw new \Exception('Attribute type with name '.$attributeType->getName().' already exists.');
+        if ($result = $this->get($attributeType->getPhpType(), $attributeType->getType(), true)) {
+            throw new \Exception('Attribute type with phpType "'.$attributeType->getPhpType().'" and type "'.$attributeType->getType().'" already exists with name "'.$result->getName().'"');
         }
 
-        $this->attributeTypes[$attributeType->getName()] = $attributeType;
+        $this->attributeTypes->push($attributeType);
 
         return $attributeType;
     }
@@ -42,10 +42,39 @@ class AttributeTypeRegistry
     }
 
     /**
-     * Get a attribute type by name.
+     * Get all registered attribute types as array.
      */
-    public function get(string $name): ?Type
+    public function allAsArray(): array
     {
-        return $this->attributeTypes->get($name);
+        return $this->attributeTypes->map(function (Type $attributeType) {
+            return $attributeType->toArray();
+        })->toArray();
+    }
+
+    /**
+     * Get an attribute type by phpType and type.
+     * Prioritize matching both phpType and type, then fallback to phpType with type null.
+     *
+     * @param  bool  $exactMatch  If true, both phpType and type must match exactly.
+     */
+    public function get(string $phpType, ?string $type = null, bool $exactMatch = false): ?Type
+    {
+        if ($exactMatch) {
+            $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType, $type) {
+                return $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type;
+            });
+        } else {
+            $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType, $type) {
+                return $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type;
+            });
+
+            if ($attributeType === null && $type !== null) {
+                $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType) {
+                    return $attributeType->getPhpType() === $phpType && $attributeType->getType() === null;
+                });
+            }
+        }
+
+        return $attributeType;
     }
 }

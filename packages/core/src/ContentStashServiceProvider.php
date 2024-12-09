@@ -40,9 +40,7 @@ class ContentStashServiceProvider extends ServiceProvider
             'local_path' => __DIR__.'/../resources/ts/locales/',
         ]);
 
-        AttributeTypeRegistry::register([
-            'name' => 'text',
-        ]);
+        $this->registerAttributeTypes();
     }
 
     /**
@@ -59,5 +57,38 @@ class ContentStashServiceProvider extends ServiceProvider
 
         AliasLoader::getInstance()->alias('PluginRegistry', PluginRegistryFacade::class);
         AliasLoader::getInstance()->alias('AttributeTypeRegistry', AttributeTypeRegistryFacade::class);
+    }
+
+    /**
+     * Register attribute types
+     */
+    protected function registerAttributeTypes(): void
+    {
+        AttributeTypeRegistry::register([
+            'name' => 'int',
+            'phpType' => 'int',
+        ]);
+        AttributeTypeRegistry::register([
+            'name' => 'bigint',
+            'phpType' => 'int',
+            'type' => 'bigint',
+        ]);
+        AttributeTypeRegistry::register([
+            'name' => 'string',
+            'phpType' => 'string',
+        ]);
+        AttributeTypeRegistry::register([
+            'name' => 'timestamp',
+            'phpType' => '\Carbon\CarbonInterface',
+        ]);
+        AttributeTypeRegistry::register([
+            'name' => 'boolean',
+            'phpType' => 'bool',
+        ]);
+        AttributeTypeRegistry::register([
+            'name' => 'json',
+            'phpType' => 'array',
+            'type' => 'json',
+        ]);
     }
 }

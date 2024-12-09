@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use AttributeTypeRegistry;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -47,6 +48,11 @@ class DashboardResourceBuilderController extends Controller
                 return (object) $attributeArray;
             });
         }
+
+        // set attribute types
+        $modelInfo->attributes->each(function ($attribute) {
+            $attribute->attributeType = AttributeTypeRegistry::get($attribute->phpType, $attribute->type);
+        });
 
         return Inertia::render('Dashboard/ResourceBuilder/[slug]/Show', [
             'model' => $model,
