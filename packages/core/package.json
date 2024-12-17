@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/contentstash/contentstash"
+    "url": "git@github.com:contentstash/contentstash.git"
   },
   "type": "module",
   "main": "resources/ts/main.ts",
@@ -35,16 +35,16 @@
     "pint:fix": "./vendor/bin/pint"
   },
   "devDependencies": {
-    "@iconify-json/radix-icons": "^1.2.1",
+    "@iconify-json/radix-icons": "^1.2.2",
     "@iconify/vue": "^4.2.0",
     "@inertiajs/vue3": "2.0.0-beta.2",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/tsconfig": "^0.7.0",
     "laravel-vite-plugin": "^1.1.1",
-    "tailwindcss": "^3.4.16",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "unplugin-auto-import": "^0.18.6",
-    "unplugin-vue-components": "^0.27.5",
+    "unplugin-auto-import": "^0.19.0",
+    "unplugin-vue-components": "^0.28.0",
     "vite": "^6.0.3",
     "vite-plugin-dts": "^4.3.0",
     "vue": "^3.5.13"

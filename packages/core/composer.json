@@ -24,12 +24,6 @@
       "role": "Author"
     }
   ],
-  "repositories": [
-    {
-      "type": "git",
-      "url": "https://github.com/contentstash/contentstash"
-    }
-  ],
   "require": {
     "php": "^8.2",
     "laravel/framework": "^11.9",
