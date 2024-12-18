@@ -43,7 +43,6 @@
       "@php artisan ide-helper:generate"
     ],
     "post-update-cmd": [
-      "patch -p1 < patches/laravel-serve-fix.patch",
       "@php artisan ide-helper:models --nowrite",
       "@php artisan ide-helper:meta",
       "@php artisan ide-helper:generate",
