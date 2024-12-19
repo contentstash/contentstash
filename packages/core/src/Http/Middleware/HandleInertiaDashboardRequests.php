@@ -2,6 +2,7 @@
 
 namespace ContentStash\Core\Http\Middleware;
 
+use AttributeTypeRegistry;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use Illuminate\Http\Request;
 use Spatie\ModelInfo\ModelFinder;
@@ -23,6 +24,7 @@ class HandleInertiaDashboardRequests extends HandleInertiaRequests
                     'slug' => ModelSlugHelper::generateSlug($model),
                 ];
             })->sortBy('title')->values()->toArray(),
+            'attributeTypes' => AttributeTypeRegistry::allAsArray(),
         ]);
     }
 }

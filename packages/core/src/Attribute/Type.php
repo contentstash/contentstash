@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Enums\AttributeTypeFormat;
+
 class Type
 {
     /**
@@ -18,6 +20,23 @@ class Type
      * The type of the attribute type.
      */
     protected ?string $type = null;
+
+    /**
+     * Icon of the attribute type.
+     */
+    protected $icon = 'CircleHelp';
+
+    /**
+     * Classes of the attribute type.
+     */
+    protected array $classes = [
+        'badge' => 'bg-gray-100 text-gray-700',
+    ];
+
+    /**
+     * Format of the attribute type.
+     */
+    protected AttributeTypeFormat $format = AttributeTypeFormat::Raw;
 
     /**
      * List of additional attributes
@@ -50,6 +69,15 @@ class Type
         if (isset($attributes['type'])) {
             $this->type = $attributes['type'];
         }
+        if (isset($attributes['icon'])) {
+            $this->icon = $attributes['icon'];
+        }
+        if (isset($attributes['classes'])) {
+            $this->classes = $attributes['classes'];
+        }
+        if (isset($attributes['format']) && $attributes['format'] instanceof AttributeTypeFormat) {
+            $this->format = $attributes['format'];
+        }
         $this->additionalAttributes = array_diff_key($attributes, array_flip(array_merge(self::$requiredAttributes, ['type'])));
     }
 
@@ -62,6 +90,9 @@ class Type
             'name' => $this->getName(),
             'phpType' => $this->getPhpType(),
             'type' => $this->getType(),
+            'icon' => $this->getIcon(),
+            'classes' => $this->getClasses(),
+            'format' => $this->getFormat(),
             'additional_attributes' => $this->getAdditionalAttributes(),
         ];
     }
@@ -88,6 +119,30 @@ class Type
     public function getType(): ?string
     {
         return $this->type;
+    }
+
+    /**
+     * Get the icon of the attribute type.
+     */
+    public function getIcon(): string
+    {
+        return $this->icon;
+    }
+
+    /**
+     * Get the classes of the attribute type.
+     */
+    public function getClasses(): array
+    {
+        return $this->classes;
+    }
+
+    /**
+     * Get the format of the attribute type.
+     */
+    public function getFormat(): AttributeTypeFormat
+    {
+        return $this->format;
     }
 
     /**

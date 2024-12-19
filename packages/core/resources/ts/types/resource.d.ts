@@ -1,13 +1,6 @@
 export {};
 
 declare global {
-  type AttributeType = {
-    name: string;
-    phpType: string;
-    type: string;
-    additional_attributes: Record<string, unknown>;
-  };
-
   type ResourceModel = string;
   type ResourceModelData = {
     class: ResourceModel;

@@ -6,29 +6,13 @@ defineProps<{
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }>();
-
-const { PHP_TYPE, TYPE } = useResourceModelAttribute();
-
-const typeMap: {
-  phpType: ResourceModelAttributePhpType;
-  type?: ResourceModelAttributeType;
-}[] = [
-  {
-    phpType: PHP_TYPE.int,
-  },
-  {
-    phpType: PHP_TYPE.string,
-  },
-  {
-    phpType: PHP_TYPE.CarbonCarbonInterface,
-  },
-  {
-    phpType: PHP_TYPE.bool,
-  },
-  {
-    phpType: PHP_TYPE.array,
-  },
-];
+const {
+  props: { attributeTypes },
+}: {
+  props: {
+    attributeTypes: AttributeType[];
+  };
+} = usePage();
 </script>
 
 <template>
@@ -64,17 +48,17 @@ const typeMap: {
           <template #default>
             <ul class="grid sm:grid-cols-2 gap-2">
               <li
-                v-for="(type, index) in typeMap"
+                v-for="(attributeType, index) in attributeTypes"
                 :key="index"
                 class="border hover:bg-muted p-3 rounded-lg hover:cursor-pointer"
               >
                 <div class="flex items-center gap-2">
-                  <ResourceModelAttributesTypeIconBadge
-                    :type="type.type"
-                    :phpType="type.phpType"
-                    class="flex-shrink-0"
+                  <AttributeTypeLucideIconBadge
+                    v-if="attributeType.icon"
+                    :icon="attributeType.icon"
+                    :class="attributeType.classes?.badge"
                   />
-                  <span class="ml-2">{{ type.phpType ?? type.type }}</span>
+                  <span class="ml-2">{{ attributeType.name }}</span>
                 </div>
               </li>
             </ul>

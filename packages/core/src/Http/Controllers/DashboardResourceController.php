@@ -3,10 +3,10 @@
 namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use ContentStash\Core\Helpers\ModelInfoHelper;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use Inertia\Inertia;
 use Inertia\Response;
-use Spatie\ModelInfo\ModelInfo;
 
 class DashboardResourceController extends Controller
 {
@@ -16,7 +16,7 @@ class DashboardResourceController extends Controller
     public function show(string $slug): Response
     {
         $model = ModelSlugHelper::parseSlug($slug);
-        $modelInfo = ModelInfo::forModel($model);
+        $modelInfo = ModelInfoHelper::forModel($model);
 
         $items = $model::all();
 

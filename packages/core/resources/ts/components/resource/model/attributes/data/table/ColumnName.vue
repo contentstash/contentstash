@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { Lock } from "lucide-vue-next";
-
-defineProps<{
+const { attribute } = defineProps<{
   attribute: ResourceModelAttribute;
 }>();
 </script>
 
 <template>
   <div class="flex items-center">
-    <ResourceModelAttributesTypeIconBadge :attribute="attribute" class="mr-3" />
+    <AttributeTypeLucideIconBadge
+      v-if="attribute.attributeType.icon"
+      :icon="attribute.attributeType.icon"
+      :class="attribute.attributeType.classes?.badge"
+      class="mr-3"
+    />
     <span>{{ attribute.name }}</span>
     <UiTooltipProvider v-if="attribute.locked">
       <UiTooltip>

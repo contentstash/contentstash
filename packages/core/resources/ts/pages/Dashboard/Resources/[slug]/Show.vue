@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
 import { columns } from "@/components/resource/items/data/table/columns";
-
 const {
   props: { model, modelInfo, items },
 }: {

@@ -8,6 +8,7 @@ try {
 } catch {
   //
 }
+export * from "./attribute";
 export * from "./definePage";
 export * from "./resource";
 export * from "./route";
