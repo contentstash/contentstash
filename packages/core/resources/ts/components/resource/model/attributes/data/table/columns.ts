@@ -29,7 +29,14 @@ export const columns: ColumnDef<ResourceModelAttribute>[] = [
         title: "attributeType",
       }),
     cell: ({ row }) => {
-      return h("div", undefined, row.original?.attributeType.name);
+      const { t } = useI18n();
+      return h(
+        "div",
+        undefined,
+        t(
+          `attributeType.${row.original?.attributeType?.name ?? "unknown"}.label`,
+        ),
+      );
     },
   },
   {

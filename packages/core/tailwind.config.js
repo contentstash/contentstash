@@ -16,6 +16,7 @@ export const contentStashTailwindConfig = (config) => {
       "./vendor/contentstash/core/resources/ts/**/*.vue",
       "./vendor/contentstash/core/resources/ts/**/*.ts",
       "./vendor/contentstash/core/resources/views/**/*.blade.php",
+      "./vendor/contentstash/core/src/**/*.php",
     ],
     theme: {
       container: {

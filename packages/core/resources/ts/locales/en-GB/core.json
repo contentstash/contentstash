@@ -1,59 +1,55 @@
 {
+  "action": {
+    "delete": {
+      "label": "Delete"
+    },
+    "edit": {
+      "label": "Edit"
+    }
+  },
+  "attributeType": {
+    "bigint": {
+      "label": "Big Integer"
+    },
+    "boolean": {
+      "label": "Boolean"
+    },
+    "int": {
+      "label": "Integer"
+    },
+    "json": {
+      "label": "JSON"
+    },
+    "string": {
+      "label": "String"
+    },
+    "text": {
+      "label": "Text"
+    },
+    "timestamp": {
+      "label": "Timestamp"
+    },
+    "unknown": {
+      "label": "Unknown"
+    }
+  },
   "dashboard": {
     "sidebar": {
       "content": {
-        "label": "Content",
         "item": {
-          "resources": {
-            "label": "Resources"
-          },
           "media": {
             "label": "Media"
           },
           "resourceBuilder": {
             "label": "Resource Builder"
+          },
+          "resources": {
+            "label": "Resources"
           }
-        }
-      },
-      "system": {
-        "label": "System",
-        "item": {
-          "auditLog": {
-            "label": "Audit Log"
-          },
-          "monitoring": {
-            "label": "Monitoring"
-          },
-          "users": {
-            "label": "Users"
-          },
-          "roles": {
-            "label": "Roles"
-          },
-          "settings": {
-            "label": "Settings",
-            "item": {
-              "general": {
-                "label": "General"
-              },
-              "auditLog": {
-                "label": "Audit Log"
-              },
-              "monitoring": {
-                "label": "Monitoring"
-              },
-              "media": {
-                "label": "Media"
-              },
-              "plugins": {
-                "label": "Plugins"
-              }
-            }
-          }
-        }
+        },
+        "label": "Content"
       },
       "contentStash": {
-        "label": "ContentStash",
         "item": {
           "bugs": {
             "label": "Bugs"
@@ -67,74 +63,62 @@
           "documentation": {
             "label": "Documentation"
           }
-        }
+        },
+        "label": "ContentStash"
+      },
+      "system": {
+        "item": {
+          "auditLog": {
+            "label": "Audit Log"
+          },
+          "monitoring": {
+            "label": "Monitoring"
+          },
+          "roles": {
+            "label": "Roles"
+          },
+          "settings": {
+            "item": {
+              "auditLog": {
+                "label": "Audit Log"
+              },
+              "general": {
+                "label": "General"
+              },
+              "media": {
+                "label": "Media"
+              },
+              "monitoring": {
+                "label": "Monitoring"
+              },
+              "plugins": {
+                "label": "Plugins"
+              }
+            },
+            "label": "Settings"
+          },
+          "users": {
+            "label": "Users"
+          }
+        },
+        "label": "System"
       }
     }
   },
   "data": {
     "table": {
-      "noData": "No records found",
       "columnOptions": {
         "button": {
           "label": "Columns"
         }
-      }
-    }
-  },
-  "action": {
-    "edit": {
-      "label": "Edit"
-    },
-    "delete": {
-      "label": "Delete"
+      },
+      "noData": "No records found"
     }
   },
   "dropdown": {
     "menu": {
       "trigger": {
         "srOnly": "Open menu"
-      }
-    }
-  },
-  "resource": {
-    "items": {
-      "data": {
-        "table": {
-          "title": "Items",
-          "description": "The resource has {count} item.|The resource has {count} items.",
-          "action": {
-            "addItem": {
-              "label": "Add Item"
-            }
-          }
-        }
-      }
-    },
-    "model": {
-      "attributes": {
-        "data": {
-          "table": {
-            "title": "Attributes",
-            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
-            "action": {
-              "addAttribute": {
-                "label": "Add Attribute"
-              }
-            },
-            "columnNameHeader": {
-              "locked": {
-                "tooltip": "This column is locked"
-              }
-            }
-          }
-        }
-      }
-    }
-  },
-  "user": {
-    "action": {
-      "logOut": {
-        "label": "Log Out"
       }
     }
   },
@@ -148,41 +132,83 @@
       "index": {
         "title": "Dashboard"
       },
-      "resources": {
-        "slug": {
-          "show": {
-            "title": "Resource",
-            "header": {
-              "title": "Resource: {modelTitle}",
-              "description": "Manage the resource."
-            },
-            "meta": {
-              "title": "{modelTitle} - Resource"
-            }
-          }
-        }
-      },
       "resource-builder": {
         "slug": {
           "show": {
-            "title": "Resource Builder",
             "header": {
-              "title": "Resource Builder: {modelTitle}",
-              "description": "Manage the attributes of the resource."
+              "description": "Manage the attributes of the resource.",
+              "title": "Resource Builder: {modelTitle}"
             },
             "meta": {
               "title": "{modelTitle} - Resource Builder"
-            }
+            },
+            "title": "Resource Builder"
+          }
+        }
+      },
+      "resources": {
+        "slug": {
+          "show": {
+            "header": {
+              "description": "Manage the resource.",
+              "title": "Resource: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Resource"
+            },
+            "title": "Resource"
           }
         }
       }
     },
     "user": {
-      "settings": {
-        "title": "Settings"
-      },
       "notifications": {
         "title": "Notifications"
+      },
+      "settings": {
+        "title": "Settings"
+      }
+    }
+  },
+  "resource": {
+    "items": {
+      "data": {
+        "table": {
+          "action": {
+            "addItem": {
+              "label": "Add Item"
+            }
+          },
+          "description": "The resource has {count} item.|The resource has {count} items.",
+          "title": "Items"
+        }
+      }
+    },
+    "model": {
+      "attributes": {
+        "data": {
+          "table": {
+            "action": {
+              "addAttribute": {
+                "label": "Add Attribute"
+              }
+            },
+            "columnNameHeader": {
+              "locked": {
+                "tooltip": "This column is locked"
+              }
+            },
+            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
+            "title": "Attributes"
+          }
+        }
+      }
+    }
+  },
+  "user": {
+    "action": {
+      "logOut": {
+        "label": "Log Out"
       }
     }
   }

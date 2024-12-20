@@ -2,13 +2,13 @@
 import type { Props as BaseProp } from "@/components/attribute/type/BaseBadge.vue";
 
 export type Props = BaseProp & {
-  icon: string | Component;
+  icon?: string | Component;
 };
 </script>
 
 <script setup lang="ts">
 import * as icons from "lucide-vue-next";
-const { size = "lg", icon, ...props } = defineProps<Props>();
+const { size = "lg", icon = "CircleHelp", ...props } = defineProps<Props>();
 
 const iconSize = computed(() => {
   switch (size) {

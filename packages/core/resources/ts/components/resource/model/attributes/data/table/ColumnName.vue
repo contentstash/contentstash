@@ -8,9 +8,8 @@ const { attribute } = defineProps<{
 <template>
   <div class="flex items-center">
     <AttributeTypeLucideIconBadge
-      v-if="attribute.attributeType.icon"
-      :icon="attribute.attributeType.icon"
-      :class="attribute.attributeType.classes?.badge"
+      :icon="attribute.attributeType?.icon"
+      :class="attribute.attributeType?.classes?.badge"
       class="mr-3"
     />
     <span>{{ attribute.name }}</span>

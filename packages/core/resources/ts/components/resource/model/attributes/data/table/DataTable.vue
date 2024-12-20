@@ -58,7 +58,9 @@ const {
                     :icon="attributeType.icon"
                     :class="attributeType.classes?.badge"
                   />
-                  <span class="ml-2">{{ attributeType.name }}</span>
+                  <span class="ml-2">{{
+                    $t(`attributeType.${attributeType.name}.label`)
+                  }}</span>
                 </div>
               </li>
             </ul>

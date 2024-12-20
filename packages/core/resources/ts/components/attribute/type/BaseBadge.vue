@@ -31,7 +31,7 @@ const iconSize = computed(() => {
   <div
     :class="
       cn(
-        'h-8 w-8 rounded-lg flex items-center justify-center',
+        'h-8 w-8 rounded-lg flex items-center justify-center bg-gray-100 text-gray-700',
         sizeClass,
         props.class,
       )

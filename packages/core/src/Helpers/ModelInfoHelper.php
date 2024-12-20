@@ -46,7 +46,7 @@ class ModelInfoHelper
 
         // set attribute types
         $modelInfo->attributes->each(function ($attribute) {
-            $attribute->attributeType = AttributeTypeRegistry::get($attribute->phpType, $attribute->type)->toArray();
+            $attribute->attributeType = AttributeTypeRegistry::get($attribute->phpType, $attribute->type)?->toArray();
         });
 
         return $modelInfo;

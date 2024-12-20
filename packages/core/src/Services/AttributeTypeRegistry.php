@@ -2,7 +2,7 @@
 
 namespace ContentStash\Core\Services;
 
-use ContentStash\Core\Attribute\Type;
+use ContentStash\Core\Attribute\BaseAttributeType;
 use Illuminate\Support\Collection;
 
 class AttributeTypeRegistry
@@ -20,12 +20,15 @@ class AttributeTypeRegistry
     /**
      * Register a new attribute type.
      */
-    public function register(array $attributes): Type
+    public function register(string $attributeTypeClass): BaseAttributeType
     {
-        $attributeType = new Type($attributes);
+        if (! is_subclass_of($attributeTypeClass, BaseAttributeType::class)) {
+            throw new \InvalidArgumentException('Each item must be a subclass of BaseAttributeType.');
+        }
 
-        if ($result = $this->get($attributeType->getPhpType(), $attributeType->getType(), true)) {
-            throw new \Exception('Attribute type with phpType "'.$attributeType->getPhpType().'" and type "'.$attributeType->getType().'" already exists with name "'.$result->getName().'"');
+        $attributeType = new $attributeTypeClass;
+        if ($this->get($attributeType->getPhpType(), $attributeType->getType(), true)) {
+            throw new \Exception('Attribute type with phpType "'.$attributeType->getPhpType().'" and type "'.$attributeType->getType().'" already exists.');
         }
 
         $this->attributeTypes->push($attributeType);
@@ -36,15 +39,18 @@ class AttributeTypeRegistry
     /**
      * Register multiple attribute types.
      */
-    public function registerMany(array $attributesList): Collection
+    public function registerMany(array $attributeTypes): Collection
     {
-        $attributeTypes = collect();
+        $registeredAttributeTypes = collect();
+        foreach ($attributeTypes as $attributeTypeClass) {
+            if (! is_subclass_of($attributeTypeClass, BaseAttributeType::class)) {
+                throw new \InvalidArgumentException('Each item must be a subclass of BaseAttributeType.');
+            }
 
-        foreach ($attributesList as $attributes) {
-            $attributeTypes->push($this->register($attributes));
+            $registeredAttributeTypes->push($this->register($attributeTypeClass));
         }
 
-        return $attributeTypes;
+        return $registeredAttributeTypes;
     }
 
     /**
@@ -60,9 +66,7 @@ class AttributeTypeRegistry
      */
     public function allAsArray(): array
     {
-        return $this->attributeTypes->map(function (Type $attributeType) {
-            return $attributeType->toArray();
-        })->toArray();
+        return $this->attributeTypes->map(fn (BaseAttributeType $type) => $type->toArray())->toArray();
     }
 
     /**
@@ -71,22 +75,22 @@ class AttributeTypeRegistry
      *
      * @param  bool  $exactMatch  If true, both phpType and type must match exactly.
      */
-    public function get(string $phpType, ?string $type = null, bool $exactMatch = false): ?Type
+    public function get(string $phpType, ?string $type = null, bool $exactMatch = false): ?BaseAttributeType
     {
         if ($exactMatch) {
-            $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType, $type) {
-                return $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type;
-            });
-        } else {
-            $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType, $type) {
-                return $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type;
-            });
+            return $this->attributeTypes->first(
+                fn (BaseAttributeType $attributeType) => $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type
+            );
+        }
 
-            if ($attributeType === null && $type !== null) {
-                $attributeType = $this->attributeTypes->first(function (Type $attributeType) use ($phpType) {
-                    return $attributeType->getPhpType() === $phpType && $attributeType->getType() === null;
-                });
-            }
+        $attributeType = $this->attributeTypes->first(
+            fn (BaseAttributeType $attributeType) => $attributeType->getPhpType() === $phpType && $attributeType->getType() === $type
+        );
+
+        if ($attributeType === null && $type !== null) {
+            $attributeType = $this->attributeTypes->first(
+                fn (BaseAttributeType $attributeType) => $attributeType->getPhpType() === $phpType && $attributeType->getType() === null
+            );
         }
 
         return $attributeType;
