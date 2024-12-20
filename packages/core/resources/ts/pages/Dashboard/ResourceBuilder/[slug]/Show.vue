@@ -39,6 +39,8 @@ const title = computed(() => {
       :data="modelInfo.attributes"
     />
 
-    <pre>{{ modelInfo }}</pre>
+    <DevCard>
+      <DevCardCode title="modelInfo" v-model="modelInfo" />
+    </DevCard>
   </DashboardPage>
 </template>
