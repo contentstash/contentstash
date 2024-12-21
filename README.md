@@ -114,7 +114,7 @@ To check for Node.js dependencies updates, run the following command:
 pnpm taze
 ```
 
-To update the Node.js dependencies, run the following command:
+To update and install the Node.js dependencies, run the following commands:
 
 ```sh
 pnpm taze:w
@@ -125,14 +125,14 @@ pnpm install
 
 ### Example app
 
-To run the example app first run all required services via docker-compose (see [Development](#development)). After that, run the following command:
+To run the example app first run all required services via docker-compose (see [Development](#development)). After that, run the following commands:
 
 ```sh
 cd apps/example
 pnpm dev
 ```
 
-If you want to run the example app in the production mode, run the following command:
+If you want to run the example app in the production mode, run the following commands:
 
 ```sh
 cd apps/example
