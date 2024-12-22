@@ -18,7 +18,13 @@ export default defineAppConfig({
         light: "/logo.svg",
         dark: "/logo-dark.svg",
       },
-      nav: [],
+      nav: [
+        {
+          title: "Getting Started",
+          to: "/getting-started",
+          target: "_self",
+        },
+      ],
       links: [
         {
           icon: "lucide:github",
@@ -34,6 +40,14 @@ export default defineAppConfig({
     main: {
       breadCrumb: true,
       showTitle: true,
+      editLink: {
+        enable: true,
+        pattern:
+          "https://github.com/contentstash/contentstash/edit/main/apps/docs/content/:path",
+        text: "Edit this page on GitHub",
+        icon: "lucide:square-pen",
+        placement: ["docsFooter", "toc"],
+      },
     },
     footer: {
       credits: "Copyright © 2024",
