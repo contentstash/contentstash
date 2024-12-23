@@ -4,6 +4,15 @@
 
 A headless CMS ecosystem built with Laravel, Inertia.js, Vue 3, and Tailwind CSS.
 
+## Packages
+
+| Name    | Path                                  | Local development url | Description |
+| ------- | ------------------------------------- | --------------------- | ----------- |
+| `@contentstash/contentstash` | - | - | The monorepo that contains all the packages. |
+| `@contentstash/core` | [packages/core](packages/core) | [http://localhost:3000](http://localhost:3000) | The core package that the main functionality of the headless CMS. |
+| `@contentstash/docs` | [packages/docs](packages/docs) | [http://localhost:3000](http://localhost:3000) | The documentation package that contains the documentation for the headless CMS. |
+| `@contentstash/example` | [apps/example](apps/example) | [http://localhost:8000](http://localhost:8000) | An example app that demonstrates how to use the core package. |
+
 ## Prerequisites
 
 - PHP 8.3

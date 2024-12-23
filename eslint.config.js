@@ -14,8 +14,7 @@ export default [
       "**/vendor/**",
       "**/dist/**",
       "**/public/**",
-      // TODO: Remove the following line
-      "apps/docs/*",
+      "**/.nuxt/**",
     ],
   },
   {
