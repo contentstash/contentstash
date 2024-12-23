@@ -57,8 +57,15 @@ class BooleanAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    // public function getFormComponent(): string
-    // {
-    //     return '<input type="checkbox" :checked="value" @change="updateValue($event.target.checked)" />';
-    // }
+    public function getFormSchema(): array
+    {
+        return array_merge(parent::getFormSchema(), [
+            'default' => [
+                'type' => 'boolean',
+                'label' => 'attribute.type.default.label',
+                'description' => 'attribute.type.default.description',
+                'component' => 'switch',
+            ],
+        ]);
+    }
 }

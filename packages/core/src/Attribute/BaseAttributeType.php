@@ -72,11 +72,26 @@ abstract class BaseAttributeType
     }
 
     /**
-     * Get the frontend form component for this attribute type.
+     * Get the frontend form schema for this attribute type.
      */
-    public function getFormComponent(): string
+    public function getFormSchema(): array
     {
-        return '';
+        return [
+            'name' => [
+                'type' => 'string',
+                'label' => 'attribute.type.name.label',
+                'description' => 'attribute.type.name.description',
+                'placeholder' => 'attribute.type.name.placeholder',
+                'required' => true,
+            ],
+            'required' => [
+                'type' => 'boolean',
+                'label' => 'attribute.type.required.label',
+                'description' => 'attribute.type.required.description',
+                'default' => false,
+                'component' => 'switch',
+            ],
+        ];
     }
 
     /**
@@ -94,7 +109,7 @@ abstract class BaseAttributeType
             'migration' => $this->getMigrationColumn(),
             'cast' => $this->getCast(),
             'validation' => $this->getValidationRules(),
-            'formComponent' => $this->getFormComponent(),
+            'formSchema' => $this->getFormSchema(),
         ];
     }
 }

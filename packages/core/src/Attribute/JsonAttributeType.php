@@ -65,8 +65,19 @@ class JsonAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    // public function getFormComponent(): string
-    // {
-    //     return '<textarea :value="JSON.stringify(value)" @input="updateValue(JSON.parse($event.target.value))"></textarea>';
-    // }
+    public function getFormSchema(): array
+    {
+        return array_merge(parent::getFormSchema(), [
+            'items' => [
+                'type' => 'object',
+                'label' => 'attribute.type.items.label',
+                'description' => 'attribute.type.items.description',
+            ],
+            'default' => [
+                'type' => 'array',
+                'label' => 'attribute.type.default.label',
+                'description' => 'attribute.type.default.description',
+            ],
+        ]);
+    }
 }

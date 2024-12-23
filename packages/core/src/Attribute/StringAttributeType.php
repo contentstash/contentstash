@@ -57,8 +57,15 @@ class StringAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    // public function getFormComponent(): string
-    // {
-    //     return '<input type="text" :value="value" @input="updateValue($event.target.value)" />';
-    // }
+    public function getFormSchema(): array
+    {
+        return array_merge(parent::getFormSchema(), [
+            'default' => [
+                'type' => 'string',
+                'label' => 'attribute.type.default.label',
+                'description' => 'attribute.type.default.description',
+                'placeholder' => 'attribute.type.default.placeholder',
+            ],
+        ]);
+    }
 }

@@ -20,6 +20,9 @@ declare global {
     icon?: string;
     classes?: AttributeTypeClasses;
     format: AttributeTypeFormat;
+    migration: string;
+    cast?: string;
+    formSchema?: FormSchema;
     additional_attributes: Record<string, unknown>;
   };
 }

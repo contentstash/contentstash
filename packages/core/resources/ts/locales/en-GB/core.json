@@ -5,6 +5,37 @@
     },
     "edit": {
       "label": "Edit"
+    },
+    "goBack": {
+      "label": "Go Back"
+    }
+  },
+  "attribute": {
+    "type": {
+      "name": {
+        "description": "The name of the attribute.",
+        "label": "Name",
+        "placeholder": "Enter the name of the attribute"
+      },
+      "default": {
+        "description": "The default value of the attribute.",
+        "label": "Default value",
+        "placeholder": "Enter the default value of the attribute"
+      },
+      "max": {
+        "description": "The maximum value of the attribute.",
+        "label": "Max value",
+        "placeholder": "Enter the maximum value of the attribute"
+      },
+      "min": {
+        "description": "The minimum value of the attribute.",
+        "label": "Min value",
+        "placeholder": "Enter the minimum value of the attribute"
+      },
+      "required": {
+        "description": "Whether the attribute is required.",
+        "label": "Is required"
+      }
     }
   },
   "attributeType": {
@@ -117,8 +148,8 @@
   },
   "dev": {
     "card": {
-      "title": "Dev card",
-      "description": "The dev card shows a list of code blocks that can be used to help with development."
+      "description": "The dev card shows a list of code blocks that can be used to help with development.",
+      "title": "Dev card"
     }
   },
   "dropdown": {
@@ -177,15 +208,33 @@
     }
   },
   "resource": {
+    "attribute": {
+      "add": {
+        "edit": {
+          "dialog": {
+            "drawer": {
+              "add": {
+                "description": "Add a new attribute to the resource.",
+                "title": "Add Attribute"
+              },
+              "edit": {
+                "description": "Edit the attribute {attributeName} of the resource.",
+                "title": "Edit Attribute {attributeName}"
+              }
+            }
+          }
+        }
+      }
+    },
     "items": {
       "data": {
         "table": {
+          "description": "The resource has {count} item.|The resource has {count} items.",
           "action": {
             "addItem": {
               "label": "Add Item"
             }
           },
-          "description": "The resource has {count} item.|The resource has {count} items.",
           "title": "Items"
         }
       }
@@ -194,6 +243,7 @@
       "attributes": {
         "data": {
           "table": {
+            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
             "action": {
               "addAttribute": {
                 "label": "Add Attribute"
@@ -204,7 +254,6 @@
                 "tooltip": "This column is locked"
               }
             },
-            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
             "title": "Attributes"
           }
         }

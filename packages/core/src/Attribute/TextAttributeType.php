@@ -31,8 +31,16 @@ class TextAttributeType extends StringAttributeType
     /**
      * {@inheritDoc}
      */
-    // public function getFormComponent(): string
-    // {
-    //     return '<textarea :value="value" @input="updateValue($event.target.value)"></textarea>';  // Textarea für den Text-Typ
-    // }
+    public function getFormSchema(): array
+    {
+        return array_merge(parent::getFormSchema(), [
+            'default' => [
+                'type' => 'string',
+                'label' => 'attribute.type.default.label',
+                'description' => 'attribute.type.default.description',
+                'placeholder' => 'attribute.type.default.placeholder',
+                'component' => 'textarea',
+            ],
+        ]);
+    }
 }

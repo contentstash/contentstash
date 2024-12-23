@@ -35,12 +35,4 @@ class BigIntAttributeType extends IntAttributeType
     {
         return ['required', 'integer'];
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    // public function getFormComponent(): string
-    // {
-    //     return '<input type="number" :value="value" @input="updateValue($event.target.value)" />';
-    // }
 }

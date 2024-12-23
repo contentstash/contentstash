@@ -57,8 +57,25 @@ class IntAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    // public function getFormComponent(): string
-    // {
-    //     return '<input type="number" :value="value" @input="updateValue($event.target.value)" />';
-    // }
+    public function getFormSchema(): array
+    {
+        return array_merge(parent::getFormSchema(), [
+            'default' => [
+                'type' => 'number',
+                'label' => 'attribute.type.default.label',
+                'description' => 'attribute.type.default.description',
+                'placeholder' => 'attribute.type.default.placeholder',
+            ],
+            'min' => [
+                'type' => 'number',
+                'label' => 'attribute.type.min.label',
+                'description' => 'attribute.type.min.description',
+            ],
+            'max' => [
+                'type' => 'number',
+                'label' => 'attribute.type.max.label',
+                'description' => 'attribute.type.max.description',
+            ],
+        ]);
+    }
 }

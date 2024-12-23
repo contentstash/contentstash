@@ -4,16 +4,17 @@ defineSlots<{
   title?(): HTMLElement[];
   description?(): HTMLElement[];
   default?(): HTMLElement[];
+  footer?(): HTMLElement[];
   trigger?(): HTMLElement;
 }>();
+const open = defineModel("open", { type: Boolean });
 
 const { isDesktop } = useBreakpoints();
-const isOpen = ref(false);
 </script>
 
 <template>
-  <UiDialog v-if="isDesktop" v-model:open="isOpen">
-    <UiDialogTrigger as-child>
+  <UiDialog v-if="isDesktop" v-model:open="open">
+    <UiDialogTrigger v-if="$slots.trigger" as-child>
       <slot name="trigger" />
     </UiDialogTrigger>
     <UiDialogContent class="max-w-2xl">
@@ -32,11 +33,15 @@ const isOpen = ref(false);
       </slot>
 
       <slot />
+
+      <UiDialogFooter v-if="$slots.footer">
+        <slot name="footer" />
+      </UiDialogFooter>
     </UiDialogContent>
   </UiDialog>
 
   <UiDrawer v-else v-model:open="isOpen">
-    <UiDrawerTrigger as-child>
+    <UiDrawerTrigger v-if="$slots.trigger" as-child>
       <slot name="trigger" />
     </UiDrawerTrigger>
     <UiDrawerContent>
@@ -56,10 +61,8 @@ const isOpen = ref(false);
 
       <slot />
 
-      <UiDrawerFooter class="pt-2">
-        <DrawerClose as-child>
-          <UiButton variant="outline"> Cancel </UiButton>
-        </DrawerClose>
+      <UiDrawerFooter v-if="$slots.footer">
+        <slot name="footer" />
       </UiDrawerFooter>
     </UiDrawerContent>
   </UiDrawer>

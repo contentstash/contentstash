@@ -75,8 +75,8 @@ const fields = computed(() => {
   return val;
 });
 
-const formComponent = computed(() => (props.form ? "form" : Form));
-const formComponentProps = computed(() => {
+const formSchema = computed(() => (props.form ? "form" : Form));
+const formSchemaProps = computed(() => {
   if (props.form) {
     return {
       onSubmit: props.form.handleSubmit((val) => emits("submit", val)),
@@ -93,7 +93,7 @@ const formComponentProps = computed(() => {
 </script>
 
 <template>
-  <component :is="formComponent" v-bind="formComponentProps">
+  <component :is="formSchema" v-bind="formSchemaProps">
     <slot name="customAutoForm" :fields="fields">
       <template v-for="(shape, key) of shapes" :key="key">
         <slot
