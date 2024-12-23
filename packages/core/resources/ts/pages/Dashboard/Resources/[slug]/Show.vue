@@ -4,8 +4,8 @@ const {
   props: { model, modelInfo, items },
 }: {
   props: {
-    model: ResourceModel;
-    modelInfo: ResourceModelInfo;
+    model: Resource;
+    modelInfo: ResourceInfo;
     items: ResourceItem[];
   };
 } = usePage();
@@ -14,7 +14,7 @@ const title = computed(() => {
   return model.split("\\").pop();
 });
 
-const { getItemDataTableColumn } = useResourceModelAttribute();
+const { getItemDataTableColumn } = useResourceAttribute();
 const resourceColumns = computed(() => {
   return modelInfo.attributes
     .filter((attribute) => !attribute.hidden)

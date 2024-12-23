@@ -23,7 +23,7 @@ const navGroups = computed<SidebarGroup[]>(() => {
     props: { resources },
   }: {
     props: {
-      resources: ResourceModelData[];
+      resources: ResourceData[];
     };
   } = usePage();
 

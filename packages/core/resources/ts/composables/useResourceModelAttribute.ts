@@ -15,7 +15,7 @@ export default function () {
     getItemDataTableColumn: <TColumn>({
       attribute,
     }: {
-      attribute: ResourceModelAttribute;
+      attribute: ResourceAttribute;
     }): ColumnDef<TColumn> => {
       return {
         accessorKey: attribute.name,

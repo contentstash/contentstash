@@ -1,24 +1,24 @@
 export {};
 
 declare global {
-  type ResourceModel = string;
-  type ResourceModelData = {
-    class: ResourceModel;
+  type Resource = string;
+  type ResourceData = {
+    class: Resource;
     title: string;
     slug: string;
   };
-  type ResourceModelAttributePhpType =
+  type ResourceAttributePhpType =
     | "string"
     | "int"
     | "\\Carbon\\CarbonInterface"
     | "array"
     | "mixed"
     | "bool";
-  type ResourceModelAttributeType = "bigint" | "text" | "json";
-  type ResourceModelAttribute = {
+  type ResourceAttributeType = "bigint" | "text" | "json";
+  type ResourceAttribute = {
     name: string;
-    phpType: ResourceModelAttributePhpType;
-    type: ResourceModelAttributeType;
+    phpType: ResourceAttributePhpType;
+    type: ResourceAttributeType;
     increments: boolean;
     nullable: boolean;
     default: string;
@@ -37,18 +37,18 @@ declare global {
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany"
     | "Illuminate\\Database\\Eloquent\\Relations\\HasMany"
     | "Illuminate\\Database\\Eloquent\\Relations\\HasOne";
-  type ResourceModelRelation = {
+  type ResourceRelation = {
     name: string;
     type: RelationType;
-    related: ResourceModel;
+    related: Resource;
   };
-  type ResourceModelInfo = {
-    class: ResourceModel;
+  type ResourceInfo = {
+    class: Resource;
     fileName: string;
     connectionName: string;
     tableName: string;
-    relations: Record<string, ResourceModelRelation>;
-    attributes: ResourceModelAttribute[];
+    relations: Record<string, ResourceRelation>;
+    attributes: ResourceAttribute[];
     traits: string[];
     extra: null;
   };

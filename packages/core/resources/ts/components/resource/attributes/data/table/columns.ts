@@ -1,10 +1,10 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableColumnHeader from "@/components/data/table/ColumnHeader.vue";
-import ResourceModelAttributesDataTableColumnName from "@/components/resource/model/attributes/data/table/ColumnName.vue";
-import ResourceModelAttributesDataTableDropdownAction from "@/components/resource/model/attributes/data/table/DropDown.vue";
+import ResourceAttributesDataTableColumnName from "@/components/resource/attributes/data/table/ColumnName.vue";
+import ResourceAttributesDataTableDropdownAction from "@/components/resource/attributes/data/table/DropDown.vue";
 import { h } from "vue";
 
-export const columns: ColumnDef<ResourceModelAttribute>[] = [
+export const columns: ColumnDef<ResourceAttribute>[] = [
   {
     accessorKey: "name",
     enableHiding: false,
@@ -15,7 +15,7 @@ export const columns: ColumnDef<ResourceModelAttribute>[] = [
       }),
     cell: ({ row }) => {
       return h(
-        ResourceModelAttributesDataTableColumnName,
+        ResourceAttributesDataTableColumnName,
         { attribute: row.original },
         row.getValue("name"),
       );
@@ -48,7 +48,7 @@ export const columns: ColumnDef<ResourceModelAttribute>[] = [
       return h(
         "div",
         { class: "flex justify-end" },
-        h(ResourceModelAttributesDataTableDropdownAction, {
+        h(ResourceAttributesDataTableDropdownAction, {
           attribute,
         }),
       );

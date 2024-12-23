@@ -2,7 +2,7 @@
 import { MoreHorizontal, Trash2, Pencil } from "lucide-vue-next";
 
 defineProps<{
-  attribute: ResourceModelAttribute;
+  attribute: ResourceAttribute;
 }>();
 </script>
 

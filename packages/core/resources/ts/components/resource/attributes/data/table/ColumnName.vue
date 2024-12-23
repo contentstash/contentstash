@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Lock } from "lucide-vue-next";
 const { attribute } = defineProps<{
-  attribute: ResourceModelAttribute;
+  attribute: ResourceAttribute;
 }>();
 </script>
 

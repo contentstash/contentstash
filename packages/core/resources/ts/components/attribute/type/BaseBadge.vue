@@ -2,7 +2,7 @@
 import { type HTMLAttributes } from "vue";
 
 export type Props = {
-  attribute?: ResourceModelAttribute;
+  attribute?: ResourceAttribute;
   class?: HTMLAttributes["class"];
   size?: "lg";
 };

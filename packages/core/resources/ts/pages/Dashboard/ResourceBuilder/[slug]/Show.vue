@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { columns } from "@/components/resource/model/attributes/data/table/columns";
+import { columns } from "@/components/resource/attributes/data/table/columns";
 const {
   props: { model, modelInfo },
 }: {
   props: {
-    model: ResourceModel;
-    modelInfo: ResourceModelInfo;
+    model: Resource;
+    modelInfo: ResourceInfo;
   };
 } = usePage();
 
@@ -34,7 +34,7 @@ const title = computed(() => {
         {{ $t("page.dashboard.resource-builder.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
-    <ResourceModelAttributesDataTable
+    <ResourceAttributesDataTable
       :columns="columns"
       :data="modelInfo.attributes"
     />
