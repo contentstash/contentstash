@@ -1,14 +1,14 @@
 {
-  "name": "shadcn-docs-nuxt-starter",
-  "private": true,
-  "type": "module",
+  "name": "@contentstash/docs",
+  "version": "0.0.1",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
+  "type": "module",
   "dependencies": {
     "nuxt": "^3.14.1592",
     "shadcn-docs-nuxt": "^0.8.6",

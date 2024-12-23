@@ -4,5 +4,5 @@ export default defineConfig({
   force: true,
   recursive: true,
   exclude: [],
-  ignorePaths: ["packages/**/vendor"],
+  ignorePaths: ["apps/**/vendor", "packages/**/vendor"],
 });
