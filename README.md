@@ -4,21 +4,22 @@
 
 A headless CMS ecosystem built with Laravel, Inertia.js, Vue 3, and Tailwind CSS.
 
+## Getting started
+
+This README file is primarily for developers who want to contribute to the project. See the [documentation](https://docs.contentstash.com) for more information on how to use the headless CMS ecosystem.
+
 ## Packages
 
 | Name    | Path                                  | Local development url | Description |
 | ------- | ------------------------------------- | --------------------- | ----------- |
 | `@contentstash/contentstash` | - | - | The monorepo that contains all the packages. |
 | `@contentstash/core` | [packages/core](packages/core) | [http://localhost:3000](http://localhost:3000) | The core package that the main functionality of the headless CMS. |
-| `@contentstash/docs` | [packages/docs](packages/docs) | [http://localhost:3000](http://localhost:3000) | The documentation package that contains the documentation for the headless CMS. |
+| `@contentstash/docs` | [apps/docs](apps/docs) | [http://localhost:3000](http://localhost:3000) | The documentation package that contains the documentation for the headless CMS. |
 | `@contentstash/example` | [apps/example](apps/example) | [http://localhost:8000](http://localhost:8000) | An example app that demonstrates how to use the core package. |
 
 ## Prerequisites
 
-- PHP 8.3
-- Composer
-- Node.js >= 20.x
-- PNPM >= 9.12.x
+See the [documentation](https://docs.contentstash.com/getting-started/prerequisites#contributing-environments) for the prerequisites.
 
 ## Installation
 

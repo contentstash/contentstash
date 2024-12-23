@@ -6,8 +6,8 @@ export default defineAppConfig({
         "A headless CMS ecosystem built with Laravel, Inertia.js, Vue 3, and Tailwind CSS.",
     },
     theme: {
-      customizable: true,
-      color: "zinc",
+      customizable: false,
+      color: "stone",
       radius: 0.5,
     },
     header: {
@@ -20,9 +20,25 @@ export default defineAppConfig({
       },
       nav: [
         {
-          title: "Getting Started",
-          to: "/getting-started",
-          target: "_self",
+          title: "Docs",
+          links: [
+            {
+              title: "Getting Started",
+              description: "Learn how to get started with ContentStash.",
+              to: "/getting-started",
+            },
+            {
+              title: "Guides",
+              description:
+                "Learn how to build, deploy and extend a ContentStash application.",
+              to: "/guide",
+            },
+            {
+              title: "API",
+              description: "Learn how to use the ContentStash API.",
+              to: "/api",
+            },
+          ],
         },
       ],
       links: [
@@ -39,6 +55,9 @@ export default defineAppConfig({
     },
     main: {
       breadCrumb: true,
+      codeIcon: {
+        composer: "vscode-icons:file-type-composer",
+      },
       showTitle: true,
       editLink: {
         enable: true,
@@ -48,6 +67,7 @@ export default defineAppConfig({
         icon: "lucide:square-pen",
         placement: ["docsFooter", "toc"],
       },
+      pm: ["pnpm"],
     },
     footer: {
       credits: "Copyright © 2024",
