@@ -51,6 +51,16 @@ export default [
   },
   {
     files: [
+      "packages/core/resources/ts/components/ui/auto-form/*.vue",
+      "packages/core/resources/ts/components/ui/auto-form/*.ts",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unused-vars": "off",
+    },
+  },
+  {
+    files: [
       "**/resources/ts/pages/**/*.vue",
       "**/resources/ts/components/**/*.vue",
     ],
