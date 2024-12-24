@@ -41,13 +41,35 @@ const goBack = () => {
   selectedAttributeType.value = undefined;
 };
 
-// save
+// form
+const form = ref<ReturnType<typeof useForm> | undefined>();
 const canSave = computed(() => !!selectedAttributeType.value);
 const saveHandler = () => {
   if (!canSave.value) {
     return;
   }
+
+  form.value?.submitForm();
 };
+const submitHandler = ({ data }: { data: Record<string, unknown> }) => {
+  console.info(data);
+  open.value = false;
+};
+
+// cleanup on close
+const closeResetTimeout = ref<ReturnType<typeof setTimeout> | undefined>();
+watch(open, (value) => {
+  if (!value) {
+    closeResetTimeout.value = setTimeout(() => {
+      selectedAttributeType.value = undefined;
+    }, 200);
+  }
+});
+onUnmounted(() => {
+  if (closeResetTimeout.value) {
+    clearTimeout(closeResetTimeout.value);
+  }
+});
 </script>
 
 <template>
@@ -91,9 +113,11 @@ const saveHandler = () => {
       </ul>
       <div v-else>
         <ResourceAttributeAddEditForm
-          v-model:attribute="attribute"
+          v-model:form="form"
           :attribute-type="selectedAttributeType"
+          @submit="submitHandler"
         />
+        {{ form }}
       </div>
     </template>
     <template #footer>
