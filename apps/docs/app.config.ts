@@ -25,17 +25,20 @@ export default defineAppConfig({
             {
               title: "Getting Started",
               description: "Learn how to get started with ContentStash.",
+              icon: "lucide:rocket",
               to: "/getting-started",
             },
             {
               title: "Guides",
               description:
                 "Learn how to build, deploy and extend a ContentStash application.",
+              icon: "lucide:book-open",
               to: "/guide",
             },
             {
               title: "API",
               description: "Learn how to use the ContentStash API.",
+              icon: "lucide:code-xml",
               to: "/api",
             },
           ],
