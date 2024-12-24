@@ -8,6 +8,9 @@
     },
     "goBack": {
       "label": "Go Back"
+    },
+    "save": {
+      "label": "Save"
     }
   },
   "attribute": {
@@ -17,7 +20,7 @@
         "label": "Name",
         "placeholder": "Enter the name of the attribute"
       },
-      "default": {
+      "defaultValue": {
         "description": "The default value of the attribute.",
         "label": "Default value",
         "placeholder": "Enter the default value of the attribute"

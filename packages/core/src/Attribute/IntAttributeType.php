@@ -60,11 +60,11 @@ class IntAttributeType extends BaseAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'default' => [
+            'defaultValue' => [
                 'type' => 'number',
-                'label' => 'attribute.type.default.label',
-                'description' => 'attribute.type.default.description',
-                'placeholder' => 'attribute.type.default.placeholder',
+                'label' => 'attribute.type.defaultValue.label',
+                'description' => 'attribute.type.defaultValue.description',
+                'placeholder' => 'attribute.type.defaultValue.placeholder',
             ],
             'min' => [
                 'type' => 'number',

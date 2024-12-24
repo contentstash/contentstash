@@ -60,10 +60,10 @@ class BooleanAttributeType extends BaseAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'default' => [
+            'defaultValue' => [
                 'type' => 'boolean',
-                'label' => 'attribute.type.default.label',
-                'description' => 'attribute.type.default.description',
+                'label' => 'attribute.type.defaultValue.label',
+                'description' => 'attribute.type.defaultValue.description',
                 'component' => 'switch',
             ],
         ]);

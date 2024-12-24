@@ -73,10 +73,10 @@ class JsonAttributeType extends BaseAttributeType
                 'label' => 'attribute.type.items.label',
                 'description' => 'attribute.type.items.description',
             ],
-            'default' => [
+            'defaultValue' => [
                 'type' => 'array',
-                'label' => 'attribute.type.default.label',
-                'description' => 'attribute.type.default.description',
+                'label' => 'attribute.type.defaultValue.label',
+                'description' => 'attribute.type.defaultValue.description',
             ],
         ]);
     }

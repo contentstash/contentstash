@@ -11,36 +11,36 @@ declare global {
 
   type FormSchemaInputString = {
     type: "string";
-    default?: string;
+    defaultValue?: string;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputNumber = {
     type: "number";
-    default?: number;
+    defaultValue?: number;
     min?: number;
     max?: number;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputBoolean = {
     type: "boolean";
-    default?: boolean;
+    defaultValue?: boolean;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputDate = {
     type: "date";
-    default?: string | Date;
+    defaultValue?: string | Date;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputEnum = {
     type: "enum";
     options: string[];
-    default?: string;
+    defaultValue?: string;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputArray = {
     type: "array";
     items: FormSchemaInput;
-    default?: unkown[];
+    defaultValue?: unkown[];
   } & FormSchemaBaseInput;
 
   type FormSchemaInput =
