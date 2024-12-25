@@ -31,18 +31,11 @@ declare global {
     defaultValue?: string | Date;
   } & FormSchemaBaseInput;
 
-  type FormSchemaInputArray = {
-    type: "array";
-    items: FormSchemaInput;
-    defaultValue?: unkown[];
-  } & FormSchemaBaseInput;
-
   type FormSchemaInput =
     | FormSchemaInputString
     | FormSchemaInputNumber
     | FormSchemaInputBoolean
-    | FormSchemaInputDate
-    | FormSchemaInputArray;
+    | FormSchemaInputDate;
 
   type FormSchema = {
     [key: string]: FormSchemaInput;

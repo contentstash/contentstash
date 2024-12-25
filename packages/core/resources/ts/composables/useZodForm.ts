@@ -51,17 +51,6 @@ export default function () {
   };
 
   /**
-   * Create a Zod schema for an array field
-   */
-  const createArrayField = ({
-    field,
-  }: {
-    field: FormSchemaInputArray;
-  }): z.ZodTypeAny => {
-    return z.array(createZodSchema({ item: field.items }));
-  };
-
-  /**
    * Create a Zod schema for a field
    */
   const createField = ({ field }: { field: FormSchemaInput }): z.ZodTypeAny => {
@@ -76,8 +65,6 @@ export default function () {
       zodField = createBooleanField();
     } else if (field.type == "date") {
       zodField = createDateField();
-    } else if (field.type == "array") {
-      zodField = createArrayField({ field });
     } else {
       throw new Error(`Field ${field} is not supported`);
     }
