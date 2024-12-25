@@ -46,8 +46,8 @@ declare global {
     attributeType: AttributeType;
     nullable: boolean;
     default: string;
-    [key: string]: unknown;
     status?: PartialResourceAttributeStatus;
+    [key: string]: unknown;
   };
   type RelationType =
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"

@@ -4,7 +4,7 @@ import ResourceAttributesDataTableColumnName from "@/components/resource/attribu
 import ResourceAttributesDataTableDropdownAction from "@/components/resource/attributes/data/table/DropDown.vue";
 import { h } from "vue";
 
-export const columns: ColumnDef<ResourceAttribute>[] = [
+export const columns: ColumnDef<PartialResourceAttribute>[] = [
   {
     accessorKey: "name",
     enableHiding: false,
