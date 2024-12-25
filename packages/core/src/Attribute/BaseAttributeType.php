@@ -88,7 +88,6 @@ abstract class BaseAttributeType
                 'type' => 'boolean',
                 'label' => 'attribute.type.required.label',
                 'description' => 'attribute.type.required.description',
-                'default' => false,
                 'component' => 'switch',
             ],
         ];

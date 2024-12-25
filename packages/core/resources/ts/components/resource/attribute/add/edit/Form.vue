@@ -5,8 +5,6 @@ export type Props = {
 </script>
 
 <script setup lang="ts">
-import type { ZodObject } from "zod";
-import { toTypedSchema } from "@vee-validate/zod";
 import type { FormContext } from "vee-validate";
 
 const { attributeType } = defineProps<Props>();
@@ -23,8 +21,7 @@ const formSchema = generateSchema({
 // form
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const form = useForm<Record<string, any>>({
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  validationSchema: toTypedSchema(formSchema.schema as ZodObject<any>),
+  ...formSchema.formOptions,
 });
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSubmit = form.handleSubmit((values: Record<string, any>) => {

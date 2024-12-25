@@ -14,6 +14,10 @@ declare global {
     defaultValue?: string;
   } & FormSchemaBaseInput;
 
+  type FormSchemaInputJson = Exclude<FormSchemaInputString, "type"> & {
+    type: "json";
+  };
+
   type FormSchemaInputNumber = {
     type: "number";
     defaultValue?: number;
@@ -33,6 +37,7 @@ declare global {
 
   type FormSchemaInput =
     | FormSchemaInputString
+    | FormSchemaInputJson
     | FormSchemaInputNumber
     | FormSchemaInputBoolean
     | FormSchemaInputDate;

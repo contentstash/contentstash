@@ -1,3 +1,6 @@
+import type { FormOptions } from "vee-validate";
+import type { ZodObject } from "zod";
+import { toTypedSchema } from "@vee-validate/zod";
 import { z } from "zod";
 
 export default function () {
@@ -16,6 +19,26 @@ export default function () {
       schema = schema.trim().min(1);
     }
     return schema;
+  };
+
+  /**
+   * Create a Zod schema for a json field
+   */
+  const createJsonField = ({
+    field,
+  }: {
+    field: FormSchemaInputJson;
+  }): z.ZodTypeAny => {
+    return createStringField({ field }).transform(
+      (str, ctx): z.infer<ReturnType<typeof z.string>> => {
+        try {
+          return JSON.parse(str);
+        } catch {
+          ctx.addIssue({ code: "custom", message: "Invalid JSON" });
+          return z.NEVER;
+        }
+      },
+    );
   };
 
   /**
@@ -59,6 +82,8 @@ export default function () {
     // Create a Zod field based on the field type
     if (field.type == "string") {
       zodField = createStringField({ field });
+    } else if (field.type == "json") {
+      zodField = createJsonField({ field });
     } else if (field.type == "number") {
       zodField = createNumberField({ field });
     } else if (field.type == "boolean") {
@@ -66,7 +91,7 @@ export default function () {
     } else if (field.type == "date") {
       zodField = createDateField();
     } else {
-      throw new Error(`Field ${field} is not supported`);
+      throw new Error(`Field ${JSON.stringify(field)} is not supported`);
     }
 
     // set the default value and required status
@@ -119,21 +144,17 @@ export default function () {
   };
 
   /**
-   * Generate a Zod schema and field configuration from a form schema
+   * Generate field configuration from a form schema
    */
-  const generateSchema = ({
+  const generateFieldConfig = ({
     schema,
   }: {
     schema: FormSchema;
-  }): {
-    schema: z.ZodObject<Record<string, z.ZodTypeAny>>;
-    fieldConfig: Record<
-      string,
-      { label?: string; description?: string; placeholder?: string }
-    >;
-  } => {
-    const zodSchema = createZodSchema(schema);
-    const fieldConfig = Object.fromEntries(
+  }): Record<
+    string,
+    { label?: string; description?: string; placeholder?: string }
+  > => {
+    return Object.fromEntries(
       Object.entries(schema).map(([key, field]) => [
         key,
         {
@@ -147,8 +168,49 @@ export default function () {
         },
       ]),
     );
+  };
 
-    return { schema: zodSchema, fieldConfig };
+  /**
+   * Generate form options from a form schema
+   */
+  const generateFormOptions = ({
+    schema,
+  }: {
+    schema: FormSchema;
+  }): FormOptions<Record<string, unknown>> => {
+    const zodSchema = createZodSchema(schema);
+
+    const initialValues = Object.fromEntries(
+      Object.entries(schema).map(([key, field]) => [key, field.defaultValue]),
+    );
+
+    return {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      validationSchema: toTypedSchema(zodSchema as ZodObject<any>),
+      initialValues,
+    };
+  };
+
+  /**
+   * Generate a Zod schema and field configuration from a form schema
+   */
+  const generateSchema = ({
+    schema,
+  }: {
+    schema: FormSchema;
+  }): {
+    schema: z.ZodObject<Record<string, z.ZodTypeAny>>;
+    fieldConfig: Record<
+      string,
+      { label?: string; description?: string; placeholder?: string }
+    >;
+    formOptions?: FormOptions<Record<string, unknown>>;
+  } => {
+    const zodSchema = createZodSchema(schema);
+    const fieldConfig = generateFieldConfig({ schema });
+    const formOptions = generateFormOptions({ schema });
+
+    return { schema: zodSchema, fieldConfig, formOptions };
   };
 
   return {
