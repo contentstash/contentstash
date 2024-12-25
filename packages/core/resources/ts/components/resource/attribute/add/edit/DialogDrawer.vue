@@ -8,6 +8,8 @@ export type Mode = (typeof MODE)[keyof typeof MODE];
 </script>
 
 <script setup lang="ts">
+import Form from "@/components/resource/attribute/add/edit/Form.vue";
+
 defineProps<{
   attributeTypes: AttributeType[];
 }>();
@@ -42,17 +44,19 @@ const goBack = () => {
 };
 
 // form
-const form = ref<ReturnType<typeof useForm> | undefined>();
-const canSave = computed(() => !!selectedAttributeType.value);
+const form = ref<InstanceType<typeof Form> | undefined>();
+const canSave = computed(
+  () => !!selectedAttributeType.value && form.value?.isValid,
+);
 const saveHandler = () => {
-  if (!canSave.value) {
+  if (!canSave.value || !form.value) {
     return;
   }
 
-  form.value?.submitForm();
+  form.value.handleSubmit();
 };
 const submitHandler = ({ data }: { data: Record<string, unknown> }) => {
-  console.info(data);
+  console.info("submitHandler in drawer", data);
   open.value = false;
 };
 
@@ -113,11 +117,10 @@ onUnmounted(() => {
       </ul>
       <div v-else>
         <ResourceAttributeAddEditForm
-          v-model:form="form"
+          ref="form"
           :attribute-type="selectedAttributeType"
           @submit="submitHandler"
         />
-        {{ form }}
       </div>
     </template>
     <template #footer>

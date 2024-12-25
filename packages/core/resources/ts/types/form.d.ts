@@ -31,12 +31,6 @@ declare global {
     defaultValue?: string | Date;
   } & FormSchemaBaseInput;
 
-  type FormSchemaInputEnum = {
-    type: "enum";
-    options: string[];
-    defaultValue?: string;
-  } & FormSchemaBaseInput;
-
   type FormSchemaInputArray = {
     type: "array";
     items: FormSchemaInput;
@@ -48,7 +42,6 @@ declare global {
     | FormSchemaInputNumber
     | FormSchemaInputBoolean
     | FormSchemaInputDate
-    | FormSchemaInputEnum
     | FormSchemaInputArray;
 
   type FormSchema = {

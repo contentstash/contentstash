@@ -22,7 +22,7 @@ declare global {
     format: AttributeTypeFormat;
     migration: string;
     cast?: string;
-    formSchema?: FormSchema;
+    formSchema: FormSchema;
     additional_attributes: Record<string, unknown>;
   };
 }

@@ -5,54 +5,54 @@ export type Props = {
 </script>
 
 <script setup lang="ts">
+import type { ZodObject } from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
+import type { FormContext } from "vee-validate";
 
 const { attributeType } = defineProps<Props>();
-const form = defineModel("form", {
-  type: Object as PropType<ReturnType<typeof useForm>>,
-});
 const emit = defineEmits<{
   submit: [{ data: Record<string, unknown> }];
 }>();
 
 // form schema
 const { generateSchema } = useZodForm();
-const formSchema = attributeType.formSchema
-  ? generateSchema({
-      schema: attributeType.formSchema,
-    })
-  : undefined;
+const formSchema = generateSchema({
+  schema: attributeType.formSchema,
+});
 
 // form
-if (formSchema) {
-  const temp = useForm({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    validationSchema: toTypedSchema(formSchema.schema as unknown as any),
-  });
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const form = useForm<Record<string, any>>({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validationSchema: toTypedSchema(formSchema.schema as ZodObject<any>),
+});
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const handleSubmit = form.handleSubmit((values: Record<string, any>) => {
+  emit("submit", { data: values });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+}) as unknown as (event?: { [x: string]: any }) => void;
 
-  // temp.handleSubmit = (data: Record<string, unknown>) => {
-  //   emit("submit", { data });
-  // };
-
-  const onSubmit = temp.handleSubmit((data: Record<string, unknown>) => {
-    console.info("onSubmit", data);
-  });
-
-  console.info("temp", temp);
-
-  form.value = temp;
-}
+// expose
+defineExpose<{
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  form: FormContext<Record<string, any>>;
+  handleSubmit: typeof handleSubmit;
+  isValid: ComputedRef<boolean>;
+}>({
+  form,
+  handleSubmit,
+  isValid: computed(() => form?.meta?.value?.valid ?? false),
+});
 </script>
 
 <template>
-  {{ form }}
   <div>
     <UiAutoForm
       v-if="form && formSchema"
       :form="form"
       :schema="formSchema.schema"
       :field-config="formSchema.fieldConfig"
-      @submit="test"
+      @submit="handleSubmit"
     />
   </div>
 </template>
