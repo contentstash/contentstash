@@ -2,11 +2,13 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import { Plus } from "lucide-vue-next";
 
-const props = defineProps<{
+defineProps<{
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }>();
-const data = ref([...props.data]) as Ref<TData[]>;
+const data = defineModel("data", {
+  type: Array as PropType<TData[]>,
+  default: [],
+});
 
 const {
   props: { attributeTypes },
