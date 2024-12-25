@@ -64,14 +64,14 @@ class IntAttributeType extends BaseAttributeType
                 'type' => 'number',
                 'label' => 'attribute.type.defaultValue.label',
             ],
-            'min' => [
-                'type' => 'number',
-                'label' => 'attribute.type.min.label',
-            ],
-            'max' => [
-                'type' => 'number',
-                'label' => 'attribute.type.max.label',
-            ],
+            // 'min' => [
+            //     'type' => 'number',
+            //     'label' => 'attribute.type.min.label',
+            // ],
+            // 'max' => [
+            //     'type' => 'number',
+            //     'label' => 'attribute.type.max.label',
+            // ],
         ]);
     }
 }
