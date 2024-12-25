@@ -9,6 +9,9 @@
     "goBack": {
       "label": "Go Back"
     },
+    "restore": {
+      "label": "Restore"
+    },
     "save": {
       "label": "Save"
     }

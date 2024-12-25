@@ -42,14 +42,15 @@ export const columns: ColumnDef<ResourceAttribute>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
       const attribute = row.original;
-
       return h(
         "div",
         { class: "flex justify-end" },
         h(ResourceAttributesDataTableDropdownAction, {
           attribute,
+          row,
+          table,
         }),
       );
     },

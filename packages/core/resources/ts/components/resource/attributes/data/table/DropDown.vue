@@ -1,9 +1,42 @@
 <script setup lang="ts">
-import { MoreHorizontal, Trash2, Pencil } from "lucide-vue-next";
+import type { Table, Row } from "@tanstack/vue-table";
+import { MoreHorizontal, Trash2, Pencil, Undo } from "lucide-vue-next";
 
-defineProps<{
-  attribute: ResourceAttribute;
+const { row, table } = defineProps<{
+  attribute: PartialResourceAttribute;
+  row: Row<PartialResourceAttribute>;
+  table: Table<PartialResourceAttribute>;
 }>();
+
+const { PartialResourceAttributeStatus } = useResourceAttribute();
+const deleteAttribute = () => {
+  const data = table.options.data;
+
+  const item = data[row.index];
+  item.status = PartialResourceAttributeStatus.DELETED;
+
+  data[row.index] = item;
+  table.setOptions((prev) => {
+    return {
+      ...prev,
+      data: [...data],
+    };
+  });
+};
+const restoreAttribute = () => {
+  const data = table.options.data;
+
+  const item = data[row.index];
+  item.status = undefined;
+
+  data[row.index] = item;
+  table.setOptions((prev) => {
+    return {
+      ...prev,
+      data: [...data],
+    };
+  });
+};
 </script>
 
 <template>
@@ -19,9 +52,16 @@ defineProps<{
         <Pencil />
         {{ $t("action.edit.label") }}
       </UiDropdownMenuItem>
-      <UiDropdownMenuItem :disabled="true">
+      <UiDropdownMenuItem
+        v-if="attribute.status !== PartialResourceAttributeStatus.DELETED"
+        @click="deleteAttribute"
+      >
         <Trash2 />
         {{ $t("action.delete.label") }}
+      </UiDropdownMenuItem>
+      <UiDropdownMenuItem v-else @click="restoreAttribute">
+        <Undo />
+        {{ $t("action.restore.label") }}
       </UiDropdownMenuItem>
     </UiDropdownMenuContent>
   </UiDropdownMenu>
