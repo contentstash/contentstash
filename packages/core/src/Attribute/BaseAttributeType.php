@@ -83,11 +83,11 @@ abstract class BaseAttributeType
                 'description' => 'attribute.type.name.description',
                 'placeholder' => 'attribute.type.name.placeholder',
                 'required' => true,
+                'regex' => '^[a-zA-Z0-9_]+$',
             ],
             'required' => [
                 'type' => 'boolean',
                 'label' => 'attribute.type.required.label',
-                'description' => 'attribute.type.required.description',
                 'component' => 'switch',
             ],
         ];

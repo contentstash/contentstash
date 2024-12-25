@@ -63,7 +63,6 @@ class BooleanAttributeType extends BaseAttributeType
             'defaultValue' => [
                 'type' => 'boolean',
                 'label' => 'attribute.type.defaultValue.label',
-                'description' => 'attribute.type.defaultValue.description',
                 'component' => 'switch',
             ],
         ]);

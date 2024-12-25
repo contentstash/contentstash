@@ -16,28 +16,21 @@
   "attribute": {
     "type": {
       "name": {
-        "description": "The name of the attribute.",
+        "description": "The name of the attribute (only letters, numbers, and underscores are allowed).",
         "label": "Name",
-        "placeholder": "Enter the name of the attribute"
+        "placeholder": "foo_bar"
       },
       "defaultValue": {
-        "description": "The default value of the attribute.",
-        "label": "Default value",
-        "placeholder": "Enter the default value of the attribute"
+        "label": "Default value"
       },
       "max": {
-        "description": "The maximum value of the attribute.",
-        "label": "Max value",
-        "placeholder": "Enter the maximum value of the attribute"
+        "label": "Max value"
       },
       "min": {
-        "description": "The minimum value of the attribute.",
-        "label": "Min value",
-        "placeholder": "Enter the minimum value of the attribute"
+        "label": "Min value"
       },
       "required": {
-        "description": "Whether the attribute is required.",
-        "label": "Is required"
+        "label": "Field is required"
       }
     }
   },

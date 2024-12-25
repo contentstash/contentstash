@@ -18,6 +18,9 @@ export default function () {
     if (field.required) {
       schema = schema.trim().min(1);
     }
+    if (field.regex) {
+      schema = schema.regex(new RegExp(field.regex));
+    }
     return schema;
   };
 
@@ -103,6 +106,7 @@ export default function () {
       }
     }
 
+    // check if the field is required
     if (!field.required) {
       zodField = zodField.optional();
     }

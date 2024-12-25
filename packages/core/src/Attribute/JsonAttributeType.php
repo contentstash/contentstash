@@ -71,7 +71,6 @@ class JsonAttributeType extends BaseAttributeType
             'defaultValue' => [
                 'type' => 'json',
                 'label' => 'attribute.type.defaultValue.label',
-                'description' => 'attribute.type.defaultValue.description',
                 'component' => 'textarea',
                 'defaultValue' => '{}',
             ],

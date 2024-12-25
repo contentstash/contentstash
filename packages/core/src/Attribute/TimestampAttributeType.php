@@ -73,7 +73,6 @@ class TimestampAttributeType extends BaseAttributeType
             'defaultValue' => [
                 'type' => 'date',
                 'label' => 'attribute.type.defaultValue.label',
-                'description' => 'attribute.type.defaultValue.description',
                 'placeholder' => 'attribute.type.defaultValue.placeholder',
             ],
         ]);

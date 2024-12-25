@@ -37,8 +37,6 @@ class TextAttributeType extends StringAttributeType
             'defaultValue' => [
                 'type' => 'string',
                 'label' => 'attribute.type.defaultValue.label',
-                'description' => 'attribute.type.defaultValue.description',
-                'placeholder' => 'attribute.type.defaultValue.placeholder',
                 'component' => 'textarea',
             ],
         ]);

@@ -12,6 +12,7 @@ declare global {
   type FormSchemaInputString = {
     type: "string";
     defaultValue?: string;
+    regex?: string;
   } & FormSchemaBaseInput;
 
   type FormSchemaInputJson = Exclude<FormSchemaInputString, "type"> & {
