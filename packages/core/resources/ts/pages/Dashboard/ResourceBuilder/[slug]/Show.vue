@@ -12,6 +12,32 @@ const {
 const title = computed(() => {
   return model.split("\\").pop();
 });
+
+// table
+const { PartialResourceAttributeStatus } = useResourceAttribute();
+const data = ref<PartialResourceAttribute[]>(modelInfo.attributes);
+const originalData = JSON.parse(JSON.stringify(data.value));
+const changedData = computed<{
+  new: PartialResourceAttribute[];
+  updated: PartialResourceAttribute[];
+  deleted: PartialResourceAttribute[];
+}>(() => {
+  const newAttributes = data.value.filter(
+    (attribute) => attribute.status === PartialResourceAttributeStatus.NEW,
+  );
+  const updatedAttributes = data.value.filter(
+    (attribute) => attribute.status === PartialResourceAttributeStatus.UPDATED,
+  );
+  const deletedAttributes = data.value.filter(
+    (attribute) => attribute.status === PartialResourceAttributeStatus.DELETED,
+  );
+
+  return {
+    new: newAttributes,
+    updated: updatedAttributes,
+    deleted: deletedAttributes,
+  };
+});
 </script>
 
 <template>
@@ -34,12 +60,13 @@ const title = computed(() => {
         {{ $t("page.dashboard.resource-builder.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
-    <ResourceAttributesDataTable
-      :columns="columns"
-      :data="modelInfo.attributes"
-    />
+    <ResourceAttributesDataTable :columns="columns" v-model:data="data" />
 
     <DevCard>
+      <DevCardCode title="updatedDataDiff" v-model="updatedDataDiff" />
+      <DevCardCode title="originalData" v-model="originalData" />
+      <DevCardCode title="changedData" v-model="changedData" />
+      <DevCardCode title="data" v-model="data" />
       <DevCardCode title="modelInfo" v-model="modelInfo" />
     </DevCard>
   </DashboardPage>
