@@ -16,13 +16,16 @@ defineProps<{
 defineSlots<{
   trigger?(): HTMLElement;
 }>();
+const emit = defineEmits<{
+  submit: [{ attribute: PartialResourceAttribute }];
+}>();
 const attributeType = defineModel("attributeType", {
   type: Object as PropType<AttributeType>,
   default: undefined,
 });
 const open = defineModel("open", { type: Boolean });
 const attribute = defineModel("attribute", {
-  type: Object as PropType<ResourceAttribute>,
+  type: Object as PropType<PartialResourceAttribute>,
   default: undefined,
 });
 const mode = computed<Mode>(() => (attributeType.value ? MODE.EDIT : MODE.ADD));
@@ -56,7 +59,13 @@ const saveHandler = () => {
   form.value.handleSubmit();
 };
 const submitHandler = ({ data }: { data: Record<string, unknown> }) => {
-  console.info("submitHandler in drawer", data);
+  const { defaultValue, ...rest } = data;
+  attribute.value = {
+    attributeType: toRaw(selectedAttributeType.value!),
+    default: defaultValue as string,
+    ...rest,
+  } as PartialResourceAttribute;
+  emit("submit", { attribute: toRaw(attribute.value) });
   open.value = false;
 };
 

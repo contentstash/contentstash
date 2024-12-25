@@ -15,7 +15,7 @@ declare global {
     regex?: string;
   } & FormSchemaBaseInput;
 
-  type FormSchemaInputJson = Exclude<FormSchemaInputString, "type"> & {
+  type FormSchemaInputJson = Omit<FormSchemaInputString, "type"> & {
     type: "json";
   };
 

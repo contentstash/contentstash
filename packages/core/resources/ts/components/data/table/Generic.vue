@@ -11,8 +11,11 @@ import { valueUpdater } from "@/lib/utils";
 
 const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
-  data: TData[];
 }>();
+const data = defineModel("data", {
+  type: Array as PropType<TData[]>,
+  default: [],
+});
 defineSlots<{
   description?({ table }: { table: Table<TData> }): HTMLElement[];
   header?({ table }: { table: Table<TData> }): HTMLElement[];
@@ -23,9 +26,7 @@ defineSlots<{
 const sorting = ref<SortingState>([]);
 
 const table = useVueTable({
-  get data() {
-    return props.data;
-  },
+  data,
   get columns() {
     return props.columns;
   },

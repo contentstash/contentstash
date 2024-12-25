@@ -2,10 +2,11 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import { Plus } from "lucide-vue-next";
 
-defineProps<{
+const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }>();
+const data = ref([...props.data]) as Ref<TData[]>;
 
 const {
   props: { attributeTypes },
@@ -15,12 +16,23 @@ const {
   };
 } = usePage();
 
+const submitResourceAttributeAdd = ({
+  attribute,
+}: {
+  attribute: PartialResourceAttribute;
+}) => {
+  console.info(attribute);
+
+  // add attribute to data
+  data.value = [...data.value, attribute as TData];
+};
+
 const temp = ref(true);
 </script>
 
 <template>
   <div>
-    <DataTableGeneric :columns="columns" :data="data">
+    <DataTableGeneric :columns="columns" v-model:data="data">
       <template #title>
         {{ $t("resource.model.attributes.data.table.title") }}
       </template>
@@ -34,6 +46,7 @@ const temp = ref(true);
       <template #headerActions>
         <ResourceAttributeAddEditDialogDrawer
           v-model:open="temp"
+          @submit="submitResourceAttributeAdd"
           :attribute-types="attributeTypes"
         >
           <template #trigger>

@@ -29,8 +29,8 @@
       "min": {
         "label": "Min value"
       },
-      "required": {
-        "label": "Field is required"
+      "nullable": {
+        "label": "Field is nullable"
       }
     }
   },

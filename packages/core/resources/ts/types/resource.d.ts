@@ -32,6 +32,15 @@ declare global {
     locked: boolean;
     attributeType: AttributeType;
   };
+  type PartialResourceAttribute = Partial<
+    Omit<ResourceAttribute, "name" | "attributeType" | "nullable" | "default">
+  > & {
+    name: string;
+    attributeType: AttributeType;
+    nullable: boolean;
+    default: string;
+    [key: string]: unknown;
+  };
   type RelationType =
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany"

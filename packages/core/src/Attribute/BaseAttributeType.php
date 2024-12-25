@@ -85,9 +85,9 @@ abstract class BaseAttributeType
                 'required' => true,
                 'regex' => '^[a-zA-Z0-9_]+$',
             ],
-            'required' => [
+            'nullable' => [
                 'type' => 'boolean',
-                'label' => 'attribute.type.required.label',
+                'label' => 'attribute.type.nullable.label',
                 'component' => 'switch',
             ],
         ];
