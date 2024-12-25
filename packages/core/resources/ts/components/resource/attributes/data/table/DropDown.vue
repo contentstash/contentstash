@@ -2,14 +2,56 @@
 import type { Table, Row } from "@tanstack/vue-table";
 import { MoreHorizontal, Trash2, Pencil, Undo } from "lucide-vue-next";
 
-const { row, table } = defineProps<{
+const { attribute, row, table } = defineProps<{
   attribute: PartialResourceAttribute;
   row: Row<PartialResourceAttribute>;
   table: Table<PartialResourceAttribute>;
 }>();
+const {
+  props: { attributeTypes },
+}: {
+  props: {
+    attributeTypes: AttributeType[];
+  };
+} = usePage();
 
+// general
 const { PartialResourceAttributeStatus } = useResourceAttribute();
-const deleteAttribute = () => {
+
+// edit
+const editDialogDrawerOpen = ref(false);
+const selectedAttributeType = ref<AttributeType | undefined>();
+const openEditDialogDrawer = () => {
+  selectedAttributeType.value = attribute.attributeType;
+  editDialogDrawerOpen.value = true;
+};
+const submitEditHandler = ({
+  attribute,
+}: {
+  attribute: PartialResourceAttribute;
+}) => {
+  const data = table.options.data;
+
+  const item = data[row.index];
+  Object.assign(item, {
+    ...attribute,
+    status:
+      item.status === PartialResourceAttributeStatus.NEW
+        ? PartialResourceAttributeStatus.NEW
+        : PartialResourceAttributeStatus.UPDATED,
+  });
+
+  data[row.index] = item;
+  table.setOptions((prev) => {
+    return {
+      ...prev,
+      data: [...data],
+    };
+  });
+};
+
+// delete
+const deleteHandler = () => {
   const data = table.options.data;
 
   const item = data[row.index];
@@ -23,7 +65,9 @@ const deleteAttribute = () => {
     };
   });
 };
-const restoreAttribute = () => {
+
+// restore
+const restoreHandler = () => {
   const data = table.options.data;
 
   const item = data[row.index];
@@ -40,6 +84,13 @@ const restoreAttribute = () => {
 </script>
 
 <template>
+  <ResourceAttributeAddEditDialogDrawer
+    v-model:open="editDialogDrawerOpen"
+    v-model:selected-attribute-type="selectedAttributeType"
+    @submit="submitEditHandler"
+    :attribute="attribute"
+    :attribute-types="attributeTypes"
+  />
   <UiDropdownMenu>
     <UiDropdownMenuTrigger as-child :disabled="attribute.locked">
       <UiButton variant="ghost" class="w-8 h-8 p-0">
@@ -48,18 +99,25 @@ const restoreAttribute = () => {
       </UiButton>
     </UiDropdownMenuTrigger>
     <UiDropdownMenuContent align="end">
-      <UiDropdownMenuItem :disabled="true">
+      <UiDropdownMenuItem
+        @click="openEditDialogDrawer"
+        :disabled="attribute.status === PartialResourceAttributeStatus.DELETED"
+      >
         <Pencil />
         {{ $t("action.edit.label") }}
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
         v-if="attribute.status !== PartialResourceAttributeStatus.DELETED"
-        @click="deleteAttribute"
+        :disabled="
+          attribute.status === PartialResourceAttributeStatus.NEW ||
+          attribute.status === PartialResourceAttributeStatus.UPDATED
+        "
+        @click="deleteHandler"
       >
         <Trash2 />
         {{ $t("action.delete.label") }}
       </UiDropdownMenuItem>
-      <UiDropdownMenuItem v-else @click="restoreAttribute">
+      <UiDropdownMenuItem v-else @click="restoreHandler">
         <Undo />
         {{ $t("action.restore.label") }}
       </UiDropdownMenuItem>

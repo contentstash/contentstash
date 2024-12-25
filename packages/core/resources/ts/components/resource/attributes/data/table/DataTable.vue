@@ -26,8 +26,6 @@ const submitResourceAttributeAdd = ({
   // add attribute to data
   data.value = [...data.value, attribute as TData];
 };
-
-const temp = ref(true);
 </script>
 
 <template>
@@ -45,7 +43,6 @@ const temp = ref(true);
       </template>
       <template #headerActions>
         <ResourceAttributeAddEditDialogDrawer
-          v-model:open="temp"
           @submit="submitResourceAttributeAdd"
           :attribute-types="attributeTypes"
         >

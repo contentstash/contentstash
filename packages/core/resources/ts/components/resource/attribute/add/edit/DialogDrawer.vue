@@ -19,19 +19,18 @@ defineSlots<{
 const emit = defineEmits<{
   submit: [{ attribute: PartialResourceAttribute }];
 }>();
-const attributeType = defineModel("attributeType", {
-  type: Object as PropType<AttributeType>,
-  default: undefined,
-});
 const open = defineModel("open", { type: Boolean });
 const attribute = defineModel("attribute", {
   type: Object as PropType<PartialResourceAttribute>,
   default: undefined,
 });
-const mode = computed<Mode>(() => (attributeType.value ? MODE.EDIT : MODE.ADD));
+const mode: Mode = attribute.value ? MODE.EDIT : MODE.ADD;
 
 // attribute type selection
-const selectedAttributeType = ref<AttributeType | undefined>();
+const selectedAttributeType = defineModel("selectedAttributeType", {
+  type: Object as PropType<AttributeType | undefined>,
+  default: undefined,
+});
 const selectAttributeType = ({
   attributeType,
 }: {
@@ -41,7 +40,9 @@ const selectAttributeType = ({
 };
 
 // navigation
-const showGoBackButton = computed(() => !!selectedAttributeType.value);
+const showGoBackButton = computed(
+  () => !!selectedAttributeType.value && mode === MODE.ADD,
+);
 const goBack = () => {
   selectedAttributeType.value = undefined;
 };
@@ -131,6 +132,7 @@ onUnmounted(() => {
         <ResourceAttributeAddEditForm
           ref="form"
           :attribute-type="selectedAttributeType"
+          :default-values="attribute"
           @submit="submitHandler"
         />
       </div>

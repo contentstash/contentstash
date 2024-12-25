@@ -1,13 +1,14 @@
 <script lang="ts">
 export type Props = {
   attributeType: AttributeType;
+  defaultValues?: Record<string, unknown>;
 };
 </script>
 
 <script setup lang="ts">
 import type { FormContext } from "vee-validate";
 
-const { attributeType } = defineProps<Props>();
+const { attributeType, defaultValues } = defineProps<Props>();
 const emit = defineEmits<{
   submit: [{ data: Record<string, unknown> }];
 }>();
@@ -23,6 +24,10 @@ const formSchema = generateSchema({
 const form = useForm<Record<string, any>>({
   ...formSchema.formOptions,
 });
+if (defaultValues) {
+  form.setValues(defaultValues);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleSubmit = form.handleSubmit((values: Record<string, any>) => {
   emit("submit", { data: values });
