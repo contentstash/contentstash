@@ -10,8 +10,16 @@ enum AttributeTypeFormat {
   Time = "TIME",
 }
 
+// TODO: Migrate to single source of truth (currently we define the types of this in core/resources/ts/types/resource.d.ts)
+enum PartialResourceAttributeStatus {
+  NEW = "NEW",
+  DELETED = "DELETED",
+  UPDATED = "UPDATED",
+}
+
 export default function () {
   return {
+    PartialResourceAttributeStatus,
     getItemDataTableColumn: <TColumn>({
       attribute,
     }: {

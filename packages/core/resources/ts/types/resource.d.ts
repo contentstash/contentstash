@@ -32,6 +32,13 @@ declare global {
     locked: boolean;
     attributeType: AttributeType;
   };
+
+  enum PartialResourceAttributeStatus {
+    NEW = "NEW",
+    DELETED = "DELETED",
+    UPDATED = "UPDATED",
+  }
+
   type PartialResourceAttribute = Partial<
     Omit<ResourceAttribute, "name" | "attributeType" | "nullable" | "default">
   > & {
@@ -40,6 +47,7 @@ declare global {
     nullable: boolean;
     default: string;
     [key: string]: unknown;
+    status?: PartialResourceAttributeStatus;
   };
   type RelationType =
     | "Illuminate\\Database\\Eloquent\\Relations\\BelongsTo"

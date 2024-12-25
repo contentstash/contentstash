@@ -220,6 +220,17 @@
             }
           }
         }
+      },
+      "status": {
+        "DELETED": {
+          "label": "Deleted"
+        },
+        "NEW": {
+          "label": "New"
+        },
+        "UPDATED": {
+          "label": "Updated"
+        }
       }
     },
     "items": {

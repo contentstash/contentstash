@@ -1,18 +1,34 @@
 <script setup lang="ts">
 import { Lock } from "lucide-vue-next";
 const { attribute } = defineProps<{
-  attribute: ResourceAttribute;
+  attribute: PartialResourceAttribute;
 }>();
+
+const { PartialResourceAttributeStatus } = useResourceAttribute();
+const statusBadgeVariant = computed(() => {
+  if (attribute.status === PartialResourceAttributeStatus.NEW) {
+    return "default";
+  } else if (attribute.status === PartialResourceAttributeStatus.UPDATED) {
+    return "secondary";
+  } else if (attribute.status === PartialResourceAttributeStatus.DELETED) {
+    return "destructive";
+  } else {
+    return "outline";
+  }
+});
 </script>
 
 <template>
-  <div class="flex items-center">
+  <div class="flex items-center gap-3">
     <AttributeTypeLucideIconBadge
       :icon="attribute.attributeType?.icon"
       :class="attribute.attributeType?.classes?.badge"
-      class="mr-3"
     />
     <span>{{ attribute.name }}</span>
+    <UiBadge v-if="attribute.status" :variant="statusBadgeVariant">
+      {{ $t(`resource.attribute.status.${attribute.status}.label`) }}
+    </UiBadge>
+
     <UiTooltipProvider v-if="attribute.locked">
       <UiTooltip>
         <UiTooltipTrigger
