@@ -93,7 +93,7 @@ const formSchemaProps = computed(() => {
 </script>
 
 <template>
-  <component :is="formSchema" v-bind="formSchemaProps">
+  <component :is="formSchema" v-bind="formSchemaProps" class="space-y-6">
     <slot name="customAutoForm" :fields="fields">
       <template v-for="(shape, key) of shapes" :key="key">
         <slot
