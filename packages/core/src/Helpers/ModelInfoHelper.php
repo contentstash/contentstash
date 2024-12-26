@@ -40,6 +40,9 @@ class ModelInfoHelper
                     $attributeArray['locked'] = true;
                 }
 
+                // set defaultValue to null
+                $attributeArray['defaultValue'] = null;
+
                 return (object) $attributeArray;
             });
         }

@@ -33,12 +33,40 @@ const submitEditHandler = ({
   const data = table.options.data;
 
   const item = data[row.index];
+  item.original = item.original
+    ? item.original
+    : JSON.parse(JSON.stringify(item));
+
+  // check status
+  if (item.status === PartialResourceAttributeStatus.NEW) {
+    // do nothing
+  } else {
+    // check if any first level attribute is different (except status)
+    const attributeKeys = Object.keys(attribute).filter(
+      (key) => key !== "status",
+    );
+    const isDifferent = attributeKeys.some((key) => {
+      // check if attribute is first level
+      if (typeof attribute[key] === "object") {
+        return false;
+      }
+
+      return (
+        JSON.stringify(item?.original?.[key]) !== JSON.stringify(attribute[key])
+      );
+    });
+
+    if (!isDifferent) {
+      item.status = undefined;
+    } else {
+      item.status = PartialResourceAttributeStatus.UPDATED;
+    }
+  }
+
+  // update item
+  const { status, ...rest } = attribute;
   Object.assign(item, {
-    ...attribute,
-    status:
-      item.status === PartialResourceAttributeStatus.NEW
-        ? PartialResourceAttributeStatus.NEW
-        : PartialResourceAttributeStatus.UPDATED,
+    ...rest,
   });
 
   data[row.index] = item;

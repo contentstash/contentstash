@@ -47,6 +47,7 @@ declare global {
     nullable: boolean;
     default: string;
     status?: PartialResourceAttributeStatus;
+    original?: Omit<PartialResourceAttribute, "original">;
     [key: string]: unknown;
   };
   type RelationType =
