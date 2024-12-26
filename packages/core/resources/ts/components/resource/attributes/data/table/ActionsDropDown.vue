@@ -20,16 +20,14 @@ const { PartialResourceAttributeStatus } = useResourceAttribute();
 
 // edit
 const editDialogDrawerOpen = ref(false);
+const editDialogDrawerAttribute = ref<PartialResourceAttribute | undefined>();
 const selectedAttributeType = ref<AttributeType | undefined>();
 const openEditDialogDrawer = () => {
+  editDialogDrawerAttribute.value = attribute;
   selectedAttributeType.value = attribute.attributeType;
   editDialogDrawerOpen.value = true;
 };
-const submitEditHandler = ({
-  attribute,
-}: {
-  attribute: PartialResourceAttribute;
-}) => {
+const submitEditHandler = (params: { attribute: PartialResourceAttribute }) => {
   const data = table.options.data;
 
   const item = data[row.index];
@@ -42,17 +40,18 @@ const submitEditHandler = ({
     // do nothing
   } else {
     // check if any first level attribute is different (except status)
-    const attributeKeys = Object.keys(attribute).filter(
+    const attributeKeys = Object.keys(params.attribute).filter(
       (key) => key !== "status",
     );
     const isDifferent = attributeKeys.some((key) => {
       // check if attribute is first level
-      if (typeof attribute[key] === "object") {
+      if (typeof params.attribute[key] === "object") {
         return false;
       }
 
       return (
-        JSON.stringify(item?.original?.[key]) !== JSON.stringify(attribute[key])
+        JSON.stringify(item?.original?.[key]) !==
+        JSON.stringify(params.attribute[key])
       );
     });
 
@@ -64,10 +63,31 @@ const submitEditHandler = ({
   }
 
   // update item
-  const { status, ...rest } = attribute;
+  const { status, ...rest } = params.attribute;
   Object.assign(item, {
     ...rest,
   });
+
+  data[row.index] = item;
+  table.setOptions((prev) => {
+    return {
+      ...prev,
+      data: [...data],
+    };
+  });
+};
+
+// undo (by set item to original)
+const undoHandler = () => {
+  const data = table.options.data;
+
+  const item = data[row.index];
+  const original = item.original;
+  Object.assign(item, {
+    ...original,
+  });
+  item.original = undefined;
+  item.status = undefined;
 
   data[row.index] = item;
   table.setOptions((prev) => {
@@ -116,7 +136,7 @@ const restoreHandler = () => {
     v-model:open="editDialogDrawerOpen"
     v-model:selected-attribute-type="selectedAttributeType"
     @submit="submitEditHandler"
-    :attribute="attribute"
+    v-model:attribute="editDialogDrawerAttribute"
     :attribute-types="attributeTypes"
   />
   <UiDropdownMenu>
@@ -133,6 +153,13 @@ const restoreHandler = () => {
       >
         <Pencil />
         {{ $t("action.edit.label") }}
+      </UiDropdownMenuItem>
+      <UiDropdownMenuItem
+        v-if="attribute.status === PartialResourceAttributeStatus.UPDATED"
+        @click="undoHandler"
+      >
+        <Undo />
+        {{ $t("action.undo.label") }}
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
         v-if="attribute.status !== PartialResourceAttributeStatus.DELETED"

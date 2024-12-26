@@ -1,7 +1,7 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import DataTableColumnHeader from "@/components/data/table/ColumnHeader.vue";
+import ResourceAttributesDataTableActionsDropDown from "@/components/resource/attributes/data/table/ActionsDropDown.vue";
 import ResourceAttributesDataTableColumnName from "@/components/resource/attributes/data/table/ColumnName.vue";
-import ResourceAttributesDataTableDropdownAction from "@/components/resource/attributes/data/table/DropDown.vue";
 import { h } from "vue";
 
 export const columns: ColumnDef<PartialResourceAttribute>[] = [
@@ -47,7 +47,7 @@ export const columns: ColumnDef<PartialResourceAttribute>[] = [
       return h(
         "div",
         { class: "flex justify-end" },
-        h(ResourceAttributesDataTableDropdownAction, {
+        h(ResourceAttributesDataTableActionsDropDown, {
           attribute,
           row,
           table,

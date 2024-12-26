@@ -62,12 +62,13 @@ const saveHandler = () => {
 
 const { PartialResourceAttributeStatus } = useResourceAttribute();
 const submitHandler = ({ data }: { data: Record<string, unknown> }) => {
-  attribute.value = {
-    attributeType: toRaw(selectedAttributeType.value!),
-    status: PartialResourceAttributeStatus.NEW,
-    ...data,
-  } as PartialResourceAttribute;
-  emit("submit", { attribute: toRaw(attribute.value) });
+  emit("submit", {
+    attribute: toRaw({
+      attributeType: toRaw(selectedAttributeType.value!),
+      status: PartialResourceAttributeStatus.NEW,
+      ...data,
+    } as PartialResourceAttribute),
+  });
   open.value = false;
 };
 
