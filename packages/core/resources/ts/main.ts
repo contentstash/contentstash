@@ -9,6 +9,7 @@ import { setLocaleMessages, setupI18n } from "./i18n";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
 import type { I18n } from "vue-i18n";
 import { ZiggyVue } from "ziggy-js";
+import { createPinia } from "pinia";
 import { defu } from "defu";
 import { fetchRoutes } from "./routes";
 
@@ -219,6 +220,11 @@ export const getLayout = ({
 let i18n: I18n | undefined;
 
 /**
+ * The pinia instance of the app
+ */
+const pinia = createPinia();
+
+/**
  * Create a ContentStash app
  *
  * @param {ContentStashAppProps} props - The props of the app
@@ -245,6 +251,7 @@ export const createContentStashApp = (
 
       createApp({ render: () => h(App, props) })
         .use(plugin)
+        .use(pinia)
         .use(ZiggyVue, routes)
         .use(i18n)
         .component("UiDrawerClose", DrawerClose)

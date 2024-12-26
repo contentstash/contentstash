@@ -85,6 +85,7 @@ export const contentStashViteConfig = (config) => {
           {
             "@inertiajs/vue3": ["usePage"],
           },
+          "pinia",
           {
             "vue-i18n": ["useI18n"],
           },
