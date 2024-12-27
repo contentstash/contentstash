@@ -29,7 +29,7 @@ const tableMeta = setTable<ResourceItem, ResourceItem>({
   uid: `${useRoute().current()}-resource-items-data-table`,
   table: {
     rows: items,
-    columns: [getColumns, getResourceColumns],
+    columns: [getResourceColumns, getColumns],
   },
 });
 

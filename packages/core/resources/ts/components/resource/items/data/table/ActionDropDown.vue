@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import type { Row } from "@tanstack/vue-table";
 import { MoreHorizontal, Trash2, Pencil } from "lucide-vue-next";
 
 defineProps<{
-  item: ResourceItem;
+  meta: TableMeta;
+  row: Row<PartialResourceAttribute>;
 }>();
 </script>
 
