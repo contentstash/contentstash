@@ -86,13 +86,21 @@ const undoHandler = () => {
 
 // delete
 const deleteHandler = () => {
-  updateRow({
-    uid: meta.uid,
-    index: row.index,
-    row: {
-      status: PartialResourceAttributeStatus.DELETED,
-    },
-  });
+  // if new, remove
+  if (item.value.status === PartialResourceAttributeStatus.NEW) {
+    removeRow({
+      uid: meta.uid,
+      index: row.index,
+    });
+  } else {
+    updateRow({
+      uid: meta.uid,
+      index: row.index,
+      row: {
+        status: PartialResourceAttributeStatus.DELETED,
+      },
+    });
+  }
 };
 
 // restore
@@ -139,10 +147,7 @@ const restoreHandler = () => {
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
         v-if="item.status !== PartialResourceAttributeStatus.DELETED"
-        :disabled="
-          item.status === PartialResourceAttributeStatus.NEW ||
-          item.status === PartialResourceAttributeStatus.UPDATED
-        "
+        :disabled="item.status === PartialResourceAttributeStatus.UPDATED"
         @click="deleteHandler"
       >
         <Trash2 />
