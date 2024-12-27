@@ -16,10 +16,9 @@ const title = computed(() => {
 // table
 // const data = ref<PartialResourceAttribute[]>(modelInfo.attributes);
 
-const TABLE_UID =
-  "dashboard-resource-builder-show-resource-attributes-data-table";
-const { addTable, getTable, addRow, updateRow, removeRow } = useTables();
-addTable<unknown, PartialResourceAttribute>({
+const TABLE_UID = `${useRoute().current()}-resource-attributes-data-table`;
+const { setTable, getTable, addRow, updateRow, removeRow } = useTables();
+const tableMeta = setTable<unknown, PartialResourceAttribute>({
   uid: TABLE_UID,
   table: {
     rows: modelInfo.attributes,
@@ -27,7 +26,9 @@ addTable<unknown, PartialResourceAttribute>({
 });
 
 const data = computed(() => {
-  return getTable({ uid: TABLE_UID }).rows;
+  return (
+    getTable<unknown, PartialResourceAttribute>({ meta: tableMeta })?.rows ?? []
+  );
 });
 
 const test = () => {
@@ -35,8 +36,8 @@ const test = () => {
   const row = data.value[Math.floor(Math.random() * data.value.length)];
 
   // add a row with an random name
-  addRow({
-    uid: TABLE_UID,
+  addRow<PartialResourceAttribute>({
+    meta: tableMeta,
     row: {
       ...row,
       name: `Random ${Math.floor(Math.random() * 1000)}`,
@@ -51,7 +52,7 @@ const test2 = () => {
 
   // reverse the name of the row
   updateRow({
-    uid: TABLE_UID,
+    meta: tableMeta,
     index: rowIndex,
     row: {
       ...row,
@@ -66,13 +67,15 @@ const test3 = () => {
 
   // remove the row
   removeRow({
-    uid: TABLE_UID,
+    meta: tableMeta,
     index,
   });
 };
 </script>
 
 <template>
+  {{ TABLE_UID }}
+  {{ tableMeta }}
   <UiButton @click="test">Add Random Row</UiButton>
   <UiButton @click="test2">Update Random Row</UiButton>
   <UiButton @click="test3">Remove Random Row</UiButton>
