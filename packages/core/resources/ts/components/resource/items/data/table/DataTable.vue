@@ -1,16 +1,13 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef } from "@tanstack/vue-table";
+import type { Props } from "@/components/data/table/Generic.vue";
 import { Plus } from "lucide-vue-next";
 
-defineProps<{
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
-}>();
+const props = defineProps<Props>();
 </script>
 
 <template>
   <div>
-    <DataTableGeneric :columns="columns" :data="data">
+    <DataTableGeneric v-bind="props">
       <template #title>
         {{ $t("resource.items.data.table.title") }}
       </template>

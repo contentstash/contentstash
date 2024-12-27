@@ -45,12 +45,10 @@ export const getColumns: TableColumns<PartialResourceAttribute> = ({
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const attribute = row.original;
         return h(
           "div",
           { class: "flex justify-end" },
           h(ResourceAttributesDataTableActionsDropDown, {
-            attribute,
             meta,
             row,
           }),

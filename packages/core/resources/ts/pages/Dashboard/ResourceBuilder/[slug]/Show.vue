@@ -14,7 +14,7 @@ const title = computed(() => {
 });
 
 // table
-const { setTable, getTable, addRow } = useTables();
+const { setTable, getTable } = useTables();
 const tableMeta = setTable<PartialResourceAttribute, PartialResourceAttribute>({
   uid: `${useRoute().current()}-resource-attributes-data-table`,
   table: {
@@ -28,20 +28,6 @@ const data = computed(() => {
     getTable<unknown, PartialResourceAttribute>({ meta: tableMeta })?.rows ?? []
   );
 });
-
-const test = () => {
-  // get an random row
-  const row = data.value[Math.floor(Math.random() * data.value.length)];
-
-  // add a row with an random name
-  addRow<PartialResourceAttribute>({
-    meta: tableMeta,
-    row: {
-      ...row,
-      name: `Random ${Math.floor(Math.random() * 1000)}`,
-    },
-  });
-};
 </script>
 
 <template>

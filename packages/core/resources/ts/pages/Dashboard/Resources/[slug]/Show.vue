@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { columns } from "@/components/resource/items/data/table/columns";
+import { getColumns } from "@/components/resource/items/data/table/columns";
 const {
   props: { model, modelInfo, items },
 }: {
@@ -15,12 +15,26 @@ const title = computed(() => {
 });
 
 const { getItemDataTableColumn } = useResourceAttribute();
-const resourceColumns = computed(() => {
+const getResourceColumns: TableColumns<ResourceItem> = () => {
   return modelInfo.attributes
     .filter((attribute) => !attribute.hidden)
     .map((attribute) => {
       return getItemDataTableColumn({ attribute });
     });
+};
+
+// table
+const { setTable, getTable } = useTables();
+const tableMeta = setTable<ResourceItem, ResourceItem>({
+  uid: `${useRoute().current()}-resource-items-data-table`,
+  table: {
+    rows: items,
+    columns: [getColumns, getResourceColumns],
+  },
+});
+
+const data = computed(() => {
+  return getTable<unknown, ResourceItem>({ meta: tableMeta })?.rows ?? [];
 });
 </script>
 
@@ -44,9 +58,6 @@ const resourceColumns = computed(() => {
         {{ $t("page.dashboard.resources.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
-    <ResourceItemsDataTable
-      :columns="[...resourceColumns, ...columns]"
-      :data="items"
-    />
+    <ResourceItemsDataTable :meta="tableMeta" v-model:data="data" />
   </DashboardPage>
 </template>

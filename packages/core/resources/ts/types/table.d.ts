@@ -15,7 +15,7 @@ declare global {
   };
 
   type Table<ColumnT = unknown, RowT = unknown> = {
-    columns: TableColumns<ColumnT>;
+    columns: TableColumns<ColumnT> | TableColumns<ColumnT>[];
     rows: TableRow<RowT>[];
   };
 

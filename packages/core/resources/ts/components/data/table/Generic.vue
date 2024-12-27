@@ -27,8 +27,17 @@ const sorting = ref<SortingState>([]);
 
 const { getTable } = useTables();
 const columns = computed(() => {
+  const tableColumnsFn = getTable({ meta })?.columns;
+
+  if (!tableColumnsFn) {
+    return [];
+  }
+
+  if (Array.isArray(tableColumnsFn)) {
+    return tableColumnsFn.map((f) => f({ meta })).flat();
+  }
   return [
-    ...(getTable({ meta })?.columns({
+    ...(tableColumnsFn({
       meta,
     }) ?? []),
   ];
