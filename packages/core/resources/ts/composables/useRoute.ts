@@ -1,14 +1,29 @@
 import type {
-  Router,
+  Config,
+  ParameterValue,
   RouteName,
   RouteParams,
-  ParameterValue,
-  Config,
+  Router,
 } from "ziggy-js";
+
 import { route as routeFn } from "ziggy-js";
 
+export default function (
+  name?: undefined,
+  params?: undefined,
+  absolute?: boolean,
+  config?: Config,
+): Router;
+
 export default function <T extends RouteName>(
-  name?: T,
+  name: T,
+  params?: RouteParams<T> | ParameterValue,
+  absolute?: boolean,
+  config?: Config,
+): string;
+
+export default function <T extends RouteName>(
+  name: T | undefined = undefined,
   params?: RouteParams<T> | ParameterValue | undefined,
   absolute?: boolean,
   config?: Config,

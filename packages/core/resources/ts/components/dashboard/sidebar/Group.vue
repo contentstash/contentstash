@@ -25,9 +25,22 @@ defineProps<SidebarGroup>();
 const checkIfSubItemIsActive = ({ item }: { item: SidebarItem }) => {
   return (
     Array.isArray(item.items) &&
-    item.items.some(
-      (subItem) => subItem.to?.name && useRoute().current(subItem.to.name),
-    )
+    item.items.some((subItem) => {
+      if (Array.isArray(subItem)) {
+        return subItem.some(
+          (subSubItem) =>
+            typeof subSubItem.to === "object" &&
+            subSubItem.to.name &&
+            useRoute().current(subSubItem.to.name),
+        );
+      }
+
+      return (
+        typeof subItem.to === "object" &&
+        subItem.to.name &&
+        useRoute().current(subItem.to.name)
+      );
+    })
   );
 };
 
