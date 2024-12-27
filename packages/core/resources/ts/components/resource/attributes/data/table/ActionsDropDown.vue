@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import type { Table, Row } from "@tanstack/vue-table";
+import type { Row } from "@tanstack/vue-table";
 import { MoreHorizontal, Trash2, Pencil, Undo } from "lucide-vue-next";
 
-const { attribute, row, table } = defineProps<{
-  attribute: PartialResourceAttribute;
+const { row, meta } = defineProps<{
+  meta: TableMeta;
   row: Row<PartialResourceAttribute>;
-  table: Table<PartialResourceAttribute>;
 }>();
 const {
   props: { attributeTypes },
@@ -17,116 +16,93 @@ const {
 
 // general
 const { PartialResourceAttributeStatus } = useResourceAttribute();
+const { getRow, updateRow, removeRow } = useTables();
+
+// item
+const item = computed(
+  () => getRow<PartialResourceAttribute>({ uid: meta.uid, index: row.index })!,
+);
 
 // edit
 const editDialogDrawerOpen = ref(false);
 const editDialogDrawerAttribute = ref<PartialResourceAttribute | undefined>();
 const selectedAttributeType = ref<AttributeType | undefined>();
 const openEditDialogDrawer = () => {
-  editDialogDrawerAttribute.value = attribute;
-  selectedAttributeType.value = attribute.attributeType;
+  editDialogDrawerAttribute.value = item.value;
+  selectedAttributeType.value = item.value.attributeType;
   editDialogDrawerOpen.value = true;
 };
 const submitEditHandler = (params: { attribute: PartialResourceAttribute }) => {
-  const data = table.options.data;
-
-  const item = data[row.index];
-  item.original = item.original
-    ? item.original
-    : JSON.parse(JSON.stringify(item));
+  let updatedItem = params.attribute;
+  const original =
+    item.value.original ?? JSON.parse(JSON.stringify(item.value));
 
   // check status
-  if (item.status === PartialResourceAttributeStatus.NEW) {
+  if (item.value.status === PartialResourceAttributeStatus.NEW) {
     // do nothing
   } else {
     // check if any first level attribute is different (except status)
-    const attributeKeys = Object.keys(params.attribute).filter(
+    const attributeKeys = Object.keys(updatedItem).filter(
       (key) => key !== "status",
     );
     const isDifferent = attributeKeys.some((key) => {
       // check if attribute is first level
-      if (typeof params.attribute[key] === "object") {
+      if (typeof updatedItem[key] === "object") {
         return false;
       }
 
-      return (
-        JSON.stringify(item?.original?.[key]) !==
-        JSON.stringify(params.attribute[key])
-      );
+      return JSON.stringify(original[key]) !== JSON.stringify(updatedItem[key]);
     });
 
     if (!isDifferent) {
-      item.status = undefined;
+      updatedItem.status = undefined;
     } else {
-      item.status = PartialResourceAttributeStatus.UPDATED;
+      updatedItem.status = PartialResourceAttributeStatus.UPDATED;
     }
   }
 
-  // update item
-  const { status, ...rest } = params.attribute;
-  Object.assign(item, {
-    ...rest,
-  });
-
-  data[row.index] = item;
-  table.setOptions((prev) => {
-    return {
-      ...prev,
-      data: [...data],
-    };
+  updateRow({
+    uid: meta.uid,
+    index: row.index,
+    row: {
+      ...updatedItem,
+      original,
+    },
   });
 };
 
 // undo (by set item to original)
 const undoHandler = () => {
-  const data = table.options.data;
-
-  const item = data[row.index];
-  const original = item.original;
-  Object.assign(item, {
-    ...original,
-  });
-  item.original = undefined;
-  item.status = undefined;
-
-  data[row.index] = item;
-  table.setOptions((prev) => {
-    return {
-      ...prev,
-      data: [...data],
-    };
+  updateRow({
+    uid: meta.uid,
+    index: row.index,
+    row: {
+      ...(item.value?.original ?? {}),
+      original: undefined,
+      status: undefined,
+    },
   });
 };
 
 // delete
 const deleteHandler = () => {
-  const data = table.options.data;
-
-  const item = data[row.index];
-  item.status = PartialResourceAttributeStatus.DELETED;
-
-  data[row.index] = item;
-  table.setOptions((prev) => {
-    return {
-      ...prev,
-      data: [...data],
-    };
+  updateRow({
+    uid: meta.uid,
+    index: row.index,
+    row: {
+      status: PartialResourceAttributeStatus.DELETED,
+    },
   });
 };
 
 // restore
 const restoreHandler = () => {
-  const data = table.options.data;
-
-  const item = data[row.index];
-  item.status = undefined;
-
-  data[row.index] = item;
-  table.setOptions((prev) => {
-    return {
-      ...prev,
-      data: [...data],
-    };
+  updateRow({
+    uid: meta.uid,
+    index: row.index,
+    row: {
+      status: undefined,
+    },
   });
 };
 </script>
@@ -140,7 +116,7 @@ const restoreHandler = () => {
     :attribute-types="attributeTypes"
   />
   <UiDropdownMenu>
-    <UiDropdownMenuTrigger as-child :disabled="attribute.locked">
+    <UiDropdownMenuTrigger as-child :disabled="item.locked">
       <UiButton variant="ghost" class="w-8 h-8 p-0">
         <span class="sr-only">{{ $t("dropdown.menu.trigger.srOnly") }}</span>
         <MoreHorizontal class="w-4 h-4" />
@@ -149,23 +125,23 @@ const restoreHandler = () => {
     <UiDropdownMenuContent align="end">
       <UiDropdownMenuItem
         @click="openEditDialogDrawer"
-        :disabled="attribute.status === PartialResourceAttributeStatus.DELETED"
+        :disabled="item.status === PartialResourceAttributeStatus.DELETED"
       >
         <Pencil />
         {{ $t("action.edit.label") }}
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
-        v-if="attribute.status === PartialResourceAttributeStatus.UPDATED"
+        v-if="item.status === PartialResourceAttributeStatus.UPDATED"
         @click="undoHandler"
       >
         <Undo />
         {{ $t("action.undo.label") }}
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
-        v-if="attribute.status !== PartialResourceAttributeStatus.DELETED"
+        v-if="item.status !== PartialResourceAttributeStatus.DELETED"
         :disabled="
-          attribute.status === PartialResourceAttributeStatus.NEW ||
-          attribute.status === PartialResourceAttributeStatus.UPDATED
+          item.status === PartialResourceAttributeStatus.NEW ||
+          item.status === PartialResourceAttributeStatus.UPDATED
         "
         @click="deleteHandler"
       >

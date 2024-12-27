@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { columns } from "@/components/resource/attributes/data/table/columns";
+import { getColumns } from "@/components/resource/attributes/data/table/columns";
 const {
   props: { model, modelInfo },
 }: {
@@ -14,14 +14,12 @@ const title = computed(() => {
 });
 
 // table
-// const data = ref<PartialResourceAttribute[]>(modelInfo.attributes);
-
-const TABLE_UID = `${useRoute().current()}-resource-attributes-data-table`;
-const { setTable, getTable, addRow, updateRow, removeRow } = useTables();
-const tableMeta = setTable<unknown, PartialResourceAttribute>({
-  uid: TABLE_UID,
+const { setTable, getTable, addRow } = useTables();
+const tableMeta = setTable<PartialResourceAttribute, PartialResourceAttribute>({
+  uid: `${useRoute().current()}-resource-attributes-data-table`,
   table: {
     rows: modelInfo.attributes,
+    columns: getColumns,
   },
 });
 
@@ -44,41 +42,9 @@ const test = () => {
     },
   });
 };
-
-const test2 = () => {
-  // get an random row
-  const rowIndex = Math.floor(Math.random() * data.value.length);
-  const row = data.value[rowIndex];
-
-  // reverse the name of the row
-  updateRow({
-    meta: tableMeta,
-    index: rowIndex,
-    row: {
-      ...row,
-      name: row.name?.split("").reverse().join(""),
-    },
-  });
-};
-
-const test3 = () => {
-  // get an random row index
-  const index = Math.floor(Math.random() * data.value.length);
-
-  // remove the row
-  removeRow({
-    meta: tableMeta,
-    index,
-  });
-};
 </script>
 
 <template>
-  {{ TABLE_UID }}
-  {{ tableMeta }}
-  <UiButton @click="test">Add Random Row</UiButton>
-  <UiButton @click="test2">Update Random Row</UiButton>
-  <UiButton @click="test3">Remove Random Row</UiButton>
   <DashboardPage
     :title="
       $t('page.dashboard.resource-builder.slug.show.meta.title', {
@@ -98,11 +64,7 @@ const test3 = () => {
         {{ $t("page.dashboard.resource-builder.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
-    <ResourceAttributesDataTable
-      :uid="TABLE_UID"
-      :columns="columns"
-      v-model:data="data"
-    />
+    <ResourceAttributesDataTable :meta="tableMeta" v-model:data="data" />
 
     <DevCard>
       <DevCardCode title="data" v-model="data" />

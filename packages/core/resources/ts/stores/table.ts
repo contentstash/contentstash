@@ -94,7 +94,7 @@ export const useTablesStore = defineStore("tables", () => {
       throw new Error(`Table with uid ${uid} already exists`);
     }
 
-    tables.value[uid] = table;
+    tables.value[uid] = table as Table<unknown, unknown>;
     return { uid };
   };
 
@@ -117,7 +117,7 @@ export const useTablesStore = defineStore("tables", () => {
       delete tables.value[uid];
     }
 
-    tables.value[uid] = table;
+    tables.value[uid] = table as Table<unknown, unknown>;
     return { uid };
   };
 
@@ -156,6 +156,48 @@ export const useTablesStore = defineStore("tables", () => {
   /************************************************
    * Row Management                               *
    ************************************************/
+
+  /**
+   * Get a row from a table
+   *
+   * @param params - Object containing parameters for the operation
+   * @param params.uid - The unique identifier of the table (optional if `meta` is provided)
+   * @param params.meta - The meta information of the table (optional if `uid` is provided)
+   * @param params.index - The index of the row to get
+   * @param params.strict - If true, an error is thrown if the table or row is not found (default: true)
+   * @returns The requested row or `undefined` if not found and `strict` is false
+   */
+  const getRow = <RowT>({
+    index,
+    strict = true,
+    ...params
+  }: {
+    uid?: TableUid;
+    meta?: TableMeta;
+    index: number;
+    strict?: boolean;
+  }): TableRow<RowT> | undefined => {
+    const uid = getUid(params);
+
+    const table = tables.value[uid];
+    if (!table) {
+      if (strict) {
+        throw new Error(`Table with uid ${uid} does not exist`);
+      } else {
+        return undefined;
+      }
+    }
+
+    if (index < 0 || index >= table.rows.length) {
+      if (strict) {
+        throw new Error(`Row index ${index} is out of bounds`);
+      } else {
+        return undefined;
+      }
+    }
+
+    return table.rows[index] as TableRow<RowT>;
+  };
 
   /**
    * Add a row to a table
@@ -242,12 +284,14 @@ export const useTablesStore = defineStore("tables", () => {
    * @param params.index - The index of the row to update
    * @param params.row - The new row object
    * @param params.strict - If true, an error is thrown if the table or row is not found (default: true)
+   * @param params.overwrite - If true, the row is replaced with the new row, otherwise the new row is merged with the existing row (default: false)
    * @throws Error if the table or row does not exist and `strict` is true
    */
   const updateRow = <RowT>({
     row,
     index,
     strict = true,
+    overwrite = false,
     ...params
   }: {
     uid?: TableUid;
@@ -255,6 +299,7 @@ export const useTablesStore = defineStore("tables", () => {
     index: number;
     row: TableRow<RowT>;
     strict?: boolean;
+    overwrite?: boolean;
   }): void => {
     const uid = getUid(params);
 
@@ -275,7 +320,14 @@ export const useTablesStore = defineStore("tables", () => {
       }
     }
 
-    table.rows[index] = row;
+    if (overwrite) {
+      table.rows[index] = row;
+    } else {
+      table.rows[index] = {
+        ...table.rows[index],
+        ...row,
+      };
+    }
   };
 
   return {
@@ -287,6 +339,7 @@ export const useTablesStore = defineStore("tables", () => {
     addTable,
     setTable,
     removeTable,
+    getRow,
     addRow,
     removeRow,
     updateRow,

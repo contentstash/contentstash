@@ -1,16 +1,8 @@
-<script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef } from "@tanstack/vue-table";
+<script setup lang="ts">
+import type { Props } from "@/components/data/table/Generic.vue";
 import { Plus } from "lucide-vue-next";
 
-const { uid } = defineProps<{
-  uid: string;
-  columns: ColumnDef<TData, TValue>[];
-}>();
-// const data = defineModel("data", {
-//   type: Array as PropType<TData[]>,
-//   default: [],
-// });
-
+const { meta, ...props } = defineProps<Props>();
 const {
   props: { attributeTypes },
 }: {
@@ -19,21 +11,29 @@ const {
   };
 } = usePage();
 
-// const submitResourceAttributeAdd = ({
-//   attribute,
-// }: {
-//   attribute: PartialResourceAttribute;
-// }) => {
-//   console.info(attribute);
-
-//   // add attribute to data
-//   data.value = [...data.value, attribute as TData];
-// };
+// add attribute
+const { addRow } = useTables();
+const submitResourceAttributeAdd = ({
+  attribute,
+}: {
+  attribute: PartialResourceAttribute;
+}) => {
+  // add attribute to data
+  addRow<ResourceAttribute>({
+    meta,
+    row: attribute as ResourceAttribute,
+  });
+};
 </script>
 
 <template>
   <div>
-    <DataTableGeneric :columns="columns" :uid="uid">
+    <DataTableGeneric
+      v-bind="{
+        ...props,
+        meta,
+      }"
+    >
       <template #title>
         {{ $t("resource.model.attributes.data.table.title") }}
       </template>
@@ -45,7 +45,7 @@ const {
         }}
       </template>
       <template #headerActions>
-        <!-- <ResourceAttributeAddEditDialogDrawer
+        <ResourceAttributeAddEditDialogDrawer
           @submit="submitResourceAttributeAdd"
           :attribute-types="attributeTypes"
         >
@@ -53,12 +53,12 @@ const {
             <DataTableActionButton :icon="Plus">
               {{
                 $t(
-                  "resource.model.attributes.data.table.action.addAttribute.label"
+                  "resource.model.attributes.data.table.action.addAttribute.label",
                 )
               }}
             </DataTableActionButton>
           </template>
-        </ResourceAttributeAddEditDialogDrawer> -->
+        </ResourceAttributeAddEditDialogDrawer>
       </template>
     </DataTableGeneric>
   </div>

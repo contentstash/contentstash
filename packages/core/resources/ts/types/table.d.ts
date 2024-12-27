@@ -1,14 +1,21 @@
+import type { ColumnDef } from "@tanstack/vue-table";
+
 export {};
 
 declare global {
-  type TableColumn<T> = T;
+  type TableColumnParams = {
+    meta: TableMeta;
+  };
+  type TableColumns<ColumnT = unknown> = (
+    params: TableColumnParams,
+  ) => ColumnDef<ColumnT>[];
 
   type TableRow<T = unknown> = T & {
     [key: string]: unknown;
   };
 
   type Table<ColumnT = unknown, RowT = unknown> = {
-    columns?: TableColumn<ColumnT>[];
+    columns: TableColumns<ColumnT>;
     rows: TableRow<RowT>[];
   };
 

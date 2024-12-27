@@ -1,5 +1,11 @@
-<script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef, SortingState, Table } from "@tanstack/vue-table";
+<script lang="ts">
+export type Props = {
+  meta: TableMeta;
+};
+</script>
+
+<script setup lang="ts">
+import type { SortingState, Table } from "@tanstack/vue-table";
 import {
   FlexRender,
   getCoreRowModel,
@@ -9,32 +15,32 @@ import {
 
 import { valueUpdater } from "@/lib/utils";
 
-const { uid, ...props } = defineProps<{
-  uid: string;
-  columns: ColumnDef<TData, TValue>[];
-}>();
-// const data = defineModel("data", {
-//   type: Array as PropType<TData[]>,
-//   default: [],
-// });
+const { meta } = defineProps<Props>();
 defineSlots<{
-  description?({ table }: { table: Table<TData> }): HTMLElement[];
-  header?({ table }: { table: Table<TData> }): HTMLElement[];
-  headerActions?({ table }: { table: Table<TData> }): HTMLElement[];
-  title?({ table }: { table: Table<TData> }): HTMLElement[];
+  description?({ table }: { table: Table<unknown> }): HTMLElement[];
+  header?({ table }: { table: Table<unknown> }): HTMLElement[];
+  headerActions?({ table }: { table: Table<unknown> }): HTMLElement[];
+  title?({ table }: { table: Table<unknown> }): HTMLElement[];
 }>();
 
 const sorting = ref<SortingState>([]);
 
 const { getTable } = useTables();
+const columns = computed(() => {
+  return [
+    ...(getTable({ meta })?.columns({
+      meta,
+    }) ?? []),
+  ];
+});
 const data = computed(() => {
-  return [...(getTable({ uid }).rows as TData[])];
+  return [...((getTable({ meta })?.rows as unknown[]) ?? [])];
 });
 
 const table = useVueTable({
   data,
   get columns() {
-    return props.columns;
+    return columns.value;
   },
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
