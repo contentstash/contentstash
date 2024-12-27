@@ -14,33 +14,68 @@ const title = computed(() => {
 });
 
 // table
-const { PartialResourceAttributeStatus } = useResourceAttribute();
-const data = ref<PartialResourceAttribute[]>(modelInfo.attributes);
-const originalData = JSON.parse(JSON.stringify(data.value));
-const changedData = computed<{
-  new: PartialResourceAttribute[];
-  updated: PartialResourceAttribute[];
-  deleted: PartialResourceAttribute[];
-}>(() => {
-  const newAttributes = data.value.filter(
-    (attribute) => attribute.status === PartialResourceAttributeStatus.NEW,
-  );
-  const updatedAttributes = data.value.filter(
-    (attribute) => attribute.status === PartialResourceAttributeStatus.UPDATED,
-  );
-  const deletedAttributes = data.value.filter(
-    (attribute) => attribute.status === PartialResourceAttributeStatus.DELETED,
-  );
+// const data = ref<PartialResourceAttribute[]>(modelInfo.attributes);
 
-  return {
-    new: newAttributes,
-    updated: updatedAttributes,
-    deleted: deletedAttributes,
-  };
+const TABLE_UID =
+  "dashboard-resource-builder-show-resource-attributes-data-table";
+const { addTable, getTable, addRow, updateRow, removeRow } = useTables();
+addTable<unknown, PartialResourceAttribute>({
+  uid: TABLE_UID,
+  table: {
+    rows: modelInfo.attributes,
+  },
 });
+
+const data = computed(() => {
+  return getTable({ uid: TABLE_UID }).rows;
+});
+
+const test = () => {
+  // get an random row
+  const row = data.value[Math.floor(Math.random() * data.value.length)];
+
+  // add a row with an random name
+  addRow({
+    uid: TABLE_UID,
+    row: {
+      ...row,
+      name: `Random ${Math.floor(Math.random() * 1000)}`,
+    },
+  });
+};
+
+const test2 = () => {
+  // get an random row
+  const rowIndex = Math.floor(Math.random() * data.value.length);
+  const row = data.value[rowIndex];
+
+  // reverse the name of the row
+  updateRow({
+    uid: TABLE_UID,
+    index: rowIndex,
+    row: {
+      ...row,
+      name: row.name?.split("").reverse().join(""),
+    },
+  });
+};
+
+const test3 = () => {
+  // get an random row index
+  const index = Math.floor(Math.random() * data.value.length);
+
+  // remove the row
+  removeRow({
+    uid: TABLE_UID,
+    index,
+  });
+};
 </script>
 
 <template>
+  <UiButton @click="test">Add Random Row</UiButton>
+  <UiButton @click="test2">Update Random Row</UiButton>
+  <UiButton @click="test3">Remove Random Row</UiButton>
   <DashboardPage
     :title="
       $t('page.dashboard.resource-builder.slug.show.meta.title', {
@@ -60,11 +95,13 @@ const changedData = computed<{
         {{ $t("page.dashboard.resource-builder.slug.show.header.description") }}
       </template>
     </DashboardPageHeader>
-    <ResourceAttributesDataTable :columns="columns" v-model:data="data" />
+    <ResourceAttributesDataTable
+      :uid="TABLE_UID"
+      :columns="columns"
+      v-model:data="data"
+    />
 
     <DevCard>
-      <DevCardCode title="originalData" v-model="originalData" />
-      <DevCardCode title="changedData" v-model="changedData" />
       <DevCardCode title="data" v-model="data" />
       <DevCardCode title="modelInfo" v-model="modelInfo" />
     </DevCard>

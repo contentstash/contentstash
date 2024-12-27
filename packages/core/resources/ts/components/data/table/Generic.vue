@@ -9,13 +9,14 @@ import {
 
 import { valueUpdater } from "@/lib/utils";
 
-const props = defineProps<{
+const { uid, ...props } = defineProps<{
+  uid: string;
   columns: ColumnDef<TData, TValue>[];
 }>();
-const data = defineModel("data", {
-  type: Array as PropType<TData[]>,
-  default: [],
-});
+// const data = defineModel("data", {
+//   type: Array as PropType<TData[]>,
+//   default: [],
+// });
 defineSlots<{
   description?({ table }: { table: Table<TData> }): HTMLElement[];
   header?({ table }: { table: Table<TData> }): HTMLElement[];
@@ -24,6 +25,11 @@ defineSlots<{
 }>();
 
 const sorting = ref<SortingState>([]);
+
+const { getTable } = useTables();
+const data = computed(() => {
+  return [...(getTable({ uid }).rows as TData[])];
+});
 
 const table = useVueTable({
   data,

@@ -2,13 +2,14 @@
 import type { ColumnDef } from "@tanstack/vue-table";
 import { Plus } from "lucide-vue-next";
 
-defineProps<{
+const { uid } = defineProps<{
+  uid: string;
   columns: ColumnDef<TData, TValue>[];
 }>();
-const data = defineModel("data", {
-  type: Array as PropType<TData[]>,
-  default: [],
-});
+// const data = defineModel("data", {
+//   type: Array as PropType<TData[]>,
+//   default: [],
+// });
 
 const {
   props: { attributeTypes },
@@ -18,21 +19,21 @@ const {
   };
 } = usePage();
 
-const submitResourceAttributeAdd = ({
-  attribute,
-}: {
-  attribute: PartialResourceAttribute;
-}) => {
-  console.info(attribute);
+// const submitResourceAttributeAdd = ({
+//   attribute,
+// }: {
+//   attribute: PartialResourceAttribute;
+// }) => {
+//   console.info(attribute);
 
-  // add attribute to data
-  data.value = [...data.value, attribute as TData];
-};
+//   // add attribute to data
+//   data.value = [...data.value, attribute as TData];
+// };
 </script>
 
 <template>
   <div>
-    <DataTableGeneric :columns="columns" v-model:data="data">
+    <DataTableGeneric :columns="columns" :uid="uid">
       <template #title>
         {{ $t("resource.model.attributes.data.table.title") }}
       </template>
@@ -44,7 +45,7 @@ const submitResourceAttributeAdd = ({
         }}
       </template>
       <template #headerActions>
-        <ResourceAttributeAddEditDialogDrawer
+        <!-- <ResourceAttributeAddEditDialogDrawer
           @submit="submitResourceAttributeAdd"
           :attribute-types="attributeTypes"
         >
@@ -52,12 +53,12 @@ const submitResourceAttributeAdd = ({
             <DataTableActionButton :icon="Plus">
               {{
                 $t(
-                  "resource.model.attributes.data.table.action.addAttribute.label",
+                  "resource.model.attributes.data.table.action.addAttribute.label"
                 )
               }}
             </DataTableActionButton>
           </template>
-        </ResourceAttributeAddEditDialogDrawer>
+        </ResourceAttributeAddEditDialogDrawer> -->
       </template>
     </DataTableGeneric>
   </div>
