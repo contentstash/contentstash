@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { SidebarGroup } from "@/components/dashboard/sidebar/Group.vue";
-import { useColorMode } from "@vueuse/core";
 import {
   BookOpen,
   Bug,
@@ -15,8 +14,6 @@ import {
   Shield,
   Users,
 } from "lucide-vue-next";
-
-useColorMode();
 
 const navGroups = computed<SidebarGroup[]>(() => {
   const {

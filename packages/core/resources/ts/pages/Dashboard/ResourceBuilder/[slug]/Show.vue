@@ -63,7 +63,6 @@ const changedData = computed<{
     <ResourceAttributesDataTable :columns="columns" v-model:data="data" />
 
     <DevCard>
-      <DevCardCode title="updatedDataDiff" v-model="updatedDataDiff" />
       <DevCardCode title="originalData" v-model="originalData" />
       <DevCardCode title="changedData" v-model="changedData" />
       <DevCardCode title="data" v-model="data" />

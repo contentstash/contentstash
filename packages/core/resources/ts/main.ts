@@ -4,14 +4,14 @@ import type { DefineComponent, Plugin, App as VueApp } from "vue";
 import { DrawerClose, DrawerPortal, DrawerTrigger } from "vaul-vue";
 import type { InertiaApp, InertiaAppProps } from "@inertiajs/vue3/types/app";
 import { createApp, h } from "vue";
-import { setLocaleMessages, setupI18n } from "./i18n";
 
+import App from "@/App.vue";
 import DefaultLayout from "@/layouts/DefaultLayout.vue";
-import type { I18n } from "vue-i18n";
 import { ZiggyVue } from "ziggy-js";
 import { createPinia } from "pinia";
 import { defu } from "defu";
 import { fetchRoutes } from "./routes";
+import { setupI18n } from "./i18n";
 
 // TODO: Can be removed when this is implemented https://github.com/inertiajs/inertia/discussions/2123
 interface CreateInertiaAppProps {
@@ -211,17 +211,14 @@ export const getLayout = ({
     layoutArray.unshift(DefaultLayout as DefineComponent);
   }
 
+  // add App.vue as root layout
+  layoutArray.unshift(App as DefineComponent);
+
   return layoutArray;
 };
 
-/**
- * The i18n instance of the app (only for internal use)
- */
-let i18n: I18n | undefined;
-
-/**
- * The pinia instance of the app
- */
+// Instances of i18n and pinia
+const i18n = setupI18n();
 const pinia = createPinia();
 
 /**
@@ -242,12 +239,13 @@ export const createContentStashApp = (
       includeCSS: true,
       showSpinner: false,
     },
-    setup: async ({ el, App, props, plugin }) => {
+    setup: async ({
+      el,
+      App,
+      props,
+      plugin,
+    }: Parameters<CreateInertiaAppProps["setup"]>[0]) => {
       const routes = await fetchRoutes();
-
-      i18n = setupI18n({
-        locale: props.initialPage.props.locale,
-      });
 
       createApp({ render: () => h(App, props) })
         .use(plugin)
@@ -258,18 +256,6 @@ export const createContentStashApp = (
         .component("UiDrawerPortal", DrawerPortal)
         .component("UiDrawerTrigger", DrawerTrigger)
         .mount(el);
-
-      // TODO: improve logic
-      if (i18n) {
-        // TODO: Use fallback locale from env
-        await setLocaleMessages(i18n, "en-GB");
-
-        if (typeof i18n.global.locale === "string") {
-          i18n.global.locale = "en-GB";
-        } else {
-          i18n.global.locale.value = "en-GB";
-        }
-      }
     },
     resolve: async (name: string) => {
       const pages = getPages(props);
@@ -280,16 +266,6 @@ export const createContentStashApp = (
         page,
         pages,
       });
-
-      if (i18n) {
-        const locale = Math.random() > 0.5 ? "en-GB" : "de-DE";
-        await setLocaleMessages(i18n, locale);
-        if (typeof i18n.global.locale === "string") {
-          i18n.global.locale = locale;
-        } else {
-          i18n.global.locale.value = locale;
-        }
-      }
 
       return page;
     },
