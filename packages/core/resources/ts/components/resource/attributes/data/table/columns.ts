@@ -17,7 +17,7 @@ export const columns: ColumnDef<PartialResourceAttribute>[] = [
       return h(
         ResourceAttributesDataTableColumnName,
         { attribute: row.original },
-        row.getValue("name"),
+        () => [row.getValue("name")],
       );
     },
   },

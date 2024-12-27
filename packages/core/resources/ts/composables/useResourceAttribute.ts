@@ -53,7 +53,9 @@ export default function () {
             value = new Date(value).toLocaleTimeString();
           }
 
-          return h(ResourceItemsDataTableColumnItem, undefined, value ?? "");
+          return h(ResourceItemsDataTableColumnItem, undefined, () => [
+            value ?? "",
+          ]);
         },
       };
     },
