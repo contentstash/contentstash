@@ -11,7 +11,7 @@ Route::group(
     [
         'as' => 'dashboard.',
         'prefix' => 'dashboard',
-        'middleware' => [HandleInertiaDashboardRequests::class],
+        'middleware' => ['web', HandleInertiaDashboardRequests::class],
     ],
     function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
@@ -47,6 +47,8 @@ Route::group(
                     ],
                     function () {
                         Route::get('/', [DashboardResourceBuilderController::class, 'show'])->name('show');
+                        Route::post('/', [DashboardResourceBuilderController::class, 'store'])->name('store');
+                        Route::put('/', [DashboardResourceBuilderController::class, 'update'])->name('update');
                     }
                 );
             }

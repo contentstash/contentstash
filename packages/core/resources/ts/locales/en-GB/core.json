@@ -19,6 +19,14 @@
       "label": "Undo"
     }
   },
+  "alert": {
+    "default": {
+      "title": "Heads up!"
+    },
+    "error": {
+      "title": "An error occurred"
+    }
+  },
   "attribute": {
     "type": {
       "name": {

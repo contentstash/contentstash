@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { getColumns } from "@/components/resource/attributes/data/table/columns";
 const {
-  props: { model, modelInfo },
+  props: { slug, model, modelInfo },
 }: {
   props: {
+    slug: string;
     model: Resource;
     modelInfo: ResourceInfo;
   };
@@ -28,6 +29,30 @@ const data = computed(() => {
     getTable<unknown, PartialResourceAttribute>({ meta: tableMeta })?.rows ?? []
   );
 });
+
+const formData = computed(() => {
+  return data.value.reduce(
+    (acc, row) => {
+      const key = (row.original?.name as string) ?? row.name;
+      const { original, status, locked, ...rest } = row;
+      acc[key] = {
+        ...rest,
+        attributeType: row.attributeType.name,
+      };
+      return acc;
+    },
+    // TODO: add type
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    {} as Record<string, any>,
+  );
+});
+
+const temp = useRoute("dashboard.resource-builder.slug.update", { slug });
+const saveHandler = () => {
+  useRouter().put(temp, {
+    data: formData.value,
+  });
+};
 </script>
 
 <template>
@@ -52,7 +77,10 @@ const data = computed(() => {
     </DashboardPageHeader>
     <ResourceAttributesDataTable :meta="tableMeta" v-model:data="data" />
 
+    <UiButton @click="saveHandler()">SAVE</UiButton>
+
     <DevCard>
+      <DevCardCode title="formData" v-model="formData" />
       <DevCardCode title="data" v-model="data" />
       <DevCardCode title="modelInfo" v-model="modelInfo" />
     </DevCard>

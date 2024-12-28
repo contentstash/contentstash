@@ -15,6 +15,10 @@ import {
   Users,
 } from "lucide-vue-next";
 
+const { errors } = defineProps<{
+  errors: Record<string, string>;
+}>();
+
 const navGroups = computed<SidebarGroup[]>(() => {
   const {
     props: { resources },
@@ -162,6 +166,14 @@ const navGroups = computed<SidebarGroup[]>(() => {
 
 <template>
   <DashboardSidebar :groups="navGroups">
+    <Teleport defer to="#header-errors">
+      <AppAlert v-for="error in errors" :key="error" type="error">
+        <template #description>
+          {{ error }}
+        </template>
+      </AppAlert>
+    </Teleport>
+
     <header
       class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
     >

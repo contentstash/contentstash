@@ -52,7 +52,6 @@ class HandleInertiaRequests extends Middleware
                 'name' => config('app.name'),
             ],
             'locale' => app()->getLocale(),
-
         ]);
     }
 }
