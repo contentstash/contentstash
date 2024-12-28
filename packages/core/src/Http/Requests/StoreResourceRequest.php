@@ -26,7 +26,7 @@ class StoreResourceRequest extends FormRequest
             // 'data.*.phpType' => 'required|string',
             // 'data.*.type' => 'required|string',
             // 'data.*.increments' => 'required|boolean',
-            'data.*.nullable' => 'required|boolean',
+            'data.*.nullable' => 'boolean',
             // 'data.*.default' => 'required|string',
             // 'data.*.primary' => 'required|boolean',
             // 'data.*.unique' => 'required|boolean',
