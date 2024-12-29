@@ -85,11 +85,12 @@ class DashboardResourceBuilderController extends Controller
             }
         }
 
-        // dd([
-        //     'new' => $newAttributes,
-        //     'deleted' => $deletedAttributes,
-        //     'updated' => $updatedAttributes,
-        // ]);
+        MigrationHelper::generateMigrationByModelAttributes($inputData, $attributes);
+        dd([
+            'new' => $newAttributes,
+            'deleted' => $deletedAttributes,
+            'updated' => $updatedAttributes,
+        ]);
 
         MigrationHelper::generateMigrationFile($model, $attributes, 'update');
     }
