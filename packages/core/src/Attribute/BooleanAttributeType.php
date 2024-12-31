@@ -38,13 +38,13 @@ class BooleanAttributeType extends BaseAttributeType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->boolean('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->boolean('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}

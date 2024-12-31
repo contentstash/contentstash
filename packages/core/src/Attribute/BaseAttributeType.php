@@ -50,10 +50,29 @@ abstract class BaseAttributeType
         return AttributeTypeFormat::Raw;
     }
 
+    /*
+    FORMAT:
+[
+    [ATTRIBUTE] => 'someString' | [
+    'up' => 'someString',
+    'down' => 'someString',
+    'diff' => 'someString',
+    ]
+
+    eg:
+    'nullable' => 'nullable({{value}})',
+]
+
     /**
-     * Get the database migration column definition for this attribute type.
+     * Get the database migration definition for this attribute type.
      */
-    abstract public function getMigrationColumn(): string;
+    public function getMigrationColumn(): array
+    {
+
+        return [
+            'nullable' => 'nullable({{nullable|bool}})',
+        ];
+    }
 
     /**
      * Get the cast type for Laravel models.

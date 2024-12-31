@@ -95,4 +95,14 @@ class AttributeTypeRegistry
 
         return $attributeType;
     }
+
+    /**
+     * Get an attribute type by name
+     */
+    public function getByName(string $name): ?BaseAttributeType
+    {
+        return $this->attributeTypes->first(
+            fn (BaseAttributeType $attributeType) => $attributeType->getName() === $name
+        );
+    }
 }

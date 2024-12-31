@@ -46,13 +46,13 @@ class JsonAttributeType extends BaseAttributeType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->json('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->json('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}

@@ -48,13 +48,13 @@ class TimestampAttributeType extends BaseAttributeType
         return AttributeTypeFormat::DateTime;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->timestamp('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->timestamp('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}

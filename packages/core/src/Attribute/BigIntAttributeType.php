@@ -20,13 +20,13 @@ class BigIntAttributeType extends IntAttributeType
         return 'bigint';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->bigInteger('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->bigInteger('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}

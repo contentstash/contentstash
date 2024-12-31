@@ -20,13 +20,13 @@ class TextAttributeType extends StringAttributeType
         return 'text';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->text('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->text('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}

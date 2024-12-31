@@ -41,9 +41,14 @@ class StringAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getMigrationColumn(): string
+    public function getMigrationColumn(): array
     {
-        return "\$table->string('{{name}}')";
+        return array_merge(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'string(\'{{name}}\')',
+                'diff' => 'renameColumn(\'{{name}}\')',
+            ],
+        ]);
     }
 
     /**

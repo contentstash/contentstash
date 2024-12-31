@@ -38,13 +38,13 @@ class IntAttributeType extends BaseAttributeType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMigrationColumn(): string
-    {
-        return "\$table->integer('{{name}}')";
-    }
+    // /**
+    //  * {@inheritDoc}
+    //  */
+    // public function getMigrationColumn(): string
+    // {
+    //     return "\$table->integer('{{name}}')";
+    // }
 
     /**
      * {@inheritDoc}
