@@ -79,6 +79,17 @@ onMounted(() => {
     } as PartialResourceAttribute,
   });
 
+  updateRow<PartialResourceAttribute>({
+    meta: tableMeta,
+    index: 1,
+    row: {
+      ...secondRow,
+      name: "updated_title",
+      status: PartialResourceAttributeStatus.UPDATED,
+      original: JSON.parse(JSON.stringify(secondRow)),
+    } as PartialResourceAttribute,
+  });
+
   setTimeout(() => saveHandler(), 2000);
 });
 </script>
