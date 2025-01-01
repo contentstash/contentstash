@@ -35,9 +35,25 @@ class MigrationHelper
         // load stub
         $stub = file_get_contents(__DIR__.'/../Stubs/migration.stub');
 
-        // generate MigrationUp
+        // get current model attributes
+        $modelInfo = ModelInfoHelper::forModel($model);
 
-        // generate MigrationDown
+        // parse $modelInfo->toArray()['attributes'] to object format
+        $attributesArray = json_decode(json_encode($modelInfo->toArray()['attributes']), true);
+
+        $currentModelAttributes = [];
+        foreach ($attributesArray as $attribute) {
+            $currentModelAttributes[$attribute['name']] = $attribute;
+            $currentModelAttributes[$attribute['name']]['attributeType'] = $attribute['attributeType']['name'];
+            unset($currentModelAttributes[$attribute['name']]['locked']);
+        }
+
+        // generate migrations
+        $migration = self::generateMigrationByModelAttributes($attributes, $currentModelAttributes);
+
+        // replace placeholders
+        $stub = str_replace('{{MigrationUp}}', implode(";\n", $migration['up']), $stub);
+        $stub = str_replace('{{MigrationDown}}', implode(";\n", $migration['down']), $stub);
 
         // save migration file
         $migrationFileName = self::generateMigrationFileName($model, $action);
@@ -49,7 +65,7 @@ class MigrationHelper
     }
 
     /**
-     * Get new attributes by comparing the new model attributes with the current model attributes.
+     * Get new attributes.
      */
     public static function getNewAttributesByModelAttributes(array $newModelAttributes, array $currentModelAttributes = []): array
     {
@@ -65,7 +81,7 @@ class MigrationHelper
     }
 
     /**
-     * Get deleted attributes by comparing the new model attributes with the current model attributes.
+     * Get deleted attributes.
      */
     public static function getDeletedAttributesByModelAttributes(array $newModelAttributes, array $currentModelAttributes = []): array
     {
@@ -81,7 +97,7 @@ class MigrationHelper
     }
 
     /**
-     * Get updated attributes by comparing the new model attributes with the current model attributes.
+     * Get updated attributes.
      */
     public static function getUpdatedAttributesByModelAttributes(array $newModelAttributes, array $currentModelAttributes = []): array
     {
@@ -100,65 +116,103 @@ class MigrationHelper
     }
 
     /**
-     * Generate migrations by comparing the new model attributes with the current model attributes.
+     * Generate new attributes migration.
      */
-    public static function generateMigrationByModelAttributes(array $newModelAttributes, array $currentModelAttributes = []): array
+    public static function generateNewAttributesMigration(array $newModelAttributes, array $currentModelAttributes = []): array
     {
-        $migrationUp = [];
-        $migrationDown = [];
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
 
         $newAttributes = self::getNewAttributesByModelAttributes($newModelAttributes, $currentModelAttributes);
-        $deletedAttributes = self::getDeletedAttributesByModelAttributes($newModelAttributes, $currentModelAttributes);
-        $updatedAttributes = self::getUpdatedAttributesByModelAttributes($newModelAttributes, $currentModelAttributes);
-
-        // handle new attributes
         foreach ($newAttributes as $attribute) {
-            self::processAttributeMigration($attribute, $migrationUp, $migrationDown, true);
+            $migration = self::processNewAttributeMigration($attribute);
+            $result['up'] = array_merge($result['up'], $migration['up']);
+            $result['down'] = array_merge($result['down'], $migration['down']);
         }
 
-        // handle deleted attributes
-        foreach ($deletedAttributes as $attribute) {
-            self::processAttributeMigration($attribute, $migrationDown, $migrationUp, true);
-        }
-
-        // handle updated attributes
-        foreach ($updatedAttributes as $fieldName => $changes) {
-            $oldAttribute = $changes['old'];
-            $newAttribute = $changes['new'];
-
-            // drop the old column in up migration
-            $migrationUp[] = '$table'.self::ARROW_SYMBOL.'dropColumn(\''.$oldAttribute['name'].'\')';
-
-            // add the new/updated column to up migration
-            self::processAttributeMigration($newAttribute, $migrationUp, $migrationDown, true);
-
-            // restore the old column in down migration
-            self::processAttributeMigration($oldAttribute, $migrationDown, $migrationUp, true);
-        }
-
-        dd([
-            'newAttributes' => $newAttributes,
-            'deletedAttributes' => $deletedAttributes,
-            'updatedAttributes' => $updatedAttributes,
-            'migrationUp' => $migrationUp,
-            'migrationDown' => $migrationDown,
-        ]);
-
-        return [
-            'migrationUp' => $migrationUp,
-            'migrationDown' => $migrationDown,
-        ];
+        return $result;
     }
 
     /**
-     * Process attribute migration and handle placeholders.
+     * Generate updated attributes migration.
      */
-    private static function processAttributeMigration(array $attribute, array &$migrationUp, array &$migrationDown, bool $isNew): void
+    public static function generateUpdatedAttributesMigration(array $newModelAttributes, array $currentModelAttributes = []): array
+    {
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        $updatedAttributes = self::getUpdatedAttributesByModelAttributes($newModelAttributes, $currentModelAttributes);
+        foreach ($updatedAttributes as $attribute) {
+            $migration = self::processUpdatedAttributeMigration($attribute);
+            $result['up'] = array_merge($result['up'], $migration['up']);
+            $result['down'] = array_merge($result['down'], $migration['down']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Generate deleted attributes migration.
+     */
+    public static function generateDeletedAttributesMigration(array $newModelAttributes, array $currentModelAttributes = []): array
+    {
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        $deletedAttributes = self::getDeletedAttributesByModelAttributes($newModelAttributes, $currentModelAttributes);
+        foreach ($deletedAttributes as $attribute) {
+            $migration = self::processDeletedAttributeMigration($attribute);
+            $result['up'] = array_merge($result['up'], $migration['up']);
+            $result['down'] = array_merge($result['down'], $migration['down']);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Generate migrations.
+     */
+    public static function generateMigrationByModelAttributes(array $newModelAttributes, array $currentModelAttributes = []): array
+    {
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        // handle new attributes
+        $newAttributesMigration = self::generateNewAttributesMigration($newModelAttributes, $currentModelAttributes);
+
+        $result['up'] = array_merge($result['up'], $newAttributesMigration['up']);
+        $result['down'] = array_merge($result['down'], $newAttributesMigration['down']);
+
+        // handle updated attributes
+        $updatedAttributesMigration = self::generateUpdatedAttributesMigration($newModelAttributes, $currentModelAttributes);
+        $result['up'] = array_merge($result['up'], $updatedAttributesMigration['up']);
+        $result['down'] = array_merge($result['down'], $updatedAttributesMigration['down']);
+
+        // handle deleted attributes
+        $deletedAttributesMigration = self::generateDeletedAttributesMigration($newModelAttributes, $currentModelAttributes);
+        $result['up'] = array_merge($result['up'], $deletedAttributesMigration['up']);
+        $result['down'] = array_merge($result['down'], $deletedAttributesMigration['down']);
+
+        return $result;
+    }
+
+    /**
+     * Pre-process attribute migration.
+     */
+    protected static function preProcessAttributeMigration(array $attribute): array
     {
         $attributeType = AttributeTypeRegistry::getByName($attribute['attributeType']);
         $migration = $attributeType->getMigrationColumn();
 
-        // sort migration array by key
+        // reorder migration keys to ensure 'name' comes first
         uksort($migration, function ($a, $b) {
             if ($a === 'name') {
                 return -1;
@@ -169,39 +223,150 @@ class MigrationHelper
             return strcmp($a, $b);
         });
 
-        // $operation = $isNew ? 'addColumn' : 'dropColumn';
-        $up = '$table';
-        $down = '$table';
+        return [
+            'attributeType' => $attributeType,
+            'migration' => $migration,
+        ];
+    }
 
-        foreach ($migration as $column => $value) {
+    /**
+     * Process new attribute migration.
+     */
+    protected static function processNewAttributeMigration(array $attribute): array
+    {
+        $preProcessedAttribute = self::preProcessAttributeMigration($attribute);
+
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        $up = '$table';
+        $down = '$table'.self::ARROW_SYMBOL.'dropColumn(\'{{name}}\')';
+
+        foreach ($preProcessedAttribute['migration'] as $column => $value) {
             if (is_array($value)) {
+                if (! array_key_exists('up', $value)) {
+                    dd($column, $value);
+                }
                 $up .= self::ARROW_SYMBOL.$value['up'];
-                $down .= self::ARROW_SYMBOL.$value['up'];
             } else {
                 $up .= self::ARROW_SYMBOL.$value;
-                $down .= self::ARROW_SYMBOL.$value;
             }
         }
 
-        // replace placeholders in up and down migrations
         foreach ($attribute as $key => $value) {
             $up = self::replacePlaceholders($up, $key, $value);
             $down = self::replacePlaceholders($down, $key, $value);
         }
 
-        if ($isNew) {
-            $migrationUp[] = $up;
-            $migrationDown[] = '$table'.self::ARROW_SYMBOL.'dropColumn(\''.$attribute['name'].'\')';
-        } else {
-            $migrationDown[] = $down;
-            $migrationUp[] = '$table'.self::ARROW_SYMBOL.'dropColumn(\''.$attribute['name'].'\')';
+        $result['up'][] = $up;
+        $result['down'][] = $down;
+
+        return $result;
+    }
+
+    /**
+     * Process updated attribute migration.
+     */
+    protected static function processUpdatedAttributeMigration(array $attributeDiff): array
+    {
+        $attribute = $attributeDiff['new'];
+        $preProcessedAttribute = self::preProcessAttributeMigration($attribute);
+
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        // check if name has changed
+        if (array_key_exists('name', $attributeDiff['diff'])) {
+            $result['up'][] = '$table->renameColumn(\''.$attributeDiff['old']['name'].'\', \''.$attribute['name'].'\')';
+            $result['down'][] = '$table->renameColumn(\''.$attribute['name'].'\', \''.$attributeDiff['old']['name'].'\')';
         }
+
+        // check if any other attribute has changed
+        if (count(array_diff_key($attributeDiff['diff'], ['name' => ''])) > 0) {
+
+            $up = '$table';
+            $down = '$table';
+
+            // add column getter by name
+            if (is_array($preProcessedAttribute['migration']['name'])) {
+                $up .= self::ARROW_SYMBOL.$preProcessedAttribute['migration']['name']['up'];
+                $down .= self::ARROW_SYMBOL.$preProcessedAttribute['migration']['name']['up'];
+            } else {
+                $up .= self::ARROW_SYMBOL.$preProcessedAttribute['migration']['name'];
+                $down .= self::ARROW_SYMBOL.$preProcessedAttribute['migration']['name'];
+            }
+
+            foreach ($preProcessedAttribute['migration'] as $column => $value) {
+                if ($column === 'name') {
+                    continue;
+                }
+
+                if (is_array($value)) {
+                    $up .= self::ARROW_SYMBOL.$value['up'];
+                    $down .= array_key_exists('down', $value) ? self::ARROW_SYMBOL.$value['down'] : self::ARROW_SYMBOL.$value['up'];
+                } else {
+                    $up .= self::ARROW_SYMBOL.$value;
+                    $down .= self::ARROW_SYMBOL.$value;
+                }
+            }
+
+            foreach ($attribute as $key => $value) {
+                $up = self::replacePlaceholders($up, $key, $value);
+                $down = self::replacePlaceholders($down, $key, $value);
+            }
+
+            $up .= self::ARROW_SYMBOL.'change()';
+            $down .= self::ARROW_SYMBOL.'change()';
+
+            $result['up'][] = $up;
+            $result['down'][] = $down;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Process deleted attribute migration.
+     */
+    protected static function processDeletedAttributeMigration(array $attribute): array
+    {
+        $preProcessedAttribute = self::preProcessAttributeMigration($attribute);
+
+        $result = [
+            'up' => [],
+            'down' => [],
+        ];
+
+        $up = '$table'.self::ARROW_SYMBOL.'dropColumn(\'{{name}}\')';
+        $down = '$table';
+
+        foreach ($preProcessedAttribute['migration'] as $column => $value) {
+            if (is_array($value)) {
+                $down .= self::ARROW_SYMBOL.$value['up'];
+            } else {
+                $down .= self::ARROW_SYMBOL.$value;
+            }
+        }
+
+        foreach ($attribute as $key => $value) {
+            $up = self::replacePlaceholders($up, $key, $value);
+            $down = self::replacePlaceholders($down, $key, $value);
+        }
+
+        $result['up'][] = $up;
+        $result['down'][] = $down;
+
+        return $result;
     }
 
     /**
      * Replace placeholders in a migration string.
      */
-    private static function replacePlaceholders(string $migrationString, string $key, mixed $value): string
+    protected static function replacePlaceholders(string $migrationString, string $key, mixed $value): string
     {
         while (preg_match('/{{'.$key.'\|([^}]+)}}/', $migrationString, $matches)) {
             $type = $matches[1];

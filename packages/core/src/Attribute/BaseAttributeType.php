@@ -50,19 +50,6 @@ abstract class BaseAttributeType
         return AttributeTypeFormat::Raw;
     }
 
-    /*
-    FORMAT:
-[
-    [ATTRIBUTE] => 'someString' | [
-    'up' => 'someString',
-    'down' => 'someString',
-    'diff' => 'someString',
-    ]
-
-    eg:
-    'nullable' => 'nullable({{value}})',
-]
-
     /**
      * Get the database migration definition for this attribute type.
      */
@@ -71,6 +58,9 @@ abstract class BaseAttributeType
 
         return [
             'nullable' => 'nullable({{nullable|bool}})',
+            'name' => [
+                'diff' => 'renameColumn(\'{{old_name}}\', \'{{new_name}}\')',
+            ],
         ];
     }
 

@@ -86,6 +86,7 @@ onMounted(() => {
       ...secondRow,
       name: "updated_title",
       status: PartialResourceAttributeStatus.UPDATED,
+      nullable: true,
       original: JSON.parse(JSON.stringify(secondRow)),
     } as PartialResourceAttribute,
   });

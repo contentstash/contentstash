@@ -47,51 +47,16 @@ class DashboardResourceBuilderController extends Controller
         // parse $modelInfo->toArray()['attributes'] to object format
         $attributesArray = json_decode(json_encode($modelInfo->toArray()['attributes']), true);
 
-        $attributes = [];
-        foreach ($attributesArray as $attribute) {
-            $attributes[$attribute['name']] = $attribute;
-            $attributes[$attribute['name']]['attributeType'] = $attribute['attributeType']['name'];
-            unset($attributes[$attribute['name']]['locked']);
-        }
-
-        $deletedAttributes = [];
-        $newAttributes = [];
-        $updatedAttributes = [];
+        // $attributes = [];
+        // foreach ($attributesArray as $attribute) {
+        //     $attributes[$attribute['name']] = $attribute;
+        //     $attributes[$attribute['name']]['attributeType'] = $attribute['attributeType']['name'];
+        //     unset($attributes[$attribute['name']]['locked']);
+        // }
 
         $inputData = $request->input('data');
 
-        // Neue Attribute finden
-        foreach ($inputData as $key => $value) {
-            if (! array_key_exists($key, $attributes)) {
-                $newAttributes[$key] = $value;
-            }
-        }
-
-        // Gelöschte Attribute finden
-        foreach ($attributes as $key => $value) {
-            if (! array_key_exists($key, $inputData)) {
-                $deletedAttributes[$key] = $value;
-            }
-        }
-
-        // Geänderte Attribute finden
-        foreach ($attributes as $key => $value) {
-            if (array_key_exists($key, $inputData) && $inputData[$key] !== $value) {
-                $updatedAttributes[$key] = [
-                    'old' => $value,
-                    'new' => $inputData[$key],
-                    'diff' => array_diff_assoc($inputData[$key], $value),
-                ];
-            }
-        }
-
-        MigrationHelper::generateMigrationByModelAttributes($inputData, $attributes);
-        dd([
-            'new' => $newAttributes,
-            'deleted' => $deletedAttributes,
-            'updated' => $updatedAttributes,
-        ]);
-
-        MigrationHelper::generateMigrationFile($model, $attributes, 'update');
+        // MigrationHelper::generateMigrationByModelAttributes($inputData, $attributes);
+        MigrationHelper::generateMigrationFile($model, $inputData, 'create');
     }
 }

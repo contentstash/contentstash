@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Helpers\ArrayHelper;
+
 class TextAttributeType extends StringAttributeType
 {
     /**
@@ -20,13 +22,17 @@ class TextAttributeType extends StringAttributeType
         return 'text';
     }
 
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // public function getMigrationColumn(): string
-    // {
-    //     return "\$table->text('{{name}}')";
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    public function getMigrationColumn(): array
+    {
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'text(\'{{name}}\')',
+            ],
+        ]);
+    }
 
     /**
      * {@inheritDoc}

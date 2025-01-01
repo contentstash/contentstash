@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Helpers\ArrayHelper;
+
 class BigIntAttributeType extends IntAttributeType
 {
     /**
@@ -20,13 +22,17 @@ class BigIntAttributeType extends IntAttributeType
         return 'bigint';
     }
 
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // public function getMigrationColumn(): string
-    // {
-    //     return "\$table->bigInteger('{{name}}')";
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    public function getMigrationColumn(): array
+    {
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'bigInteger(\'{{name}}\')',
+            ],
+        ]);
+    }
 
     /**
      * {@inheritDoc}

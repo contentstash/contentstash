@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Helpers\ArrayHelper;
+
 class StringAttributeType extends BaseAttributeType
 {
     /**
@@ -43,10 +45,9 @@ class StringAttributeType extends BaseAttributeType
      */
     public function getMigrationColumn(): array
     {
-        return array_merge(parent::getMigrationColumn(), [
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
             'name' => [
                 'up' => 'string(\'{{name}}\')',
-                'diff' => 'renameColumn(\'{{name}}\')',
             ],
         ]);
     }

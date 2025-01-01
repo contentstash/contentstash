@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Helpers\ArrayHelper;
+
 class IntAttributeType extends BaseAttributeType
 {
     /**
@@ -38,13 +40,17 @@ class IntAttributeType extends BaseAttributeType
         ];
     }
 
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // public function getMigrationColumn(): string
-    // {
-    //     return "\$table->integer('{{name}}')";
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    public function getMigrationColumn(): array
+    {
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'integer(\'{{name}}\')',
+            ],
+        ]);
+    }
 
     /**
      * {@inheritDoc}

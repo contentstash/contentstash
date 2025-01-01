@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Attribute;
 
 use ContentStash\Core\Enums\AttributeTypeFormat;
+use ContentStash\Core\Helpers\ArrayHelper;
 
 class TimestampAttributeType extends BaseAttributeType
 {
@@ -53,8 +54,10 @@ class TimestampAttributeType extends BaseAttributeType
      */
     public function getMigrationColumn(): array
     {
-        return array_merge(parent::getMigrationColumn(), [
-            'name' => 'timestamp(\'{{name}}\')',
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'timestamp(\'{{name}}\')',
+            ],
         ]);
     }
 

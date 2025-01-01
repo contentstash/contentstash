@@ -2,6 +2,8 @@
 
 namespace ContentStash\Core\Attribute;
 
+use ContentStash\Core\Helpers\ArrayHelper;
+
 class BooleanAttributeType extends BaseAttributeType
 {
     /**
@@ -38,13 +40,17 @@ class BooleanAttributeType extends BaseAttributeType
         ];
     }
 
-    // /**
-    //  * {@inheritDoc}
-    //  */
-    // public function getMigrationColumn(): string
-    // {
-    //     return "\$table->boolean('{{name}}')";
-    // }
+    /**
+     * {@inheritDoc}
+     */
+    public function getMigrationColumn(): array
+    {
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+            'name' => [
+                'up' => 'boolean(\'{{name}}\')',
+            ],
+        ]);
+    }
 
     /**
      * {@inheritDoc}
