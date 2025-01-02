@@ -23,24 +23,35 @@ class MigrationHelper
         $timestamp = date('Y_m_d_His');
 
         if ($action->value === MigrationFileAction::Create->value) {
+            if (count($attributes) == 0) {
+                throw new \Exception('Attributes are required for creating a migration file.');
+            }
+
             return $timestamp.'_create_'.$tableName.'_table.php';
         } elseif ($action->value === MigrationFileAction::Delete->value) {
+            if (count($oldAttributes) == 0) {
+                throw new \Exception('Old attributes are required for deleting a migration file.');
+            }
+
             return $timestamp.'_delete_'.$tableName.'_table.php';
         } else {
             // get attribute difference
             $attributeDifference = MigrationTableHelper::getAttributeDifference($attributes, $oldAttributes);
+            if (count($attributeDifference) == 0) {
+                throw new \Exception('Attributes are required for updating a migration file.');
+            }
 
             $newAttributes = MigrationTableHelper::getNewTableAttributes($attributeDifference);
             $updatedAttributes = MigrationTableHelper::getUpdatedTableAttributes($attributeDifference);
             $deletedAttributes = MigrationTableHelper::getDeletedTableAttributes($attributeDifference);
 
-            // check if attributes are only added, updated or deleted or a combination of them
+            // check if attributeDifference are only added, updated or deleted or a combination of them
             // only one type:
-            // - if max 3 attributes are changed, the name should be include the attribute names (e.g. add_name_and_age_to_users_table)
-            // - if more than 3 attributes are changed, the name add "fields" to the name (e.g. add_fields_to_users_table)
+            // - if max 3 attributeDifference are changed, the name should be include the attribute names (e.g. add_name_and_age_to_users_table)
+            // - if more than 3 attributeDifference are changed, the name add "fields" to the name (e.g. add_fields_to_users_table)
             // combination of types:
             // - always use "update_fields_in_table_name" as name
-            if (count($newAttributes) == count($attributes)) {
+            if (count($newAttributes) == count($attributeDifference)) {
                 if (count($newAttributes) <= 3) {
                     $newAttributesNames = array_keys($newAttributes);
 
@@ -48,7 +59,7 @@ class MigrationHelper
                 } else {
                     return $timestamp.'_add_fields_to_'.$tableName.'_table.php';
                 }
-            } elseif (count($updatedAttributes) == count($attributes)) {
+            } elseif (count($updatedAttributes) == count($attributeDifference)) {
                 if (count($updatedAttributes) <= 3) {
                     $updatedAttributesNames = array_keys($updatedAttributes);
 
@@ -56,7 +67,7 @@ class MigrationHelper
                 } else {
                     return $timestamp.'_update_fields_in_'.$tableName.'_table.php';
                 }
-            } elseif (count($deletedAttributes) == count($attributes)) {
+            } elseif (count($deletedAttributes) == count($attributeDifference)) {
                 if (count($deletedAttributes) <= 3) {
                     $deletedAttributesNames = array_keys($deletedAttributes);
 
