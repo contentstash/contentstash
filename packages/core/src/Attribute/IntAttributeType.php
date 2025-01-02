@@ -46,9 +46,7 @@ class IntAttributeType extends BaseAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'integer(\'{{name}}\')',
-            ],
+            'name' => 'integer(\'{{name}}\')',
         ]);
     }
 

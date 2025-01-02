@@ -67,6 +67,7 @@ class ModelInfoHelper
 
             return $attributeArray;
         })
+            ->keyBy('name')
             ->toArray();
     }
 }

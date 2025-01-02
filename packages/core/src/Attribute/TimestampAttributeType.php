@@ -55,9 +55,7 @@ class TimestampAttributeType extends BaseAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'timestamp(\'{{name}}\')',
-            ],
+            'name' => 'timestamp(\'{{name}}\')',
         ]);
     }
 

@@ -28,9 +28,7 @@ class BigIntAttributeType extends IntAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'bigInteger(\'{{name}}\')',
-            ],
+            'name' => 'bigInteger(\'{{name}}\')',
         ]);
     }
 

@@ -46,9 +46,7 @@ class BooleanAttributeType extends BaseAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'boolean(\'{{name}}\')',
-            ],
+            'name' => 'boolean(\'{{name}}\')',
         ]);
     }
 

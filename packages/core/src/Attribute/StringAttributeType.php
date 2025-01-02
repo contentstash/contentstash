@@ -46,9 +46,7 @@ class StringAttributeType extends BaseAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'string(\'{{name}}\')',
-            ],
+            'name' => 'string(\'{{name}}\')',
         ]);
     }
 

@@ -24,12 +24,10 @@ class MigrationTableHelper
         // generate down method
         $down = self::TABLE_SPACING.'Schema::dropIfExists(\''.$tableName.'\');';
 
-        $result = [
+        return [
             'up' => $up,
             'down' => $down,
         ];
-
-        return $result;
     }
 
     /**
@@ -40,12 +38,66 @@ class MigrationTableHelper
         array $attributes,
         array $oldAttributes): array
     {
-        $result = [
-            'up' => '',
-            'down' => '',
-        ];
+        // generate up method
+        $up = self::TABLE_SPACING.'Schema::table(\''.$tableName.'\', function (Blueprint $table) {'.PHP_EOL;
 
-        return $result;
+        // get down method
+        $down = self::TABLE_SPACING.'Schema::table(\''.$tableName.'\', function (Blueprint $table) {'.PHP_EOL;
+
+        // get attribute difference
+        $attributeDifference = self::getAttributeDifference($attributes, $oldAttributes);
+
+        // get deleted attributes (have only old key) and generate up and down for them
+        $deletedAttributes = array_filter($attributeDifference, function ($value) {
+            return array_key_exists('old', $value) && ! array_key_exists('new', $value);
+        });
+        foreach ($deletedAttributes as $key => $value) {
+            $up .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->dropColumn(\''.$key.'\');'.PHP_EOL;
+        }
+        foreach ($deletedAttributes as $key => $value) {
+            $down .= self::generateMigrationAttribute($oldAttributes[$key]);
+        }
+
+        // update attributes (have both old and new key) and generate up and down for them
+        $updatedAttributes = array_filter($attributeDifference, function ($value) {
+            return array_key_exists('old', $value) && array_key_exists('new', $value);
+        });
+        foreach ($updatedAttributes as $key => $value) {
+            // check if name has changed
+            if ($value['old']['name'] !== $value['new']['name']) {
+                $up .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->renameColumn(\''.$value['old']['name'].'\', \''.$value['new']['name'].'\');'.PHP_EOL;
+                $down .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->renameColumn(\''.$value['new']['name'].'\', \''.$value['old']['name'].'\');'.PHP_EOL;
+                unset($value['old']['name']);
+                unset($value['new']['name']);
+
+                continue;
+            }
+
+            $up .= self::generateMigrationAttribute($value['new']);
+        }
+        foreach ($updatedAttributes as $key => $value) {
+            $down .= self::generateMigrationAttribute($value['old']);
+        }
+
+        // add attributes (have only new key) and generate up and down for them
+        $newAttributes = array_filter($attributeDifference, function ($value) {
+            return ! array_key_exists('old', $value) && array_key_exists('new', $value);
+        });
+        foreach ($newAttributes as $key => $value) {
+            $up .= self::generateMigrationAttribute($value['new']);
+        }
+        foreach ($newAttributes as $key => $value) {
+            $down .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->dropColumn(\''.$key.'\');'.PHP_EOL;
+        }
+
+        // append end to up and down
+        $up .= self::TABLE_SPACING.'});';
+        $down .= self::TABLE_SPACING.'});';
+
+        return [
+            'up' => $up,
+            'down' => $down,
+        ];
     }
 
     /**
@@ -65,6 +117,15 @@ class MigrationTableHelper
     }
 
     /**
+     * Generate migrations for the given attribute.
+     */
+    public static function generateMigrationAttribute(
+        array $attribute): string
+    {
+        return MigrationTableAttributeHelper::generateMigrationAttribute($attribute).MigrationTableAttributeHelper::TABLE_ATTRIBUTE_EOL;
+    }
+
+    /**
      * Generate migrations for the given attributes.
      */
     public static function generateMigrationAttributes(
@@ -73,7 +134,30 @@ class MigrationTableHelper
         $result = '';
 
         foreach ($attributes as $attribute) {
-            $result .= MigrationTableAttributeHelper::generateMigrationAttribute($attribute).MigrationTableAttributeHelper::TABLE_ATTRIBUTE_EOL;
+            $result .= self::generateMigrationAttribute($attribute);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get difference between two attribute arrays.
+     */
+    public static function getAttributeDifference(
+        array $newAttributes,
+        array $oldAttributes): array
+    {
+        $result = [];
+
+        // get all keys from both arrays
+        $keys = array_values(array_unique(array_merge(array_keys($newAttributes), array_keys($oldAttributes))));
+
+        foreach ($keys as $key) {
+            $temp = MigrationTableAttributeHelper::getSchemaDifference($newAttributes[$key] ?? [], $oldAttributes[$key] ?? []);
+
+            if (! empty($temp)) {
+                $result[$key] = $temp;
+            }
         }
 
         return $result;

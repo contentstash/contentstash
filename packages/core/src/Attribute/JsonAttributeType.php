@@ -54,9 +54,7 @@ class JsonAttributeType extends BaseAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'json(\'{{name}}\')',
-            ],
+            'name' => 'json(\'{{name}}\')',
         ]);
     }
 

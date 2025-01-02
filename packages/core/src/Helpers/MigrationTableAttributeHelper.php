@@ -96,4 +96,41 @@ class MigrationTableAttributeHelper
 
         return $migrationString;
     }
+
+    /**
+     * Get difference between two attribute schemas.
+     */
+    public static function getSchemaDifference(
+        array $newSchema,
+        array $oldSchema): array
+    {
+        $result = [];
+
+        // get new and updated attributes
+        foreach ($newSchema as $key => $value) {
+            if (array_key_exists($key, $oldSchema) && $value !== $oldSchema[$key]) {
+                $result['old'][$key] = $oldSchema[$key];
+                $result['new'][$key] = $value;
+            } elseif (! array_key_exists($key, $oldSchema)) {
+                $result['new'][$key] = $value;
+            }
+        }
+
+        // get deleted attributes
+        foreach ($oldSchema as $key => $value) {
+            if (! array_key_exists($key, $newSchema)) {
+                $result['old'][$key] = $value;
+            }
+        }
+
+        // keep attributeType for existing schema
+        if (isset($result['new'])) {
+            $result['new']['attributeType'] = $newSchema['attributeType'];
+        }
+        if (isset($result['old'])) {
+            $result['old']['attributeType'] = $oldSchema['attributeType'];
+        }
+
+        return $result;
+    }
 }

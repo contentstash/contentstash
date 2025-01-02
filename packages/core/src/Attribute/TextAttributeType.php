@@ -28,9 +28,7 @@ class TextAttributeType extends StringAttributeType
     public function getMigrationDefinition(): array
     {
         return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
-            'name' => [
-                'up' => 'text(\'{{name}}\')',
-            ],
+            'name' => 'text(\'{{name}}\')',
         ]);
     }
 

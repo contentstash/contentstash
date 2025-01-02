@@ -55,12 +55,8 @@ abstract class BaseAttributeType
      */
     public function getMigrationDefinition(): array
     {
-
         return [
             'nullable' => 'nullable({{nullable|bool}})',
-            'name' => [
-                'diff' => 'renameColumn(\'{{old_name}}\', \'{{new_name}}\')',
-            ],
         ];
     }
 
