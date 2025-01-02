@@ -14,11 +14,54 @@ import {
   Shield,
   Users,
 } from "lucide-vue-next";
+import type { Props as AppAlertProps } from "@/components/app/Alert.vue";
 
-const { errors } = defineProps<{
+type PropFlashAlert = {
+  title?: string;
+  description?: string;
+};
+const { errors, flash } = defineProps<{
   errors: Record<string, string>;
+  flash: {
+    error: PropFlashAlert;
+    message: PropFlashAlert;
+    success: PropFlashAlert;
+  };
 }>();
 
+// alerts
+const alerts = computed(() => {
+  const alerts: (AppAlertProps & {
+    title?: string;
+    description?: string;
+  })[] = [];
+
+  for (const [type, alert] of Object.entries(flash)) {
+    if (alert) {
+      alerts.push({
+        type:
+          type == "message" || type == "success"
+            ? "default"
+            : (type as AppAlertProps["type"]),
+        title: alert?.title,
+        description: alert?.description,
+      });
+    }
+  }
+
+  if (Object.keys(errors).length) {
+    for (const error of Object.values(errors)) {
+      alerts.push({
+        type: "error",
+        description: error,
+      });
+    }
+  }
+
+  return alerts;
+});
+
+// navigation
 const navGroups = computed<SidebarGroup[]>(() => {
   const {
     props: { resources },
@@ -167,9 +210,16 @@ const navGroups = computed<SidebarGroup[]>(() => {
 <template>
   <DashboardSidebar :groups="navGroups">
     <Teleport defer to="#header-errors">
-      <AppAlert v-for="error in errors" :key="error" type="error">
-        <template #description>
-          {{ error }}
+      <AppAlert
+        v-for="(alert, index) in alerts"
+        :key="index"
+        :type="alert.type"
+      >
+        <template v-if="alert.title" #title>
+          {{ alert.title }}
+        </template>
+        <template v-if="alert.description" #description>
+          {{ alert.description }}
         </template>
       </AppAlert>
     </Teleport>

@@ -52,6 +52,11 @@ class HandleInertiaRequests extends Middleware
                 'name' => config('app.name'),
             ],
             'locale' => app()->getLocale(),
+            'flash' => [
+                'error' => fn () => $request->session()->get('flash.error'),
+                'message' => fn () => $request->session()->get('flash.message'),
+                'success' => fn () => $request->session()->get('flash.success'),
+            ],
         ]);
     }
 }
