@@ -31,6 +31,39 @@ class MigrationTableHelper
     }
 
     /**
+     * Get new table attributes.
+     */
+    public static function getNewTableAttributes(
+        array $attributeDifference): array
+    {
+        return array_filter($attributeDifference, function ($value) {
+            return ! array_key_exists('old', $value) && array_key_exists('new', $value);
+        });
+    }
+
+    /**
+     * Get updated table attributes.
+     */
+    public static function getUpdatedTableAttributes(
+        array $attributeDifference): array
+    {
+        return array_filter($attributeDifference, function ($value) {
+            return array_key_exists('old', $value) && array_key_exists('new', $value);
+        });
+    }
+
+    /**
+     * Get deleted table attributes.
+     */
+    public static function getDeletedTableAttributes(
+        array $attributeDifference): array
+    {
+        return array_filter($attributeDifference, function ($value) {
+            return array_key_exists('old', $value) && ! array_key_exists('new', $value);
+        });
+    }
+
+    /**
      * Generates a migration table for updating an existing table.
      */
     public static function updateTable(
@@ -48,9 +81,7 @@ class MigrationTableHelper
         $attributeDifference = self::getAttributeDifference($attributes, $oldAttributes);
 
         // get deleted attributes (have only old key) and generate up and down for them
-        $deletedAttributes = array_filter($attributeDifference, function ($value) {
-            return array_key_exists('old', $value) && ! array_key_exists('new', $value);
-        });
+        $deletedAttributes = self::getDeletedTableAttributes($attributeDifference);
         foreach ($deletedAttributes as $key => $value) {
             $up .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->dropColumn(\''.$key.'\');'.PHP_EOL;
         }
@@ -59,9 +90,7 @@ class MigrationTableHelper
         }
 
         // update attributes (have both old and new key) and generate up and down for them
-        $updatedAttributes = array_filter($attributeDifference, function ($value) {
-            return array_key_exists('old', $value) && array_key_exists('new', $value);
-        });
+        $updatedAttributes = self::getUpdatedTableAttributes($attributeDifference);
         foreach ($updatedAttributes as $key => $value) {
             // check if name has changed
             if ($value['old']['name'] !== $value['new']['name']) {
@@ -80,9 +109,7 @@ class MigrationTableHelper
         }
 
         // add attributes (have only new key) and generate up and down for them
-        $newAttributes = array_filter($attributeDifference, function ($value) {
-            return ! array_key_exists('old', $value) && array_key_exists('new', $value);
-        });
+        $newAttributes = self::getNewTableAttributes($attributeDifference);
         foreach ($newAttributes as $key => $value) {
             $up .= self::generateMigrationAttribute($value['new']);
         }
