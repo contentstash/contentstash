@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use ContentStash\Core\Enums\MigrationFileAction;
 use ContentStash\Core\Helpers\MigrationHelper;
 use ContentStash\Core\Helpers\MigrationHelperOld;
 use ContentStash\Core\Helpers\ModelInfoHelper;
@@ -49,11 +50,17 @@ class DashboardResourceBuilderController extends Controller
         $inputData = $request->input('data');
 
         $old = MigrationHelperOld::generateMigrationFile($model, $inputData, 'create');
-        $new = MigrationHelper::generateMigrationFile(
+        $newCreate = MigrationHelper::generateMigrationFile(
             $modelInfo->tableName,
             $inputData, $modelAttributes);
+        $newUpdate = MigrationHelper::generateMigrationFile(
+            $modelInfo->tableName,
+            $inputData, $modelAttributes, MigrationFileAction::Update);
+        $newDelete = MigrationHelper::generateMigrationFile(
+            $modelInfo->tableName,
+            $inputData, $modelAttributes, MigrationFileAction::Delete);
 
-        dd($old, $new);
+        dd($old, $newCreate, $newUpdate, $newDelete);
 
     }
 }
