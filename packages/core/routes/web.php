@@ -40,6 +40,9 @@ Route::group(
                 'prefix' => 'resource-builder',
             ],
             function () {
+                Route::get('/create', [DashboardResourceBuilderController::class, 'create'])->name('create');
+                Route::post('/', [DashboardResourceBuilderController::class, 'store'])->name('store');
+
                 Route::group(
                     [
                         'as' => 'slug.',
@@ -49,6 +52,7 @@ Route::group(
                         Route::get('/', [DashboardResourceBuilderController::class, 'show'])->name('show');
                         Route::post('/', [DashboardResourceBuilderController::class, 'store'])->name('store');
                         Route::put('/', [DashboardResourceBuilderController::class, 'update'])->name('update');
+                        Route::delete('/', [DashboardResourceBuilderController::class, 'destroy'])->name('destroy');
                     }
                 );
             }

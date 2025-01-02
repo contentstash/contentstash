@@ -12,11 +12,53 @@ use ContentStash\Core\Http\Requests\StoreResourceRequest;
 use ContentStash\Core\Http\Requests\UpdateResourceRequest;
 use Inertia\Inertia;
 use Inertia\Response;
+use Str;
 
 class DashboardResourceBuilderController extends Controller
 {
     /**
-     * Shows the resource builder for the given model.
+     * Shows the resource builder for a new resource.
+     */
+    public function create(): Response
+    {
+        return Inertia::render('Dashboard/ResourceBuilder/Create');
+    }
+
+    /**
+     * Stores a new resource.
+     */
+    public function store(StoreResourceRequest $request): Response|\Symfony\Component\HttpFoundation\Response
+    {
+        $model = $request->input('model');
+
+        try {
+            MigrationHelper::generateMigrationFile(
+                Str::snake(Str::pluralStudly($model)),
+                $request->input('data'),
+                [],
+                MigrationFileAction::Create
+            );
+        } catch (\Exception $e) {
+            return to_route('dashboard.resource-builder.slug.show', ['slug' => $model])
+                ->with('flash.error', [
+                    'title' => 'An error occurred while creating the migration file.',
+                    'description' => $e->getMessage(),
+                ]);
+        }
+
+        // run migration
+        Artisan::call('migrate');
+
+        session()->flash('flash.success', [
+            'title' => 'Migration was successful.',
+            'description' => 'A new migration file has been created and the migration has been run successfully.',
+        ]);
+
+        return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $model]));
+    }
+
+    /**
+     * Shows the resource builder for the given resource.
      */
     public function show(string $slug): Response
     {
@@ -31,15 +73,7 @@ class DashboardResourceBuilderController extends Controller
     }
 
     /**
-     * Stores the resource builder for the given model.
-     */
-    public function store(StoreResourceRequest $request): Response
-    {
-        dd($request->all());
-    }
-
-    /**
-     * Updates the resource builder for the given model.
+     * Updates the resource.
      */
     public function update(UpdateResourceRequest $request, string $slug): Response|\Symfony\Component\HttpFoundation\Response
     {
@@ -66,8 +100,43 @@ class DashboardResourceBuilderController extends Controller
         Artisan::call('migrate');
 
         session()->flash('flash.success', [
-            'title' => 'Migration file created successfully.',
-            'description' => 'The migration file has been created successfully.',
+            'title' => 'Migration was successful.',
+            'description' => 'A new migration file has been created and the migration has been run successfully.',
+        ]);
+
+        return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));
+    }
+
+    /**
+     * Deletes the resource.
+     */
+    public function destroy(string $slug): Response|\Symfony\Component\HttpFoundation\Response
+    {
+        $model = ModelSlugHelper::parseSlug($slug);
+        $modelInfo = ModelInfoHelper::forModel($model);
+        $modelAttributes = ModelInfoHelper::getAttributesForModel($model);
+
+        try {
+            MigrationHelper::generateMigrationFile(
+                $modelInfo->tableName,
+                [],
+                $modelAttributes,
+                MigrationFileAction::Delete
+            );
+        } catch (\Exception $e) {
+            return to_route('dashboard.resource-builder.slug.show', ['slug' => $slug])
+                ->with('flash.error', [
+                    'title' => 'An error occurred while creating the migration file.',
+                    'description' => $e->getMessage(),
+                ]);
+        }
+
+        // run migration
+        Artisan::call('migrate');
+
+        session()->flash('flash.success', [
+            'title' => 'Migration was successful.',
+            'description' => 'A new migration file has been created and the migration has been run successfully.',
         ]);
 
         return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));

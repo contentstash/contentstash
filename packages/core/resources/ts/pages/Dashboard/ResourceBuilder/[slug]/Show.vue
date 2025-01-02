@@ -56,43 +56,43 @@ const saveHandler = () => {
   });
 };
 
-const { getRow, updateRow, addRow } = useTables();
-onMounted(() => {
-  updateRow<PartialResourceAttribute>({
-    meta: tableMeta,
-    index: data.value.length - 2,
-    row: {
-      status: PartialResourceAttributeStatus.DELETED,
-    } as PartialResourceAttribute,
-  });
+// const { getRow, updateRow, addRow } = useTables();
+// onMounted(() => {
+//   updateRow<PartialResourceAttribute>({
+//     meta: tableMeta,
+//     index: data.value.length - 2,
+//     row: {
+//       status: PartialResourceAttributeStatus.DELETED,
+//     } as PartialResourceAttribute,
+//   });
 
-  const secondRow = getRow<PartialResourceAttribute>({
-    meta: tableMeta,
-    index: 1,
-  });
-  addRow<PartialResourceAttribute>({
-    meta: tableMeta,
-    row: {
-      ...secondRow,
-      name: "new_row",
-      status: PartialResourceAttributeStatus.NEW,
-    } as PartialResourceAttribute,
-  });
+//   const secondRow = getRow<PartialResourceAttribute>({
+//     meta: tableMeta,
+//     index: 1,
+//   });
+//   addRow<PartialResourceAttribute>({
+//     meta: tableMeta,
+//     row: {
+//       ...secondRow,
+//       name: "new_row",
+//       status: PartialResourceAttributeStatus.NEW,
+//     } as PartialResourceAttribute,
+//   });
 
-  updateRow<PartialResourceAttribute>({
-    meta: tableMeta,
-    index: 1,
-    row: {
-      ...secondRow,
-      name: "updated_title",
-      status: PartialResourceAttributeStatus.UPDATED,
-      nullable: true,
-      original: JSON.parse(JSON.stringify(secondRow)),
-    } as PartialResourceAttribute,
-  });
+//   updateRow<PartialResourceAttribute>({
+//     meta: tableMeta,
+//     index: 1,
+//     row: {
+//       ...secondRow,
+//       name: "updated_title",
+//       status: PartialResourceAttributeStatus.UPDATED,
+//       nullable: true,
+//       original: JSON.parse(JSON.stringify(secondRow)),
+//     } as PartialResourceAttribute,
+//   });
 
-  setTimeout(() => saveHandler(), 500);
-});
+//   setTimeout(() => saveHandler(), 500);
+// });
 </script>
 
 <template>
