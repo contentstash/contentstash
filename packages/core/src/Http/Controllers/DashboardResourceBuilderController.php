@@ -4,6 +4,7 @@ namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use ContentStash\Core\Helpers\MigrationHelper;
+use ContentStash\Core\Helpers\MigrationHelperOld;
 use ContentStash\Core\Helpers\ModelInfoHelper;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use ContentStash\Core\Http\Requests\StoreResourceRequest;
@@ -43,20 +44,16 @@ class DashboardResourceBuilderController extends Controller
     {
         $model = ModelSlugHelper::parseSlug($slug);
         $modelInfo = ModelInfoHelper::forModel($model);
-
-        // parse $modelInfo->toArray()['attributes'] to object format
-        $attributesArray = json_decode(json_encode($modelInfo->toArray()['attributes']), true);
-
-        // $attributes = [];
-        // foreach ($attributesArray as $attribute) {
-        //     $attributes[$attribute['name']] = $attribute;
-        //     $attributes[$attribute['name']]['attributeType'] = $attribute['attributeType']['name'];
-        //     unset($attributes[$attribute['name']]['locked']);
-        // }
+        $modelAttributes = ModelInfoHelper::getAttributesForModel($model);
 
         $inputData = $request->input('data');
 
-        // MigrationHelper::generateMigrationByModelAttributes($inputData, $attributes);
-        MigrationHelper::generateMigrationFile($model, $inputData, 'create');
+        $old = MigrationHelperOld::generateMigrationFile($model, $inputData, 'create');
+        $new = MigrationHelper::generateMigrationFile(
+            $modelInfo->tableName,
+            $inputData, $modelAttributes);
+
+        dd($old, $new);
+
     }
 }

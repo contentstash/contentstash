@@ -53,7 +53,7 @@ abstract class BaseAttributeType
     /**
      * Get the database migration definition for this attribute type.
      */
-    public function getMigrationColumn(): array
+    public function getMigrationDefinition(): array
     {
 
         return [
@@ -114,7 +114,7 @@ abstract class BaseAttributeType
             'icon' => $this->getIcon(),
             'classes' => $this->getClasses(),
             'format' => $this->getFormat()->value,
-            'migration' => $this->getMigrationColumn(),
+            'migration' => $this->getMigrationDefinition(),
             'cast' => $this->getCast(),
             'validation' => $this->getValidationRules(),
             'formSchema' => $this->getFormSchema(),

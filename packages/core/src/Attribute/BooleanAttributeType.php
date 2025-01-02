@@ -43,9 +43,9 @@ class BooleanAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getMigrationColumn(): array
+    public function getMigrationDefinition(): array
     {
-        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationColumn(), [
+        return ArrayHelper::mergeRecursiveDistinct(parent::getMigrationDefinition(), [
             'name' => [
                 'up' => 'boolean(\'{{name}}\')',
             ],

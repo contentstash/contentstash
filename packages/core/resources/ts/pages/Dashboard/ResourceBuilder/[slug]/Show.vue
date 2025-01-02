@@ -91,7 +91,7 @@ onMounted(() => {
     } as PartialResourceAttribute,
   });
 
-  setTimeout(() => saveHandler(), 2000);
+  setTimeout(() => saveHandler(), 500);
 });
 </script>
 

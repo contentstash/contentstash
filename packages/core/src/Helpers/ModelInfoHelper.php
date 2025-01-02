@@ -54,4 +54,19 @@ class ModelInfoHelper
 
         return $modelInfo;
     }
+
+    /**
+     * Get attributes for a given model (with flat attributeTypes).
+     */
+    public static function getAttributesForModel(string $model): array
+    {
+        return self::forModel($model)->attributes->map(function ($attribute) {
+            $attributeArray = (array) $attribute;
+            $attributeArray['attributeType'] = $attribute->attributeType['name'];
+            unset($attributeArray['locked']);
+
+            return $attributeArray;
+        })
+            ->toArray();
+    }
 }
