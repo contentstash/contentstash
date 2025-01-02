@@ -3,13 +3,13 @@
 namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Artisan;
 use ContentStash\Core\Enums\MigrationFileAction;
 use ContentStash\Core\Helpers\MigrationHelper;
 use ContentStash\Core\Helpers\ModelInfoHelper;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use ContentStash\Core\Http\Requests\StoreResourceRequest;
 use ContentStash\Core\Http\Requests\UpdateResourceRequest;
-use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -41,7 +41,7 @@ class DashboardResourceBuilderController extends Controller
     /**
      * Updates the resource builder for the given model.
      */
-    public function update(UpdateResourceRequest $request, string $slug): Response|RedirectResponse
+    public function update(UpdateResourceRequest $request, string $slug): Response|\Symfony\Component\HttpFoundation\Response
     {
         $model = ModelSlugHelper::parseSlug($slug);
         $modelInfo = ModelInfoHelper::forModel($model);
@@ -62,10 +62,14 @@ class DashboardResourceBuilderController extends Controller
                 ]);
         }
 
-        return to_route('dashboard.resource-builder.slug.show', ['slug' => $slug])
-            ->with('flash.success', [
-                'title' => 'Migration file created successfully.',
-                'description' => 'The migration file has been created successfully.',
-            ]);
+        // run migration
+        Artisan::call('migrate');
+
+        session()->flash('flash.success', [
+            'title' => 'Migration file created successfully.',
+            'description' => 'The migration file has been created successfully.',
+        ]);
+
+        return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));
     }
 }

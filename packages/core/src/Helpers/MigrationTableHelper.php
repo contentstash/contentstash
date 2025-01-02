@@ -95,9 +95,6 @@ class MigrationTableHelper
             // check if name has changed
             if ($value['old']['name'] !== $value['new']['name']) {
                 $up .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->renameColumn(\''.$value['old']['name'].'\', \''.$value['new']['name'].'\');'.PHP_EOL;
-                $down .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->renameColumn(\''.$value['new']['name'].'\', \''.$value['old']['name'].'\');'.PHP_EOL;
-                unset($value['old']['name']);
-                unset($value['new']['name']);
 
                 continue;
             }
@@ -105,6 +102,11 @@ class MigrationTableHelper
             $up .= self::generateMigrationAttribute($value['new']);
         }
         foreach ($updatedAttributes as $key => $value) {
+            if ($value['old']['name'] !== $value['new']['name']) {
+                $down .= MigrationTableAttributeHelper::TABLE_ATTRIBUTE_SPACING.'$table->renameColumn(\''.$value['new']['name'].'\', \''.$value['old']['name'].'\');'.PHP_EOL;
+
+                continue;
+            }
             $down .= self::generateMigrationAttribute($value['old']);
         }
 
