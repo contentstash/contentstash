@@ -49,11 +49,17 @@ const formData = computed(() => {
     );
 });
 
-const temp = useRoute("dashboard.resource-builder.slug.update", { slug });
+const saveRoute = useRoute("dashboard.resource-builder.slug.update", { slug });
 const saveHandler = () => {
-  useRouter().put(temp, {
+  useRouter().put(saveRoute, {
     data: formData.value,
   });
+};
+const destroyRoute = useRoute("dashboard.resource-builder.slug.destroy", {
+  slug,
+});
+const destroyHandler = () => {
+  useRouter().delete(destroyRoute);
 };
 
 // const { getRow, updateRow, addRow } = useTables();
@@ -117,7 +123,8 @@ const saveHandler = () => {
     </DashboardPageHeader>
     <ResourceAttributesDataTable :meta="tableMeta" v-model:data="data" />
 
-    <UiButton @click="saveHandler()">SAVE</UiButton>
+    <UiButton @click="saveHandler()">SAVE and RUN MIGRATION</UiButton>
+    <UiButton @click="destroyHandler()">DESTROY and RUN MIGRATION</UiButton>
 
     <DevCard>
       <DevCardCode title="formData" v-model="formData" />

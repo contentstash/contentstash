@@ -139,6 +139,6 @@ class DashboardResourceBuilderController extends Controller
             'description' => 'A new migration file has been created and the migration has been run successfully.',
         ]);
 
-        return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));
+        return Inertia::location(route('dashboard.index'));
     }
 }
