@@ -74,6 +74,30 @@
       "label": "Unknown"
     }
   },
+  "colorMode": {
+    "action": {
+      "changeTo": {
+        "auto": {
+          "label": "Change to system theme"
+        },
+        "dark": {
+          "label": "Change to dark mode"
+        },
+        "light": {
+          "label": "Change to light mode"
+        }
+      }
+    },
+    "auto": {
+      "label": "System theme"
+    },
+    "dark": {
+      "label": "Dark mode"
+    },
+    "light": {
+      "label": "Light mode"
+    }
+  },
   "dashboard": {
     "sidebar": {
       "content": {

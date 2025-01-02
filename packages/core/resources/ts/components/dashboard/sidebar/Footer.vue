@@ -1,14 +1,57 @@
 <script setup lang="ts">
-import { Bell, ChevronsUpDown, LogOut, Settings } from "lucide-vue-next";
+import {
+  Bell,
+  ChevronsUpDown,
+  LogOut,
+  Monitor,
+  Moon,
+  Settings,
+  Sun,
+} from "lucide-vue-next";
 import useCurentUser from "@/composables/useCurentUser";
+import { useColorMode } from "@vueuse/core";
 
 const { user } = useCurentUser();
 const { getFallbackAvatar } = useUser();
+
+// color mode
+const { store } = useColorMode();
+const colorModeChangeHandler = () => {
+  store.value = nextColorMode.value;
+};
+const nextColorMode = computed(() => {
+  if (store.value === "light") {
+    return "dark";
+  } else if (store.value === "dark") {
+    return "auto";
+  } else {
+    return "light";
+  }
+});
+const colorModeIcon = computed(() => {
+  if (store.value === "light") {
+    return Sun;
+  } else if (store.value === "dark") {
+    return Moon;
+  } else {
+    return Monitor;
+  }
+});
 </script>
 
 <template>
   <UiSidebarFooter>
     <UiSidebarMenu>
+      <UiSidebarMenuItem>
+        <UiSidebarMenuButton
+          @click="colorModeChangeHandler"
+          :tooltip="$t(`colorMode.action.changeTo.${nextColorMode}.label`)"
+        >
+          <component :is="colorModeIcon" class="size-4" />
+          {{ $t(`colorMode.${store}.label`) }}
+        </UiSidebarMenuButton>
+      </UiSidebarMenuItem>
+      <UiSidebarSeparator />
       <UiSidebarMenuItem>
         <UiDropdownMenu>
           <UiDropdownMenuTrigger as-child>
