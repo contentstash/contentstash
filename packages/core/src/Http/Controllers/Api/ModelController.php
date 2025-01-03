@@ -4,6 +4,7 @@ namespace ContentStash\Core\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use ContentStash\Core\Helpers\ModelSlugHelper;
+use Str;
 
 class ModelController extends Controller
 {
@@ -12,7 +13,12 @@ class ModelController extends Controller
      */
     public function parseModel(string $model): string
     {
-        $model = ModelSlugHelper::parseSlug($model);
+        // check if singular is plural and if so abort to enforce standardised url path
+        if (Str::singular($model) === $model) {
+            abort(404);
+        }
+
+        $model = ModelSlugHelper::parseSlug(Str::singular($model));
         if (! $model || ! class_exists($model)) {
             abort(404);
         }
