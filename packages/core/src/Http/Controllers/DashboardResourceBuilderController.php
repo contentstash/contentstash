@@ -62,7 +62,7 @@ class DashboardResourceBuilderController extends Controller
             'description' => 'A new migration file has been created and the migration has been run successfully.',
         ]);
 
-        $slug = ModelSlugHelper::generateSlug('App\Models\\'.$model);
+        $slug = ModelSlugHelper::generateSlug('App\Models\\'.Str::singular($model));
 
         return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));
     }
