@@ -32,7 +32,12 @@ class ModelHelper
 
         // replace placeholders
         $stub = str_replace('{{ModelName}}', $modelFileName, $stub);
-        $stub = str_replace('{{Casts}}', self::generateCastsArray($attributes), $stub);
+        $casts = self::generateCastsArray($attributes);
+        if (count($casts) > 0) {
+            $stub = str_replace('{{Casts}}', self::castsArrayToString($casts), $stub);
+        } else {
+            $stub = str_replace('{{Casts}}', '', $stub);
+        }
 
         // save file
         file_put_contents($modelFilePath, $stub);
@@ -69,5 +74,20 @@ class ModelHelper
         }
 
         return $casts;
+    }
+
+    /**
+     * Convert casts array to string.
+     */
+    public static function castsArrayToString(
+        array $casts,
+    ): string {
+        $castsString = '';
+
+        foreach ($casts as $key => $value) {
+            $castsString .= '\''.$key.'\' => \''.$value.'\','.PHP_EOL;
+        }
+
+        return $castsString;
     }
 }

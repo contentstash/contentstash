@@ -95,7 +95,9 @@ const destroyHandler = () => {
 
     <div class="flex justify-end gap-2">
       <UiButton @click="updateHandler()" :disabled="updateButtonIsDisabled">
-        {{ $t("page.dashboard.resource-builder.slug.show.action.save.label") }}
+        {{
+          $t("page.dashboard.resource-builder.slug.show.action.update.label")
+        }}
       </UiButton>
       <UiButton @click="destroyHandler()" variant="destructive">
         {{

@@ -12,7 +12,6 @@ class UpdateResourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model' => 'required|string',
             'data' => 'required|array',
             'data.*' => 'required|array',
             'data.*.name' => 'required|string',

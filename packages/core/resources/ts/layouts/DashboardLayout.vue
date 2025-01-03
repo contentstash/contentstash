@@ -115,7 +115,9 @@ const navGroups = computed<SidebarGroup[]>(() => {
             [
               {
                 title: "Add new Resource",
-                disabled: true,
+                to: {
+                  name: "dashboard.resource-builder.create",
+                },
               },
             ],
             resourceBuilderLinks,

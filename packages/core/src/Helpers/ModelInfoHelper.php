@@ -13,6 +13,9 @@ class ModelInfoHelper
      * @var array
      */
     protected static $protectedFields = [
+        '*' => [
+            'id',
+        ],
         'App\Models\User' => [
             'id',
             'name',
@@ -33,19 +36,22 @@ class ModelInfoHelper
         $modelInfo = ModelInfo::forModel($model);
 
         // check if model is protected
+        $modelProtectedFields = self::$protectedFields['*'];
         if (array_key_exists($model, self::$protectedFields)) {
-            $modelInfo->attributes = $modelInfo->attributes->map(function ($attribute) use ($model) {
-                $attributeArray = (array) $attribute;
-                if (in_array($attribute->name, self::$protectedFields[$model])) {
-                    $attributeArray['locked'] = true;
-                }
-
-                // set defaultValue to null
-                $attributeArray['defaultValue'] = null;
-
-                return (object) $attributeArray;
-            });
+            $modelProtectedFields = array_merge($modelProtectedFields, self::$protectedFields[$model]);
         }
+
+        $modelInfo->attributes = $modelInfo->attributes->map(function ($attribute) use ($modelProtectedFields) {
+            $attributeArray = (array) $attribute;
+            if (in_array($attribute->name, $modelProtectedFields)) {
+                $attributeArray['locked'] = true;
+            }
+
+            // set defaultValue to null
+            $attributeArray['defaultValue'] = null;
+
+            return (object) $attributeArray;
+        });
 
         // set attribute types
         $modelInfo->attributes->each(function ($attribute) {

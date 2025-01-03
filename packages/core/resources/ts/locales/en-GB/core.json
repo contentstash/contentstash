@@ -204,13 +204,38 @@
         "title": "Dashboard"
       },
       "resource-builder": {
+        "create": {
+          "action": {
+            "store": {
+              "label": "Create and execute"
+            }
+          },
+          "general": {
+            "description": "General settings for the resource.",
+            "form": {
+              "model": {
+                "label": "Model name",
+                "placeholder": "FooBar"
+              }
+            },
+            "title": "General"
+          },
+          "header": {
+            "description": "Create a new resource.",
+            "title": "Create Resource"
+          },
+          "meta": {
+            "title": "Create Resource"
+          },
+          "title": "Create Resource"
+        },
         "slug": {
           "show": {
             "action": {
               "destroy": {
                 "label": "Delete and execute"
               },
-              "save": {
+              "update": {
                 "label": "Save and execute"
               }
             },
