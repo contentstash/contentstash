@@ -5,7 +5,7 @@ import { computed } from "vue";
 import { SlidersHorizontal } from "lucide-vue-next";
 
 interface DataTableViewOptionsProps {
-  table: Table<Task>;
+  table: Table<unknown>;
 }
 
 const props = defineProps<DataTableViewOptionsProps>();
@@ -18,6 +18,9 @@ const columns = computed(() =>
         typeof column.accessorFn !== "undefined" && column.getCanHide(),
     ),
 );
+
+// TODO: Implement a better solution for this
+type ColumnDef = (typeof columns.value)[0]["columnDef"] & { title: string };
 </script>
 
 <template>
@@ -35,7 +38,7 @@ const columns = computed(() =>
         :min="1"
         @update:checked="(value) => column.toggleVisibility(!!value)"
       >
-        {{ column.id }}
+        {{ (column.columnDef as ColumnDef).title ?? column.id }}
       </UiDropdownMenuCheckboxItem>
     </UiDropdownMenuContent>
   </UiDropdownMenu>

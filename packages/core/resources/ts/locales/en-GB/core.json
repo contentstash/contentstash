@@ -276,6 +276,9 @@
   },
   "resource": {
     "attribute": {
+      "name": {
+        "label": "Name"
+      },
       "add": {
         "edit": {
           "dialog": {
@@ -292,6 +295,18 @@
           }
         }
       },
+      "attributeType": {
+        "label": "Type"
+      },
+      "increments": {
+        "label": "Increments"
+      },
+      "nullable": {
+        "label": "Nullable"
+      },
+      "primary": {
+        "label": "Primary"
+      },
       "status": {
         "DELETED": {
           "label": "Deleted"
@@ -302,6 +317,9 @@
         "UPDATED": {
           "label": "Updated"
         }
+      },
+      "unique": {
+        "label": "Unique"
       }
     },
     "items": {
