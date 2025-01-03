@@ -1,13 +1,24 @@
 <?php
 
+use ContentStash\Core\Enums\ModelRolePermissionPrefix;
 use ContentStash\Core\Enums\RolePermission;
 use ContentStash\Core\Enums\UserRole;
+use ContentStash\Core\Helpers\ModelHelper;
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 return new class extends Migration
 {
+    /**
+     * Models to create permissions for.
+     *
+     * @var string[]
+     */
+    private static array $models = [
+        'App\Models\User',
+    ];
+
     /**
      * Run the migrations.
      */
@@ -20,6 +31,13 @@ return new class extends Migration
 
         $viewDashboard = Permission::create(['name' => RolePermission::VIEW_DASHBOARD]);
         $admin->givePermissionTo($viewDashboard);
+
+        foreach (self::$models as $model) {
+            foreach (ModelRolePermissionPrefix::cases() as $prefix) {
+                $permission = Permission::create(['name' => $prefix->value.' '.ModelHelper::getModelPermissionName($model)]);
+                $admin->givePermissionTo($permission);
+            }
+        }
     }
 
     /**
@@ -33,5 +51,11 @@ return new class extends Migration
         Role::where('name', UserRole::ADMIN)->delete();
 
         Permission::where('name', RolePermission::VIEW_DASHBOARD)->delete();
+
+        foreach (self::$models as $model) {
+            foreach (ModelRolePermissionPrefix::cases() as $prefix) {
+                Permission::where('name', $prefix->value.' '.ModelHelper::getModelPermissionName($model))->delete();
+            }
+        }
     }
 };

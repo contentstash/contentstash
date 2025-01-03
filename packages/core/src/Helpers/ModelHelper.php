@@ -20,9 +20,9 @@ class ModelHelper
      * Get model permission name.
      */
     public static function getModelPermissionName(
-        $modelName,
+        $model,
     ): string {
-        return Str::plural(Str::snake($modelName, ' '));
+        return Str::plural(Str::snake(basename(str_replace('\\', '/', $model), ' ')));
     }
 
     /**
