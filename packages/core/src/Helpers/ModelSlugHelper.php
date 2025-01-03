@@ -9,9 +9,18 @@ class ModelSlugHelper
      */
     public static function generateSlug(string $model): string
     {
-        return implode('--', array_map(function ($part) {
-            return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $part));
-        }, explode('\\', $model)));
+        return strtolower(
+            preg_replace(
+                '/(?<!^)[A-Z]/',
+                '-$0',
+                basename(str_replace('\\', '/', $model))
+            )
+        );
+
+        // TODO: Unsure which url format i want to use
+        // return implode('--', array_map(function ($part) {
+        //     return strtolower(preg_replace('/(?<!^)[A-Z]/', '-$0', $part));
+        // }, explode('\\', $model)));
     }
 
     /**
@@ -19,8 +28,11 @@ class ModelSlugHelper
      */
     public static function parseSlug(string $slug): string
     {
-        return implode('\\', array_map(function ($part) {
-            return str_replace('-', '', ucwords($part, '-'));
-        }, explode('--', $slug)));
+        return 'App\\Models\\'.str_replace('-', '', ucwords($slug, '-'));
+
+        // TODO: Unsure which url format i want to use
+        // return implode('\\', array_map(function ($part) {
+        //     return str_replace('-', '', ucwords($part, '-'));
+        // }, explode('--', $slug)));
     }
 }
