@@ -29,7 +29,8 @@
     "laravel/framework": "^11.9",
     "inertiajs/inertia-laravel": "2.x-dev",
     "tightenco/ziggy": "^2.3",
-    "spatie/laravel-model-info": "^2.0"
+    "spatie/laravel-model-info": "^2.0",
+    "spatie/laravel-permission": "^6.10"
   },
   "autoload": {
     "psr-4": {

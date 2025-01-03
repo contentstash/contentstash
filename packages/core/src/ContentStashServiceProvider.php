@@ -14,7 +14,9 @@ use ContentStash\Core\Facades\AttributeTypeRegistryFacade;
 use ContentStash\Core\Facades\PluginRegistryFacade;
 use ContentStash\Core\Services\AttributeTypeRegistry as AttributeTypeRegistryService;
 use ContentStash\Core\Services\PluginRegistry as PluginRegistryService;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use PluginRegistry;
 
@@ -25,12 +27,9 @@ class ContentStashServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->offerPublishing();
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'contentstash');
-
-        $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/contentstash'),
-        ], 'contentstash-views');
-
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
     }
@@ -81,5 +80,39 @@ class ContentStashServiceProvider extends ServiceProvider
             TextAttributeType::class,
             TimestampAttributeType::class,
         ]);
+    }
+
+    /**
+     * Setup the resource publishing groups for ContentStash.
+     */
+    protected function offerPublishing(): void
+    {
+        if (! $this->app->runningInConsole()) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/contentstash'),
+        ], 'contentstash-views');
+
+        $this->publishes([
+            __DIR__.'/../database/migrations/add_is_system_to_roles_table.php' => $this->getMigrationFileName('add_is_system_to_roles_table.php'),
+            __DIR__.'/../database/migrations/create_permissions_and_roles.php' => $this->getMigrationFileName('create_permissions_and_roles.php'),
+        ], 'contentstash-migrations');
+    }
+
+    /**
+     * Returns existing migration file if found, else uses the current timestamp.
+     */
+    protected function getMigrationFileName(string $migrationFileName): string
+    {
+        $timestamp = date('Y_m_d_His');
+
+        $filesystem = $this->app->make(FileSystem::class);
+
+        return Collection::make([$this->app->databasePath().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR])
+            ->flatMap(fn ($path) => $filesystem->glob($path.'*_'.$migrationFileName))
+            ->push($this->app->databasePath()."/migrations/{$timestamp}_{$migrationFileName}")
+            ->first();
     }
 }
