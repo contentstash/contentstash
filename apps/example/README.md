@@ -5,3 +5,9 @@ php artisan vendor:publish --provider="Spatie\Permission\PermissionServiceProvid
 
 
  use HasRoles;
+
+
+
+
+php artisan vendor:publish --tag=contentstash-views
+php artisan vendor:publish --tag=contentstash-migrations
