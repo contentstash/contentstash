@@ -91,6 +91,11 @@ class MigrationTableAttributeHelper
                 $migrationString = str_replace($matches[0], var_export($value, true), $migrationString);
             }
 
+            // check if value is an json array
+            if (is_array($value)) {
+                $value = json_encode($value);
+            }
+
             $migrationString = str_replace('{{'.$key.'}}', $value, $migrationString);
         }
 

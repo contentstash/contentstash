@@ -39,7 +39,7 @@ const formData = computed(() => {
         const { original, status, locked, ...rest } = row;
         acc[key] = {
           ...rest,
-          attributeType: row.attributeType.name,
+          attributeType: row.attributeType?.name ?? "unknown",
         };
         return acc;
       },

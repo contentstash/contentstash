@@ -133,7 +133,10 @@ const restoreHandler = () => {
     <UiDropdownMenuContent align="end">
       <UiDropdownMenuItem
         @click="openEditDialogDrawer"
-        :disabled="item.status === PartialResourceAttributeStatus.DELETED"
+        :disabled="
+          item.status === PartialResourceAttributeStatus.DELETED ||
+          !item.attributeType
+        "
       >
         <Pencil />
         {{ $t("action.edit.label") }}
@@ -147,7 +150,10 @@ const restoreHandler = () => {
       </UiDropdownMenuItem>
       <UiDropdownMenuItem
         v-if="item.status !== PartialResourceAttributeStatus.DELETED"
-        :disabled="item.status === PartialResourceAttributeStatus.UPDATED"
+        :disabled="
+          item.status === PartialResourceAttributeStatus.UPDATED ||
+          !item.attributeType
+        "
         @click="deleteHandler"
       >
         <Trash2 />
