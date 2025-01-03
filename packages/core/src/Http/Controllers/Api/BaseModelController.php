@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use ContentStash\Core\Http\Resources\ModelResource;
 
 class BaseModelController extends Controller
 {
@@ -13,7 +14,7 @@ class BaseModelController extends Controller
     {
         $model = app($model);
 
-        return $model->paginate();
+        return ModelResource::collection($model->paginate());
     }
 
     /**
@@ -23,7 +24,7 @@ class BaseModelController extends Controller
     {
         $model = app($model);
 
-        return $model->create(request()->all());
+        return ModelResource::make($model->create(request()->all()));
     }
 
     /**
@@ -33,7 +34,7 @@ class BaseModelController extends Controller
     {
         $model = app($model);
 
-        return $model->findOrFail($resource);
+        return ModelResource::make($model->findOrFail($resource));
     }
 
     /**
@@ -47,7 +48,7 @@ class BaseModelController extends Controller
 
         $model->update(request()->all());
 
-        return $model;
+        return ModelResource::make($model);
     }
 
     /**
