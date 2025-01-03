@@ -12,10 +12,12 @@ use ContentStash\Core\Attribute\TextAttributeType;
 use ContentStash\Core\Attribute\TimestampAttributeType;
 use ContentStash\Core\Facades\AttributeTypeRegistryFacade;
 use ContentStash\Core\Facades\PluginRegistryFacade;
+use ContentStash\Core\Models\GuestUser;
 use ContentStash\Core\Services\AttributeTypeRegistry as AttributeTypeRegistryService;
 use ContentStash\Core\Services\PluginRegistry as PluginRegistryService;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\AliasLoader;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use PluginRegistry;
@@ -32,6 +34,13 @@ class ContentStashServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'contentstash');
         $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+
+        Request::macro('guest', function () {
+            return new GuestUser;
+        });
+        Request::macro('userOrGuest', function () {
+            return request()->user() ?? request()->guest();
+        });
     }
 
     /**

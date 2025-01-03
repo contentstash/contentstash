@@ -8,12 +8,21 @@ use Str;
 class ModelHelper
 {
     /**
-     * Get model file name.
+     * Get model name.
      */
-    public static function getModelFileName(
+    public static function getModelName(
         string $tableName,
     ): string {
         return Str::studly(Str::singular($tableName));
+    }
+
+    /**
+     * Get model permission name.
+     */
+    public static function getModelPermissionName(
+        $modelName,
+    ): string {
+        return Str::plural(Str::snake($modelName, ' '));
     }
 
     /**
@@ -24,14 +33,14 @@ class ModelHelper
         array $attributes,
     ): void {
         // get file name and path
-        $modelFileName = self::getModelFileName($tableName);
-        $modelFilePath = app_path('Models').'/'.$modelFileName.'.php';
+        $modelName = self::getModelName($tableName);
+        $modelFilePath = app_path('Models').'/'.$modelName.'.php';
 
         // load stub file
         $stub = file_get_contents(__DIR__.'/../Stubs/model.stub');
 
         // replace placeholders
-        $stub = str_replace('{{ModelName}}', $modelFileName, $stub);
+        $stub = str_replace('{{ModelName}}', $modelName, $stub);
         $casts = self::generateCastsArray($attributes);
         if (count($casts) > 0) {
             $stub = str_replace('{{Casts}}', self::castsArrayToString($casts), $stub);
@@ -49,7 +58,7 @@ class ModelHelper
     public static function deleteModelFile(
         string $tableName,
     ): void {
-        $modelFileName = self::getModelFileName($tableName);
+        $modelFileName = self::getModelName($tableName);
 
         $modelFilePath = app_path('Models').'/'.$modelFileName.'.php';
 

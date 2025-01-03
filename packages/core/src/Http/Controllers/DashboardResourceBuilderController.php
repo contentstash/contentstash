@@ -32,6 +32,7 @@ class DashboardResourceBuilderController extends Controller
     {
         $model = $request->input('model');
         $tableName = Str::snake(Str::pluralStudly($model));
+        $modelName = ModelHelper::getModelName($tableName);
 
         try {
             MigrationHelper::generateMigrationFile(
@@ -62,7 +63,7 @@ class DashboardResourceBuilderController extends Controller
             'description' => 'A new migration file has been created and the migration has been run successfully.',
         ]);
 
-        $slug = ModelSlugHelper::generateSlug('App\Models\\'.Str::singular($model));
+        $slug = ModelSlugHelper::generateSlug('App\Models\\'.$modelName);
 
         return Inertia::location(route('dashboard.resource-builder.slug.show', ['slug' => $slug]));
     }

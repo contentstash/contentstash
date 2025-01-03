@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Helpers;
 
 use ContentStash\Core\Enums\MigrationFileAction;
+use ContentStash\Core\Enums\ModelRolePermissionPrefix;
 
 class MigrationHelper
 {
@@ -10,6 +11,11 @@ class MigrationHelper
      * Arrow symbol for migration files.
      */
     const ARROW_SYMBOL = '->';
+
+    /**
+     * Spacing for the migration file.
+     */
+    const SPACING = '        ';
 
     /**
      * Get migration file name.
@@ -97,9 +103,20 @@ class MigrationHelper
         $method = strtolower($action->value).'Table';
         $table = MigrationTableHelper::$method($tableName, $attributes, $oldAttributes);
 
+        // set up and down
+        $up = $table['up'];
+        $down = $table['down'];
+
+        // generate permission if needed
+        if (in_array($action->value, [MigrationFileAction::Create->value, MigrationFileAction::Delete->value])) {
+            $permission = self::generatePermissionMigration($tableName, $action);
+            $up .= PHP_EOL.$permission['up'];
+            $down .= PHP_EOL.$permission['down'];
+        }
+
         // replace placeholders
-        $stub = str_replace('{{MigrationUp}}', $table['up'], $stub);
-        $stub = str_replace('{{MigrationDown}}', $table['down'], $stub);
+        $stub = str_replace('{{MigrationUp}}', $up, $stub);
+        $stub = str_replace('{{MigrationDown}}', $down, $stub);
 
         // get file name
         $fileName = self::getMigrationFileName($tableName, $action, $attributes, $oldAttributes);
@@ -109,5 +126,45 @@ class MigrationHelper
 
         // save file
         file_put_contents($filePath, $stub);
+    }
+
+    /**
+     * Generate migration for permissions on create and delete.
+     */
+    public static function generatePermissionMigration(
+        string $tableName,
+        MigrationFileAction $action = MigrationFileAction::Create): array
+    {
+        if (! in_array($action->value, [MigrationFileAction::Create->value, MigrationFileAction::Delete->value])) {
+            throw new \Exception('Only create and delete actions are allowed for permission migrations.');
+        }
+
+        $create = '';
+        $delete = '';
+
+        // get model permission name
+        $modelName = ModelHelper::getModelName($tableName);
+        $modelPermissionName = ModelHelper::getModelPermissionName($modelName);
+
+        // loop through permissions and generate migration
+        foreach (ModelRolePermissionPrefix::cases() as $permission) {
+            $permissionName = $permission->value.' '.$modelPermissionName;
+
+            $create .= self::SPACING."\Spatie\Permission\Models\Permission::create(['name' => '$permissionName']);".PHP_EOL;
+            $delete .= self::SPACING."\Spatie\Permission\Models\Permission::where('name', '$permissionName')->delete();".PHP_EOL;
+        }
+
+        // return up and down based on action
+        if ($action->value === MigrationFileAction::Create->value) {
+            return [
+                'up' => $create,
+                'down' => $delete,
+            ];
+        } else {
+            return [
+                'up' => $delete,
+                'down' => $create,
+            ];
+        }
     }
 }

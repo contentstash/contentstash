@@ -7,10 +7,9 @@ Route::group(
     [
         'as' => 'api.',
         'prefix' => 'api',
-        'middleware' => ['api'],
+        'middleware' => ['web'],
     ],
     function () {
-
         Route::group(
             [
                 'as' => 'slug.',
