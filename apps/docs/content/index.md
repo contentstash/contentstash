@@ -17,7 +17,7 @@ actions:
 - name: GitHub
   variant: outline
   to: https://github.com/contentstash/contentstash
-  leftIcon: 'lucide:github'
+  leftIcon: 'simple-icons:github'
 
 ---
 

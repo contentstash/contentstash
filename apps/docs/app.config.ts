@@ -46,8 +46,13 @@ export default defineAppConfig({
       ],
       links: [
         {
-          icon: "lucide:github",
+          icon: "simple-icons:github",
           to: "https://github.com/contentstash/contentstash",
+          target: "_blank",
+        },
+        {
+          icon: "simple-icons:discord",
+          to: "https://discord.gg/92nzCyWwsS",
           target: "_blank",
         },
       ],
@@ -76,8 +81,13 @@ export default defineAppConfig({
       credits: "Copyright © 2024",
       links: [
         {
-          icon: "lucide:github",
+          icon: "simple-icons:github",
           to: "https://github.com/contentstash/contentstash",
+          target: "_blank",
+        },
+        {
+          icon: "simple-icons:discord",
+          to: "https://discord.gg/92nzCyWwsS",
           target: "_blank",
         },
       ],
