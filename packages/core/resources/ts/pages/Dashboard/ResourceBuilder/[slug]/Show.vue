@@ -49,56 +49,26 @@ const formData = computed(() => {
     );
 });
 
-const saveRoute = useRoute("dashboard.resource-builder.slug.update", { slug });
-const saveHandler = () => {
-  useRouter().put(saveRoute, {
+// update
+const updateButtonIsDisabled = computed(() => {
+  return !data.value.some((row) => row.status);
+});
+const updateRoute = useRoute("dashboard.resource-builder.slug.update", {
+  slug,
+});
+const updateHandler = () => {
+  useRouter().put(updateRoute, {
     data: formData.value,
   });
 };
+
+// destroy
 const destroyRoute = useRoute("dashboard.resource-builder.slug.destroy", {
   slug,
 });
 const destroyHandler = () => {
   useRouter().delete(destroyRoute);
 };
-
-// const { getRow, updateRow, addRow } = useTables();
-// onMounted(() => {
-//   updateRow<PartialResourceAttribute>({
-//     meta: tableMeta,
-//     index: data.value.length - 2,
-//     row: {
-//       status: PartialResourceAttributeStatus.DELETED,
-//     } as PartialResourceAttribute,
-//   });
-
-//   const secondRow = getRow<PartialResourceAttribute>({
-//     meta: tableMeta,
-//     index: 1,
-//   });
-//   addRow<PartialResourceAttribute>({
-//     meta: tableMeta,
-//     row: {
-//       ...secondRow,
-//       name: "new_row",
-//       status: PartialResourceAttributeStatus.NEW,
-//     } as PartialResourceAttribute,
-//   });
-
-//   updateRow<PartialResourceAttribute>({
-//     meta: tableMeta,
-//     index: 1,
-//     row: {
-//       ...secondRow,
-//       name: "updated_title",
-//       status: PartialResourceAttributeStatus.UPDATED,
-//       nullable: true,
-//       original: JSON.parse(JSON.stringify(secondRow)),
-//     } as PartialResourceAttribute,
-//   });
-
-//   setTimeout(() => saveHandler(), 500);
-// });
 </script>
 
 <template>
@@ -123,8 +93,16 @@ const destroyHandler = () => {
     </DashboardPageHeader>
     <ResourceAttributesDataTable :meta="tableMeta" v-model:data="data" />
 
-    <UiButton @click="saveHandler()">SAVE and RUN MIGRATION</UiButton>
-    <UiButton @click="destroyHandler()">DESTROY and RUN MIGRATION</UiButton>
+    <div class="flex justify-end gap-2">
+      <UiButton @click="updateHandler()" :disabled="updateButtonIsDisabled">
+        {{ $t("page.dashboard.resource-builder.slug.show.action.save.label") }}
+      </UiButton>
+      <UiButton @click="destroyHandler()" variant="destructive">
+        {{
+          $t("page.dashboard.resource-builder.slug.show.action.destroy.label")
+        }}
+      </UiButton>
+    </div>
 
     <DevCard>
       <DevCardCode title="formData" v-model="formData" />

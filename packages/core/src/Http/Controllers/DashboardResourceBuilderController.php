@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Artisan;
 use ContentStash\Core\Enums\MigrationFileAction;
 use ContentStash\Core\Helpers\MigrationHelper;
+use ContentStash\Core\Helpers\ModelHelper;
 use ContentStash\Core\Helpers\ModelInfoHelper;
 use ContentStash\Core\Helpers\ModelSlugHelper;
 use ContentStash\Core\Http\Requests\StoreResourceRequest;
@@ -30,10 +31,11 @@ class DashboardResourceBuilderController extends Controller
     public function store(StoreResourceRequest $request): Response|\Symfony\Component\HttpFoundation\Response
     {
         $model = $request->input('model');
+        $tableName = Str::snake(Str::pluralStudly($model));
 
         try {
             MigrationHelper::generateMigrationFile(
-                Str::snake(Str::pluralStudly($model)),
+                $tableName,
                 $request->input('data'),
                 [],
                 MigrationFileAction::Create
@@ -48,6 +50,12 @@ class DashboardResourceBuilderController extends Controller
 
         // run migration
         Artisan::call('migrate');
+
+        // create model file
+        ModelHelper::generateModelFile(
+            $tableName,
+            $request->input('data')
+        );
 
         session()->flash('flash.success', [
             'title' => 'Migration was successful.',
@@ -133,6 +141,9 @@ class DashboardResourceBuilderController extends Controller
 
         // run migration
         Artisan::call('migrate');
+
+        // delete model file
+        ModelHelper::deleteModelFile($modelInfo->tableName);
 
         session()->flash('flash.success', [
             'title' => 'Migration was successful.',

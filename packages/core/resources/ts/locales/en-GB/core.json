@@ -206,6 +206,14 @@
       "resource-builder": {
         "slug": {
           "show": {
+            "action": {
+              "destroy": {
+                "label": "Delete and execute"
+              },
+              "save": {
+                "label": "Save and execute"
+              }
+            },
             "header": {
               "description": "Manage the attributes of the resource.",
               "title": "Resource Builder: {modelTitle}"

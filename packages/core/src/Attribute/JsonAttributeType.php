@@ -61,6 +61,14 @@ class JsonAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
+    public function getCast(): ?string
+    {
+        return 'array';
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function getValidationRules(): array
     {
         return ['required', 'json'];
