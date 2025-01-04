@@ -106,7 +106,7 @@ class ContentStashServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/../database/migrations/add_is_system_to_roles_table.php' => $this->getMigrationFileName('add_is_system_to_roles_table.php'),
-            __DIR__.'/../database/migrations/create_permissions_and_roles.php' => $this->getMigrationFileName('create_permissions_and_roles.php'),
+            __DIR__.'/../database/migrations/add_permissions_and_roles.php' => $this->getMigrationFileName('add_permissions_and_roles.php'),
         ], 'contentstash-migrations');
     }
 

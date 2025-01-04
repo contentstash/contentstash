@@ -4,6 +4,7 @@
     "antfu.iconify",
     "esbenp.prettier-vscode",
     "jacano.vscode-pnpm",
+    "laravel.vscode-laravel",
     "ms-azuretools.vscode-docker",
     "nuxt.mdc",
     "open-southeners.laravel-pint",
