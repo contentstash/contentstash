@@ -66,7 +66,11 @@ const handleLogout = async () => {
               class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <UiAvatar class="h-8 w-8 rounded-lg">
-                <UiAvatarImage :src="user.avatar" :alt="user.name" />
+                <UiAvatarImage
+                  v-if="user.avatar"
+                  :src="user.avatar"
+                  :alt="user.name"
+                />
                 <UiAvatarFallback class="rounded-lg">
                   {{ getFallbackAvatar({ user }) }}
                 </UiAvatarFallback>

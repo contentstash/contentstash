@@ -239,7 +239,8 @@
         },
         "meta": {
           "title": "Dashboard"
-        }
+        },
+        "title": "Dashboard"
       },
       "resource-builder": {
         "create": {
