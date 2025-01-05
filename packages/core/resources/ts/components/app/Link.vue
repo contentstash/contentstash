@@ -47,7 +47,7 @@ const classes = computed(() => {
   >
     <slot />
   </a>
-  <div v-else :class="classes">
+  <template v-else>
     <slot />
-  </div>
+  </template>
 </template>
