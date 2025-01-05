@@ -3,6 +3,7 @@
 namespace ContentStash\Core\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use ContentStash\Core\Enums\RolePermission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -29,9 +30,16 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+            $user = Auth::user();
 
-            return Inertia::location(route('dashboard.index'));
+            if ($user->can(RolePermission::VIEW_DASHBOARD)) {
+                $request->session()->regenerate();
+
+                return Inertia::location(route('dashboard.index'));
+            } else {
+                Auth::logout();
+            }
+
         }
 
         return back()->withErrors([
