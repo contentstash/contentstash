@@ -1,9 +1,3 @@
-<script setup lang="ts">
-import { Head } from "@inertiajs/vue3";
-
-const test = usePage();
-</script>
-
 <template>
   <DashboardPage :title="$t('page.dashboard.index.meta.title')">
     <DashboardPageHeader>

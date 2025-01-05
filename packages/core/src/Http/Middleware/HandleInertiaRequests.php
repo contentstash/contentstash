@@ -35,6 +35,8 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // dd($request->user());
+
         return array_merge(parent::share($request), [
             'user' => function () use ($request) {
                 return $request->user()
@@ -42,9 +44,7 @@ class HandleInertiaRequests extends Middleware
                         $request->user()->only('id', 'name', 'email')
                     : [
                         'email' => 'contact@kirch.dev',
-                        'first_name' => 'Titus',
-                        'last_name' => 'Kirch',
-                        'full_name' => 'Titus Kirch',
+                        'name' => 'Titus Kirch',
                         'avatar' => 'https://avatars.githubusercontent.com/u/16943133?v=4',
                     ];
             },

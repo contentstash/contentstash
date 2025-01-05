@@ -15,12 +15,4 @@ class DashboardController extends Controller
     {
         return Inertia::render('Dashboard/Index');
     }
-
-    /**
-     * Display the login page.
-     */
-    public function login(): Response
-    {
-        return Inertia::render('Dashboard/Login');
-    }
 }

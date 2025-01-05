@@ -9,6 +9,12 @@
     "goBack": {
       "label": "Go Back"
     },
+    "login": {
+      "label": "Login"
+    },
+    "logout": {
+      "label": "Logout"
+    },
     "restore": {
       "label": "Restore"
     },
@@ -72,6 +78,16 @@
     },
     "unknown": {
       "label": "Unknown"
+    }
+  },
+  "auth": {
+    "email": {
+      "label": "Email",
+      "placeholder": "mail@example.com"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "********"
     }
   },
   "colorMode": {
@@ -195,6 +211,15 @@
   },
   "page": {
     "auth": {
+      "login": {
+        "header": {
+          "description": "Please log in to continue.",
+          "title": "Login"
+        },
+        "meta": {
+          "title": "Login"
+        }
+      },
       "logout": {
         "title": "Logout"
       }
@@ -366,13 +391,6 @@
             "title": "Attributes"
           }
         }
-      }
-    }
-  },
-  "user": {
-    "action": {
-      "logOut": {
-        "label": "Log Out"
       }
     }
   }

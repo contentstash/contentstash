@@ -1,21 +1,35 @@
 <?php
 
+use ContentStash\Core\Http\Controllers\AuthController;
 use ContentStash\Core\Http\Controllers\DashboardController;
 use ContentStash\Core\Http\Controllers\DashboardResourceBuilderController;
 use ContentStash\Core\Http\Controllers\DashboardResourceController;
 use ContentStash\Core\Http\Controllers\LanguageController;
+use ContentStash\Core\Http\Middleware\DashboardAuth;
 use ContentStash\Core\Http\Middleware\HandleInertiaDashboardRequests;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
-        'as' => 'dashboard.',
-        'prefix' => 'dashboard',
+        'as' => 'auth.',
+        'prefix' => 'auth',
         'middleware' => ['web', HandleInertiaDashboardRequests::class],
     ],
     function () {
+        Route::get('/login', [AuthController::class, 'login'])->name('login');
+        Route::post('/login', [AuthController::class, 'authenticate'])->name('authenticate');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+    }
+);
+
+Route::group(
+    [
+        'as' => 'dashboard.',
+        'prefix' => 'dashboard',
+        'middleware' => ['web', HandleInertiaDashboardRequests::class, DashboardAuth::class],
+    ],
+    function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
-        Route::get('/login', [DashboardController::class, 'login'])->name('login');
 
         Route::group(
             [

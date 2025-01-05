@@ -37,6 +37,12 @@ const colorModeIcon = computed(() => {
     return Monitor;
   }
 });
+
+// logout
+const logoutRoute = useRoute("auth.logout");
+const handleLogout = async () => {
+  useRouter().get(logoutRoute);
+};
 </script>
 
 <template>
@@ -60,13 +66,13 @@ const colorModeIcon = computed(() => {
               class="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <UiAvatar class="h-8 w-8 rounded-lg">
-                <UiAvatarImage :src="user.avatar" :alt="user.full_name" />
+                <UiAvatarImage :src="user.avatar" :alt="user.name" />
                 <UiAvatarFallback class="rounded-lg">
                   {{ getFallbackAvatar({ user }) }}
                 </UiAvatarFallback>
               </UiAvatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">{{ user.full_name }}</span>
+                <span class="truncate font-semibold">{{ user.name }}</span>
                 <span class="truncate text-xs">{{ user.email }}</span>
               </div>
               <ChevronsUpDown class="ml-auto size-4" />
@@ -83,14 +89,14 @@ const colorModeIcon = computed(() => {
                 class="flex items-center gap-2 px-1 py-1.5 text-left text-sm"
               >
                 <UiAvatar class="h-8 w-8 rounded-lg">
-                  <UiAvatarImage :src="user.avatar" :alt="user.full_name" />
+                  <UiAvatarImage :src="user.avatar" :alt="user.name" />
                   <UiAvatarFallback class="rounded-lg">
                     {{ getFallbackAvatar({ user }) }}
                   </UiAvatarFallback>
                 </UiAvatar>
                 <div class="grid flex-1 text-left text-sm leading-tight">
                   <span class="truncate font-semibold">
-                    {{ user.full_name }}
+                    {{ user.name }}
                   </span>
                   <span class="truncate text-xs">{{ user.email }}</span>
                 </div>
@@ -108,9 +114,12 @@ const colorModeIcon = computed(() => {
               </UiDropdownMenuItem>
             </UiDropdownMenuGroup>
             <UiDropdownMenuSeparator />
-            <UiDropdownMenuItem :disabled="true">
+            <UiDropdownMenuItem
+              @click="handleLogout"
+              class="hover:cursor-pointer"
+            >
               <LogOut />
-              {{ $t("user.action.logOut.label") }}
+              {{ $t("action.logout.label") }}
             </UiDropdownMenuItem>
           </UiDropdownMenuContent>
         </UiDropdownMenu>
