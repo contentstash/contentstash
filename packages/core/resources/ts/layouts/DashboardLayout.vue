@@ -146,7 +146,9 @@ const navGroups = computed<SidebarGroup[]>(() => {
         {
           title: "dashboard.sidebar.system.item.roles.label",
           icon: Shield,
-          disabled: true,
+          to: {
+            name: "dashboard.roles.index",
+          },
         },
         {
           title: "dashboard.sidebar.system.item.settings.label",

@@ -4,6 +4,7 @@ use ContentStash\Core\Http\Controllers\AuthController;
 use ContentStash\Core\Http\Controllers\DashboardController;
 use ContentStash\Core\Http\Controllers\DashboardResourceBuilderController;
 use ContentStash\Core\Http\Controllers\DashboardResourceController;
+use ContentStash\Core\Http\Controllers\DashboardRoleController;
 use ContentStash\Core\Http\Controllers\LanguageController;
 use ContentStash\Core\Http\Middleware\DashboardAuth;
 use ContentStash\Core\Http\Middleware\HandleInertiaDashboardRequests;
@@ -69,6 +70,21 @@ Route::group(
                         Route::delete('/', [DashboardResourceBuilderController::class, 'destroy'])->name('destroy');
                     }
                 );
+            }
+        );
+
+        Route::group(
+            [
+                'as' => 'roles.',
+                'prefix' => 'roles',
+            ],
+            function () {
+                Route::get('/', [DashboardRoleController::class, 'index'])->name('index');
+                // Route::get('/create', [DashboardRoleController::class, 'create'])->name('create');
+                // Route::post('/', [DashboardRoleController::class, 'store'])->name('store');
+                Route::get('/{role}/edit', [DashboardRoleController::class, 'edit'])->name('edit');
+                Route::put('/{role}', [DashboardRoleController::class, 'update'])->name('update');
+                // Route::delete('/{role}', [DashboardRoleController::class, 'destroy'])->name('destroy');
             }
         );
     }
