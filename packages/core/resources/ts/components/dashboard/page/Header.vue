@@ -32,6 +32,6 @@ defineSlots<{
       </div>
     </div>
 
-    <div id="header-errors" />
+    <div id="header-alerts" />
   </div>
 </template>

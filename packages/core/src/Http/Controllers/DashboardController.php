@@ -17,10 +17,10 @@ class DashboardController extends Controller
     }
 
     /**
-     * Display the dashboard 2.
+     * Display the login page.
      */
-    public function index2(): Response
+    public function login(): Response
     {
-        return Inertia::render('Dashboard/Index2');
+        return Inertia::render('Dashboard/Login');
     }
 }

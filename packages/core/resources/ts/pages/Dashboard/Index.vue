@@ -5,15 +5,37 @@ const test = usePage();
 </script>
 
 <template>
-  <Head title="Admin Index" />
+  <DashboardPage :title="$t('page.dashboard.index.meta.title')">
+    <DashboardPageHeader>
+      <template #title>
+        {{ $t("page.dashboard.index.header.title") }}
+      </template>
+      <template #description>
+        {{ $t("page.dashboard.index.header.description") }}
+      </template>
+    </DashboardPageHeader>
 
-  <div>
-    <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-      <div class="aspect-video rounded-xl bg-muted/50" />
-      <div class="aspect-video rounded-xl bg-muted/50" />
-      <div class="aspect-video rounded-xl bg-muted/50" />
-    </div>
-    <div class="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-    <AppLink :to="{ name: 'dashboard.test.index' }">Dashboard/Test</AppLink>
-  </div>
+    <Teleport defer to="#header-alerts">
+      <AppAlert>
+        <template #title>
+          {{ $t("page.dashboard.index.alert.getStarted.title") }}
+        </template>
+        <template #description>
+          <i18n-t
+            keypath="page.dashboard.index.alert.getStarted.description"
+            for="link"
+          >
+            <AppLink
+              :to="{
+                name: 'dashboard.resource-builder.create',
+              }"
+              variant="underline"
+            >
+              {{ $t("page.dashboard.index.alert.getStarted.link") }}
+            </AppLink>
+          </i18n-t>
+        </template>
+      </AppAlert>
+    </Teleport>
+  </DashboardPage>
 </template>

@@ -211,7 +211,7 @@ const navGroups = computed<SidebarGroup[]>(() => {
 
 <template>
   <DashboardSidebar :groups="navGroups">
-    <Teleport defer to="#header-errors">
+    <Teleport defer to="#header-alerts">
       <AppAlert
         v-for="(alert, index) in alerts"
         :key="index"

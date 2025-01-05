@@ -201,7 +201,20 @@
     },
     "dashboard": {
       "index": {
-        "title": "Dashboard"
+        "alert": {
+          "getStarted": {
+            "description": "Welcome to the dashboard. To get started, {0}.",
+            "link": "add a new resource",
+            "title": "Get started"
+          }
+        },
+        "header": {
+          "description": "Welcome to the dashboard.",
+          "title": "Dashboard"
+        },
+        "meta": {
+          "title": "Dashboard"
+        }
       },
       "resource-builder": {
         "create": {

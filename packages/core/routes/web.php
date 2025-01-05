@@ -15,6 +15,7 @@ Route::group(
     ],
     function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');
+        Route::get('/login', [DashboardController::class, 'login'])->name('login');
 
         Route::group(
             [
@@ -52,28 +53,6 @@ Route::group(
                         Route::get('/', [DashboardResourceBuilderController::class, 'show'])->name('show');
                         Route::put('/', [DashboardResourceBuilderController::class, 'update'])->name('update');
                         Route::delete('/', [DashboardResourceBuilderController::class, 'destroy'])->name('destroy');
-                    }
-                );
-            }
-        );
-
-        Route::group(
-            [
-                'as' => 'test.',
-                'prefix' => 'test',
-            ],
-            function () {
-                Route::get('/', [DashboardController::class, 'index2'])->name('index');
-                Route::get('/test', [DashboardController::class, 'index'])->name('test');
-
-                Route::group(
-                    [
-                        'as' => 'foo.',
-                        'prefix' => 'foo',
-                    ],
-                    function () {
-                        Route::get('/', [DashboardController::class, 'index'])->name('index');
-                        Route::get('/bar', [DashboardController::class, 'index2'])->name('bar');
                     }
                 );
             }

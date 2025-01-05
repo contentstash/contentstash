@@ -1,9 +1,14 @@
 <script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 
-const { disabled = false, to } = defineProps<{
+const {
+  disabled = false,
+  to,
+  variant = "ghost",
+} = defineProps<{
   to?: Route | string;
   disabled?: boolean;
+  variant?: "underline" | "ghost";
 }>();
 
 const href = computed(() => {
@@ -18,13 +23,19 @@ const href = computed(() => {
 const isExternal = computed(() => {
   return typeof to === "string" && to.startsWith("http");
 });
+
+const classes = computed(() => {
+  return {
+    underline: variant === "underline",
+  };
+});
 </script>
 
 <template>
-  <a v-if="disabled">
+  <a v-if="disabled" :class="classes">
     <slot />
   </a>
-  <Link v-else-if="to && !isExternal" :href="href">
+  <Link v-else-if="to && !isExternal" :href="href" :class="classes">
     <slot />
   </Link>
   <a
@@ -32,10 +43,11 @@ const isExternal = computed(() => {
     :href="to"
     :target="isExternal ? '_blank' : undefined"
     :rel="isExternal ? 'noopener noreferrer' : undefined"
+    :class="classes"
   >
     <slot />
   </a>
-  <template v-else>
+  <div v-else :class="classes">
     <slot />
-  </template>
+  </div>
 </template>
