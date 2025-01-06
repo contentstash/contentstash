@@ -1,13 +1,14 @@
 <?php
 
 use ContentStash\Core\Http\Controllers\Api\ModelController;
+use ContentStash\Core\Http\Middleware\SyncRoles;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
         'as' => 'api.',
         'prefix' => 'api',
-        'middleware' => ['web'],
+        'middleware' => ['web', SyncRoles::class],
     ],
     function () {
         Route::group(

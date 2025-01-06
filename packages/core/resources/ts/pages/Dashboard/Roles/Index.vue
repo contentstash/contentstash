@@ -19,9 +19,6 @@ const {
       </template>
     </DashboardPageHeader>
 
-    {{ roles }}
-    <DevCard>
-      <!-- <DevCardCode title="data" v-model="data" /> -->
-    </DevCard>
+    <RolesList :roles="roles" />
   </DashboardPage>
 </template>

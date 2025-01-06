@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Inertia\Inertia;
 use Inertia\Response;
 use Request;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -58,8 +59,13 @@ class DashboardRoleController extends Controller
      */
     public function edit(Role $role): Response
     {
+        $role->load('permissions');
+
+        $permissions = Permission::all();
+
         return Inertia::render('Dashboard/Roles/[id]/Edit', [
             'role' => $role,
+            'permissions' => $permissions,
         ]);
     }
 
@@ -68,7 +74,16 @@ class DashboardRoleController extends Controller
      */
     public function update(Role $role): RedirectResponse
     {
-        $role->update($this->validateRoleRequest());
+        $this->validateRoleRequest();
+
+        $role->fill(Request::except('permissions'));
+        $role->save();
+        $role->syncPermissions(Request::input('permissions'));
+
+        session()->flash('flash.success', [
+            'title' => 'Role updated.',
+            'description' => 'The role has been updated successfully.',
+        ]);
 
         return redirect()->route('dashboard.roles.edit', $role);
     }

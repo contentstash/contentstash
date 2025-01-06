@@ -8,13 +8,14 @@ use ContentStash\Core\Http\Controllers\DashboardRoleController;
 use ContentStash\Core\Http\Controllers\LanguageController;
 use ContentStash\Core\Http\Middleware\DashboardAuth;
 use ContentStash\Core\Http\Middleware\HandleInertiaDashboardRequests;
+use ContentStash\Core\Http\Middleware\SyncRoles;
 use Illuminate\Support\Facades\Route;
 
 Route::group(
     [
         'as' => 'auth.',
         'prefix' => 'auth',
-        'middleware' => ['web', HandleInertiaDashboardRequests::class],
+        'middleware' => ['web', HandleInertiaDashboardRequests::class, SyncRoles::class],
     ],
     function () {
         Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -27,7 +28,7 @@ Route::group(
     [
         'as' => 'dashboard.',
         'prefix' => 'dashboard',
-        'middleware' => ['web', HandleInertiaDashboardRequests::class, DashboardAuth::class],
+        'middleware' => ['web', HandleInertiaDashboardRequests::class, DashboardAuth::class, SyncRoles::class],
     ],
     function () {
         Route::get('/', [DashboardController::class, 'index'])->name('index');

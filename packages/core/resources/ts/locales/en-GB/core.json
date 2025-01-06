@@ -302,6 +302,38 @@
             "title": "Resource"
           }
         }
+      },
+      "roles": {
+        "id": {
+          "edit": {
+            "general": {
+              "description": "General settings for the role.",
+              "title": "General"
+            },
+            "header": {
+              "description": "Edit the role and its permissions.",
+              "title": "Edit Role: {roleName}"
+            },
+            "meta": {
+              "title": "Edit Role: {roleName}"
+            },
+            "permissions": {
+              "description": "Permissions for the role.",
+              "title": "Permissions"
+            },
+            "title": "Edit Role"
+          }
+        },
+        "index": {
+          "header": {
+            "description": "Manage the roles of the application.",
+            "title": "Roles"
+          },
+          "meta": {
+            "title": "Roles"
+          },
+          "title": "Roles"
+        }
       }
     },
     "user": {
@@ -393,6 +425,17 @@
           }
         }
       }
+    }
+  },
+  "role": {
+    "name": {
+      "label": "Name"
+    },
+    "is_system": {
+      "label": "System role"
+    },
+    "permissions": {
+      "label": "Permissions"
     }
   }
 }
