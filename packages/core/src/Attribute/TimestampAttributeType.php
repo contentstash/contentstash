@@ -73,11 +73,11 @@ class TimestampAttributeType extends BaseAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'defaultValue' => [
-                'type' => 'date',
-                'label' => 'attribute.type.defaultValue.label',
-                'placeholder' => 'attribute.type.defaultValue.placeholder',
-            ],
+            // 'defaultValue' => [
+            //     'type' => 'date',
+            //     'label' => 'attribute.type.defaultValue.label',
+            //     'placeholder' => 'attribute.type.defaultValue.placeholder',
+            // ],
         ]);
     }
 }

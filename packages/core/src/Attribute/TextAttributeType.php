@@ -38,11 +38,11 @@ class TextAttributeType extends StringAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'defaultValue' => [
-                'type' => 'string',
-                'label' => 'attribute.type.defaultValue.label',
-                'component' => 'textarea',
-            ],
+            // 'defaultValue' => [
+            //     'type' => 'string',
+            //     'label' => 'attribute.type.defaultValue.label',
+            //     'component' => 'textarea',
+            // ],
         ]);
     }
 }

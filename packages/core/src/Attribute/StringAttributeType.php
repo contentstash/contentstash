@@ -64,10 +64,10 @@ class StringAttributeType extends BaseAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'defaultValue' => [
-                'type' => 'string',
-                'label' => 'attribute.type.defaultValue.label',
-            ],
+            // 'defaultValue' => [
+            //     'type' => 'string',
+            //     'label' => 'attribute.type.defaultValue.label',
+            // ],
         ]);
     }
 }

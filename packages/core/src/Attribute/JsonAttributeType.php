@@ -80,12 +80,12 @@ class JsonAttributeType extends BaseAttributeType
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
-            'defaultValue' => [
-                'type' => 'json',
-                'label' => 'attribute.type.defaultValue.label',
-                'component' => 'textarea',
-                'defaultValue' => '{}',
-            ],
+            // 'defaultValue' => [
+            //     'type' => 'json',
+            //     'label' => 'attribute.type.defaultValue.label',
+            //     'component' => 'textarea',
+            //     'defaultValue' => '{}',
+            // ],
         ]);
     }
 }
