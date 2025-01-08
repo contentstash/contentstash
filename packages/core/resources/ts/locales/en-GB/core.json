@@ -1,0 +1,441 @@
+{
+  "action": {
+    "delete": {
+      "label": "Delete"
+    },
+    "edit": {
+      "label": "Edit"
+    },
+    "goBack": {
+      "label": "Go Back"
+    },
+    "login": {
+      "label": "Login"
+    },
+    "logout": {
+      "label": "Logout"
+    },
+    "restore": {
+      "label": "Restore"
+    },
+    "save": {
+      "label": "Save"
+    },
+    "undo": {
+      "label": "Undo"
+    }
+  },
+  "alert": {
+    "default": {
+      "title": "Heads up!"
+    },
+    "error": {
+      "title": "An error occurred"
+    }
+  },
+  "attribute": {
+    "type": {
+      "name": {
+        "description": "The name of the attribute (only letters, numbers, and underscores are allowed).",
+        "label": "Name",
+        "placeholder": "foo_bar"
+      },
+      "defaultValue": {
+        "label": "Default value"
+      },
+      "max": {
+        "label": "Max value"
+      },
+      "min": {
+        "label": "Min value"
+      },
+      "nullable": {
+        "label": "Field is nullable"
+      }
+    }
+  },
+  "attributeType": {
+    "bigint": {
+      "label": "Big Integer"
+    },
+    "boolean": {
+      "label": "Boolean"
+    },
+    "int": {
+      "label": "Integer"
+    },
+    "json": {
+      "label": "JSON"
+    },
+    "string": {
+      "label": "String"
+    },
+    "text": {
+      "label": "Text"
+    },
+    "timestamp": {
+      "label": "Timestamp"
+    },
+    "unknown": {
+      "label": "Unknown"
+    }
+  },
+  "auth": {
+    "email": {
+      "label": "Email",
+      "placeholder": "mail@example.com"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "********"
+    }
+  },
+  "colorMode": {
+    "action": {
+      "changeTo": {
+        "auto": {
+          "label": "Change to system theme"
+        },
+        "dark": {
+          "label": "Change to dark mode"
+        },
+        "light": {
+          "label": "Change to light mode"
+        }
+      }
+    },
+    "auto": {
+      "label": "System theme"
+    },
+    "dark": {
+      "label": "Dark mode"
+    },
+    "light": {
+      "label": "Light mode"
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "content": {
+        "item": {
+          "media": {
+            "label": "Media"
+          },
+          "resourceBuilder": {
+            "label": "Resource Builder"
+          },
+          "resources": {
+            "label": "Resources"
+          }
+        },
+        "label": "Content"
+      },
+      "contentStash": {
+        "item": {
+          "bugs": {
+            "label": "Bugs"
+          },
+          "changelog": {
+            "label": "Changelog"
+          },
+          "community": {
+            "label": "Community"
+          },
+          "documentation": {
+            "label": "Documentation"
+          }
+        },
+        "label": "ContentStash"
+      },
+      "system": {
+        "item": {
+          "auditLog": {
+            "label": "Audit Log"
+          },
+          "monitoring": {
+            "label": "Monitoring"
+          },
+          "roles": {
+            "label": "Roles"
+          },
+          "settings": {
+            "item": {
+              "auditLog": {
+                "label": "Audit Log"
+              },
+              "general": {
+                "label": "General"
+              },
+              "media": {
+                "label": "Media"
+              },
+              "monitoring": {
+                "label": "Monitoring"
+              },
+              "plugins": {
+                "label": "Plugins"
+              }
+            },
+            "label": "Settings"
+          },
+          "users": {
+            "label": "Users"
+          }
+        },
+        "label": "System"
+      }
+    }
+  },
+  "data": {
+    "table": {
+      "columnOptions": {
+        "button": {
+          "label": "Columns"
+        }
+      },
+      "noData": "No records found"
+    }
+  },
+  "dev": {
+    "card": {
+      "description": "The dev card shows a list of code blocks that can be used to help with development.",
+      "title": "Dev card"
+    }
+  },
+  "dropdown": {
+    "menu": {
+      "trigger": {
+        "srOnly": "Open menu"
+      }
+    }
+  },
+  "page": {
+    "auth": {
+      "login": {
+        "header": {
+          "description": "Please log in to continue.",
+          "title": "Login"
+        },
+        "meta": {
+          "title": "Login"
+        }
+      },
+      "logout": {
+        "title": "Logout"
+      }
+    },
+    "dashboard": {
+      "index": {
+        "alert": {
+          "getStarted": {
+            "description": "Welcome to the dashboard. To get started, {0}.",
+            "link": "add a new resource",
+            "title": "Get started"
+          }
+        },
+        "header": {
+          "description": "Welcome to the dashboard.",
+          "title": "Dashboard"
+        },
+        "meta": {
+          "title": "Dashboard"
+        },
+        "title": "Dashboard"
+      },
+      "resource-builder": {
+        "create": {
+          "action": {
+            "store": {
+              "label": "Create and execute"
+            }
+          },
+          "general": {
+            "description": "General settings for the resource.",
+            "form": {
+              "model": {
+                "label": "Model name",
+                "placeholder": "FooBar"
+              }
+            },
+            "title": "General"
+          },
+          "header": {
+            "description": "Create a new resource.",
+            "title": "Create Resource"
+          },
+          "meta": {
+            "title": "Create Resource"
+          },
+          "title": "Create Resource"
+        },
+        "slug": {
+          "show": {
+            "action": {
+              "destroy": {
+                "label": "Delete and execute"
+              },
+              "update": {
+                "label": "Save and execute"
+              }
+            },
+            "header": {
+              "description": "Manage the attributes of the resource.",
+              "title": "Resource Builder: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Resource Builder"
+            },
+            "title": "Resource Builder"
+          }
+        }
+      },
+      "resources": {
+        "slug": {
+          "show": {
+            "header": {
+              "description": "Manage the resource.",
+              "title": "Resource: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Resource"
+            },
+            "title": "Resource"
+          }
+        }
+      },
+      "roles": {
+        "id": {
+          "edit": {
+            "general": {
+              "description": "General settings for the role.",
+              "title": "General"
+            },
+            "header": {
+              "description": "Edit the role and its permissions.",
+              "title": "Edit Role: {roleName}"
+            },
+            "meta": {
+              "title": "Edit Role: {roleName}"
+            },
+            "permissions": {
+              "description": "Permissions for the role.",
+              "title": "Permissions"
+            },
+            "title": "Edit Role"
+          }
+        },
+        "index": {
+          "header": {
+            "description": "Manage the roles of the application.",
+            "title": "Roles"
+          },
+          "meta": {
+            "title": "Roles"
+          },
+          "title": "Roles"
+        }
+      }
+    },
+    "user": {
+      "notifications": {
+        "title": "Notifications"
+      },
+      "settings": {
+        "title": "Settings"
+      }
+    }
+  },
+  "resource": {
+    "attribute": {
+      "name": {
+        "label": "Name"
+      },
+      "add": {
+        "edit": {
+          "dialog": {
+            "drawer": {
+              "add": {
+                "description": "Add a new attribute to the resource.",
+                "title": "Add Attribute"
+              },
+              "edit": {
+                "description": "Edit the attribute {attributeName} of the resource.",
+                "title": "Edit Attribute {attributeName}"
+              }
+            }
+          }
+        }
+      },
+      "attributeType": {
+        "label": "Type"
+      },
+      "increments": {
+        "label": "Increments"
+      },
+      "nullable": {
+        "label": "Nullable"
+      },
+      "primary": {
+        "label": "Primary"
+      },
+      "status": {
+        "DELETED": {
+          "label": "Deleted"
+        },
+        "NEW": {
+          "label": "New"
+        },
+        "UPDATED": {
+          "label": "Updated"
+        }
+      },
+      "unique": {
+        "label": "Unique"
+      }
+    },
+    "items": {
+      "data": {
+        "table": {
+          "description": "The resource has {count} item.|The resource has {count} items.",
+          "action": {
+            "addItem": {
+              "label": "Add Item"
+            }
+          },
+          "title": "Items"
+        }
+      }
+    },
+    "model": {
+      "attributes": {
+        "data": {
+          "table": {
+            "description": "The resource has {count} attribute.|The resource has {count} attributes.",
+            "action": {
+              "addAttribute": {
+                "label": "Add Attribute"
+              }
+            },
+            "columnNameHeader": {
+              "locked": {
+                "tooltip": "This column is locked"
+              }
+            },
+            "title": "Attributes"
+          }
+        }
+      }
+    }
+  },
+  "role": {
+    "name": {
+      "label": "Name"
+    },
+    "is_system": {
+      "label": "System role"
+    },
+    "permissions": {
+      "label": "Permissions"
+    }
+  }
+}

@@ -1,0 +1,102 @@
+name: Fix Code Style
+
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: ["*"]
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
+
+jobs:
+  code-style:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [8.3]
+        node: [20]
+    env:
+      TURBO_TELEMETRY_DISABLED: 1
+      php-extensions: "json, dom, curl, libxml, mbstring"
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Enable corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: "pnpm"
+
+      - name: Install pnpm dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.php-extensions }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
+
+      - name: Cache extensions
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.php-extensions }}
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: |
+          cd packages/core
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install PHP dependencies (packages/core)
+        run: |
+          cd packages/core
+          composer install --no-progress --no-suggest --no-interaction
+
+      - name: Install PHP dependencies (apps/example)
+        run: |
+          cd apps/example
+          composer install --no-progress --no-suggest --no-interaction
+
+      - name: Lint
+        run: pnpm lint:fix
+
+      - name: Format
+        run: pnpm format:fix
+
+      - name: Pint
+        run: pnpm pint:fix
+
+      - name: Commit linted files
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: lint and format code"

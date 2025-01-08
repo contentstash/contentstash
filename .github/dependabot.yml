@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"
+  # apps/example
+  - package-ecosystem: "composer"
+    directory: "/apps/example"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"
+  # packages/core
+  - package-ecosystem: "composer"
+    directory: "/packages/core"
+    schedule:
+      interval: "daily"
+    target-branch: "dev"

@@ -1,0 +1,283 @@
+{
+  "action": {
+    "delete": {
+      "label": "Löschen"
+    },
+    "edit": {
+      "label": "Bearbeiten"
+    },
+    "goBack": {
+      "label": "Zurück"
+    },
+    "restore": {
+      "label": "Wiederherstellen"
+    },
+    "save": {
+      "label": "Speichern"
+    },
+    "undo": {
+      "label": "Rückgängig machen"
+    }
+  },
+  "attribute": {
+    "type": {
+      "name": {
+        "description": "Der Name des Attributs (nur Buchstaben, Zahlen und Unterstriche sind erlaubt).",
+        "label": "Name",
+        "placeholder": "foo_bar"
+      },
+      "defaultValue": {
+        "label": "Standardwert"
+      },
+      "max": {
+        "label": "Maximalwert"
+      },
+      "min": {
+        "label": "Minimalwert"
+      },
+      "nullable": {
+        "label": "Feld ist nullbar"
+      }
+    }
+  },
+  "attributeType": {
+    "bigint": {
+      "label": "Große Zahl"
+    },
+    "boolean": {
+      "label": "Boolean"
+    },
+    "int": {
+      "label": "Ganzzahl"
+    },
+    "json": {
+      "label": "JSON"
+    },
+    "string": {
+      "label": "Zeichenkette"
+    },
+    "text": {
+      "label": "Text"
+    },
+    "timestamp": {
+      "label": "Zeitstempel"
+    },
+    "unknown": {
+      "label": "Unbekannt"
+    }
+  },
+  "dashboard": {
+    "sidebar": {
+      "content": {
+        "item": {
+          "media": {
+            "label": "Medien"
+          },
+          "resourceBuilder": {
+            "label": "Ressourcen-Ersteller"
+          },
+          "resources": {
+            "label": "Ressourcen"
+          }
+        },
+        "label": "Inhalt"
+      },
+      "contentStash": {
+        "item": {
+          "bugs": {
+            "label": "Fehler"
+          },
+          "changelog": {
+            "label": "Änderungsprotokoll"
+          },
+          "community": {
+            "label": "Gemeinschaft"
+          },
+          "documentation": {
+            "label": "Dokumentation"
+          }
+        },
+        "label": "Inhaltsspeicher"
+      },
+      "system": {
+        "item": {
+          "auditLog": {
+            "label": "Prüfprotokoll"
+          },
+          "monitoring": {
+            "label": "Überwachung"
+          },
+          "roles": {
+            "label": "Rollen"
+          },
+          "settings": {
+            "item": {
+              "auditLog": {
+                "label": "Prüfprotokoll"
+              },
+              "general": {
+                "label": "Allgemein"
+              },
+              "media": {
+                "label": "Medien"
+              },
+              "monitoring": {
+                "label": "Überwachung"
+              },
+              "plugins": {
+                "label": "Plugins"
+              }
+            },
+            "label": "Einstellungen"
+          },
+          "users": {
+            "label": "Benutzer"
+          }
+        },
+        "label": "System"
+      }
+    }
+  },
+  "data": {
+    "table": {
+      "columnOptions": {
+        "button": {
+          "label": "Spalten"
+        }
+      },
+      "noData": "Keine Datensätze gefunden"
+    }
+  },
+  "dev": {
+    "card": {
+      "description": "Die Entwicklerkarte zeigt eine Liste von Codeblöcken, die zur Unterstützung der Entwicklung verwendet werden können.",
+      "title": "Entwicklerkarte"
+    }
+  },
+  "dropdown": {
+    "menu": {
+      "trigger": {
+        "srOnly": "Menü öffnen"
+      }
+    }
+  },
+  "page": {
+    "auth": {
+      "logout": {
+        "title": "Abmelden"
+      }
+    },
+    "dashboard": {
+      "index": {
+        "title": "Dashboard"
+      },
+      "resource-builder": {
+        "slug": {
+          "show": {
+            "header": {
+              "description": "Verwalten Sie die Attribute der Ressource.",
+              "title": "Ressourcen-Ersteller: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Ressourcen-Ersteller"
+            },
+            "title": "Ressourcen-Ersteller"
+          }
+        }
+      },
+      "resources": {
+        "slug": {
+          "show": {
+            "header": {
+              "description": "Verwalten Sie die Ressource.",
+              "title": "Ressource: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Ressource"
+            },
+            "title": "Ressource"
+          }
+        }
+      }
+    },
+    "user": {
+      "notifications": {
+        "title": "Benachrichtigungen"
+      },
+      "settings": {
+        "title": "Einstellungen"
+      }
+    }
+  },
+  "resource": {
+    "attribute": {
+      "add": {
+        "edit": {
+          "dialog": {
+            "drawer": {
+              "add": {
+                "description": "Ein neues Attribut zur Ressource hinzufügen.",
+                "title": "Attribut hinzufügen"
+              },
+              "edit": {
+                "description": "Das Attribut {attributeName} der Ressource bearbeiten.",
+                "title": "Attribut bearbeiten: {attributeName}"
+              }
+            }
+          }
+        }
+      },
+      "status": {
+        "DELETED": {
+          "label": "Gelöscht"
+        },
+        "NEW": {
+          "label": "Neu"
+        },
+        "UPDATED": {
+          "label": "Aktualisiert"
+        }
+      }
+    },
+    "items": {
+      "data": {
+        "table": {
+          "description": "Die Ressource hat {count} Element.|Die Ressource hat {count} Elemente.",
+          "action": {
+            "addItem": {
+              "label": "Element hinzufügen"
+            }
+          },
+          "title": "Elemente"
+        }
+      }
+    },
+    "model": {
+      "attributes": {
+        "data": {
+          "table": {
+            "description": "Die Ressource hat {count} Attribut.|Die Ressource hat {count} Attribute.",
+            "action": {
+              "addAttribute": {
+                "label": "Attribut hinzufügen"
+              }
+            },
+            "columnNameHeader": {
+              "locked": {
+                "tooltip": "Diese Spalte ist gesperrt"
+              }
+            },
+            "title": "Attribute"
+          }
+        }
+      }
+    }
+  },
+  "user": {
+    "action": {
+      "logOut": {
+        "label": "Abmelden"
+      }
+    }
+  }
+}

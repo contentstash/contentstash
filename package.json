@@ -1,0 +1,72 @@
+{
+  "name": "@contentstash/contentstash",
+  "version": "0.1.0",
+  "description": "Root package for the ContentStash monorepo, serving as the foundation for a headless CMS ecosystem built with Laravel, Inertia.js, Vue 3, and Tailwind CSS. Not intended for direct installation.",
+  "keywords": [
+    "contentstash",
+    "headless",
+    "cms",
+    "laravel",
+    "inertia",
+    "vue",
+    "tailwind",
+    "content management"
+  ],
+  "license": "MIT",
+  "author": "Titus Kirch <contact@kirch.dev>",
+  "homepage": "https://github.com/contentstash/contentstash/blob/main/README.md",
+  "bugs": {
+    "url": "https://github.com/contentstash/contentstash/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/contentstash/contentstash"
+  },
+  "type": "module",
+  "scripts": {
+    "build": "turbo build",
+    "codestyle": "pnpm lint && pnpm format && pnpm pint",
+    "codestyle:fix": "pnpm lint:fix && pnpm format:fix && pnpm pint:fix",
+    "dev": "turbo dev",
+    "format": "prettier --check \"**/*.{mjs,js,json,ts,tsx,vue,css}\"",
+    "format:fix": "prettier --write \"**/*.{mjs,js,json,ts,tsx,vue,css}\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "pint": "turbo pint",
+    "pint:fix": "turbo pint:fix",
+    "prepare": "husky",
+    "taze:w": "taze -w",
+    "taze": "taze",
+    "lint-staged": "lint-staged"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-vue": "^9.32.0",
+    "globals": "^15.14.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.3.0",
+    "prettier": "^3.4.2",
+    "taze": "^0.18.0",
+    "turbo": "^2.3.3",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0"
+  },
+  "packageManager": "pnpm@9.15.2",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "lint-staged": {
+    "*.{mjs,js,json,ts,tsx,vue,css}": [
+      "pnpm lint:fix",
+      "pnpm format:fix"
+    ],
+    "*.php": [
+      "pnpm pint:fix --"
+    ]
+  }
+}
