@@ -6,6 +6,7 @@
     "php": "^8.2",
     "contentstash/core": "*",
     "laravel/framework": "^11.35",
+    "laravel/octane": "^2.6",
     "laravel/tinker": "^2.9",
     "spatie/laravel-permission": "^6.10",
     "tightenco/ziggy": "^2.3"
