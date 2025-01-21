@@ -48,9 +48,17 @@ Route::group(
                         Route::get('/', [DashboardResourceController::class, 'index'])->name('index');
                         Route::get('/create', [DashboardResourceController::class, 'create'])->name('create');
                         Route::post('/', [DashboardResourceController::class, 'store'])->name('store');
-                        Route::get('/{id}/edit', [DashboardResourceController::class, 'edit'])->name('edit');
-                        Route::put('/{id}', [DashboardResourceController::class, 'update'])->name('update');
-                        Route::delete('/{id}', [DashboardResourceController::class, 'destroy'])->name('destroy');
+
+                        Route::group(
+                            [
+                                'as' => 'id.',
+                                'prefix' => '{id}',
+                            ], function () {
+                                Route::get('/edit', [DashboardResourceController::class, 'edit'])->name('edit');
+                                Route::put('/', [DashboardResourceController::class, 'update'])->name('update');
+                                Route::delete('/', [DashboardResourceController::class, 'destroy'])->name('destroy');
+                            }
+                        );
                     }
                 );
             }

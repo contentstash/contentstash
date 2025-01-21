@@ -50,7 +50,9 @@ class DashboardResourceController extends Controller
     public function store(Request $request, string $slug): \Illuminate\Http\RedirectResponse
     {
         $model = ModelSlugHelper::parseSlug($slug);
+        $model::unguard();
         $model::create($request->input('data'));
+        $model::reguard();
 
         return to_route('dashboard.resources.slug.index', ['slug' => $slug])
             ->with('flash.success', [
@@ -67,9 +69,10 @@ class DashboardResourceController extends Controller
         $modelInfo = ModelInfoHelper::forModel($model);
         $item = $model::findOrFail($id);
 
-        return Inertia::render('Dashboard/Resources/[slug]/Edit', [
+        return Inertia::render('Dashboard/Resources/[slug]/[id]/Edit', [
             'model' => $model,
             'modelInfo' => $modelInfo,
+            'id' => $id,
             'item' => $item,
             'slug' => $slug,
         ]);
@@ -81,7 +84,9 @@ class DashboardResourceController extends Controller
     public function update(Request $request, string $slug, int $id): \Illuminate\Http\RedirectResponse
     {
         $model = ModelSlugHelper::parseSlug($slug);
+        $model::unguard();
         $model::findOrFail($id)->update($request->input('data'));
+        $model::reguard();
 
         return to_route('dashboard.resources.slug.index', ['slug' => $slug])
             ->with('flash.success', [

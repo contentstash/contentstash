@@ -312,6 +312,15 @@
           },
           "id": {
             "edit": {
+              "action": {
+                "update": {
+                  "label": "Save"
+                }
+              },
+              "general": {
+                "description": "General settings for the resource.",
+                "title": "General"
+              },
               "header": {
                 "description": "Edit the item of the resource.",
                 "title": "Edit Item: {modelTitle}"

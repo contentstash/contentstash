@@ -1,11 +1,32 @@
 <script setup lang="ts">
 import type { Row } from "@tanstack/vue-table";
 import { MoreHorizontal, Trash2, Pencil } from "lucide-vue-next";
+import AppLink from "@/components/app/Link.vue";
 
-defineProps<{
+const { row, meta } = defineProps<{
   meta: TableMeta;
   row: Row<PartialResourceAttribute>;
 }>();
+const page = usePage();
+
+// general
+const { removeRow } = useTables();
+
+// destroy
+const destroyRoute = computed(() => {
+  return useRoute("dashboard.resources.slug.id.destroy", {
+    slug: page.props.slug as string,
+    id: row.original.id,
+  });
+});
+const destroyRouteHandler = () => {
+  useRouter().delete(destroyRoute.value);
+
+  removeRow({
+    uid: meta.uid,
+    index: row.index,
+  });
+};
 </script>
 
 <template>
@@ -17,11 +38,17 @@ defineProps<{
       </UiButton>
     </UiDropdownMenuTrigger>
     <UiDropdownMenuContent align="end">
-      <UiDropdownMenuItem :disabled="true">
+      <UiDropdownMenuItem
+        :as="AppLink"
+        :to="{
+          name: 'dashboard.resources.slug.id.edit',
+          params: { slug: page.props.slug as string, id: row.original.id },
+        }"
+      >
         <Pencil />
         {{ $t("action.edit.label") }}
       </UiDropdownMenuItem>
-      <UiDropdownMenuItem :disabled="true">
+      <UiDropdownMenuItem @click="destroyRouteHandler()">
         <Trash2 />
         {{ $t("action.delete.label") }}
       </UiDropdownMenuItem>

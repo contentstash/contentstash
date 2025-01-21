@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { getColumns } from "@/components/resource/attributes/data/table/columns";
-import { toTypedSchema } from "@vee-validate/zod";
-import { z } from "zod";
-
 const {
   props: { slug, model, modelInfo },
 }: {
@@ -12,7 +8,6 @@ const {
     modelInfo: ResourceInfo;
   };
 } = usePage();
-const { t } = useI18n();
 
 const title = computed(() => {
   return model.split("\\").pop();
