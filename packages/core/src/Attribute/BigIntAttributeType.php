@@ -31,12 +31,4 @@ class BigIntAttributeType extends IntAttributeType
             'name' => 'bigInteger(\'{{name}}\')',
         ]);
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getValidationRules(): array
-    {
-        return ['required', 'integer'];
-    }
 }

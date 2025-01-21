@@ -53,14 +53,6 @@ class StringAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getValidationRules(): array
-    {
-        return ['required', 'string'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
@@ -69,5 +61,15 @@ class StringAttributeType extends BaseAttributeType
             //     'label' => 'attribute.type.defaultValue.label',
             // ],
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntryFormSchema(): array
+    {
+        return [
+            'type' => 'string',
+        ];
     }
 }

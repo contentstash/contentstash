@@ -50,7 +50,12 @@ class BaseModelController extends Controller
         $this->authorize($model, 'viewAny');
         $model = app($model);
 
-        return ModelResource::collection($model->paginate());
+        $validated = request()->validate([
+            'per_page' => ['integer', 'min:1', 'max:200'],
+        ]);
+        $perPage = $validated['per_page'] ?? 100;
+
+        return ModelResource::collection($model->paginate($perPage));
     }
 
     /**

@@ -23,6 +23,10 @@ declare global {
     migration: string;
     cast?: string;
     formSchema: FormSchema;
+    entryFormSchema: Omit<
+      FormSchemaInput,
+      "label" | "description" | "placeholder"
+    >;
     additional_attributes: Record<string, unknown>;
   };
 }

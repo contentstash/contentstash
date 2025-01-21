@@ -53,14 +53,6 @@ class BooleanAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getValidationRules(): array
-    {
-        return ['required', 'boolean'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
@@ -70,5 +62,16 @@ class BooleanAttributeType extends BaseAttributeType
             //     'component' => 'switch',
             // ],
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntryFormSchema(): array
+    {
+        return [
+            'type' => 'boolean',
+            'component' => 'switch',
+        ];
     }
 }
