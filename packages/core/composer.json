@@ -1,6 +1,6 @@
 {
   "name": "contentstash/core",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Core package for ContentStash, a headless CMS based on Laravel, Inertia.js, Vue 3, and Tailwind CSS.",
   "authors": [
     {
