@@ -3,6 +3,7 @@ import type { Props } from "@/components/data/table/Generic.vue";
 import { Plus } from "lucide-vue-next";
 
 const props = defineProps<Props>();
+const page = usePage();
 </script>
 
 <template>
@@ -19,7 +20,13 @@ const props = defineProps<Props>();
         }}
       </template>
       <template #headerActions>
-        <DataTableActionButton :icon="Plus" :disabled="true">
+        <DataTableActionButton
+          :icon="Plus"
+          :to="{
+            name: 'dashboard.resources.slug.create',
+            params: { slug: page.props.slug as string },
+          }"
+        >
           {{ $t("resource.items.data.table.action.addItem.label") }}
         </DataTableActionButton>
       </template>

@@ -45,7 +45,12 @@ Route::group(
                         'prefix' => '{slug}',
                     ],
                     function () {
-                        Route::get('/', [DashboardResourceController::class, 'show'])->name('show');
+                        Route::get('/', [DashboardResourceController::class, 'index'])->name('index');
+                        Route::get('/create', [DashboardResourceController::class, 'create'])->name('create');
+                        Route::post('/', [DashboardResourceController::class, 'store'])->name('store');
+                        Route::get('/{id}/edit', [DashboardResourceController::class, 'edit'])->name('edit');
+                        Route::put('/{id}', [DashboardResourceController::class, 'update'])->name('update');
+                        Route::delete('/{id}', [DashboardResourceController::class, 'destroy'])->name('destroy');
                     }
                 );
             }

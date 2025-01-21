@@ -62,14 +62,6 @@ class TimestampAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getValidationRules(): array
-    {
-        return ['required', 'date'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
@@ -79,5 +71,15 @@ class TimestampAttributeType extends BaseAttributeType
             //     'placeholder' => 'attribute.type.defaultValue.placeholder',
             // ],
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntryFormSchema(): array
+    {
+        return [
+            'type' => 'date',
+        ];
     }
 }

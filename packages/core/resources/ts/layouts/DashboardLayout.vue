@@ -77,7 +77,7 @@ const navGroups = computed<SidebarGroup[]>(() => {
     resourcesLinks.push({
       title: resource.title,
       to: {
-        name: "dashboard.resources.slug.show",
+        name: "dashboard.resources.slug.index",
         params: {
           slug: resource.slug,
         },

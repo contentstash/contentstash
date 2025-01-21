@@ -69,14 +69,6 @@ class JsonAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getValidationRules(): array
-    {
-        return ['required', 'json'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
@@ -87,5 +79,16 @@ class JsonAttributeType extends BaseAttributeType
             //     'defaultValue' => '{}',
             // ],
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntryFormSchema(): array
+    {
+        return [
+            'type' => 'json',
+            'component' => 'textarea',
+        ];
     }
 }

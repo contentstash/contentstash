@@ -291,7 +291,38 @@
       },
       "resources": {
         "slug": {
-          "show": {
+          "create": {
+            "action": {
+              "store": {
+                "label": "Create"
+              }
+            },
+            "general": {
+              "description": "General settings for the item.",
+              "title": "General"
+            },
+            "header": {
+              "description": "Create a new item for the resource.",
+              "title": "Create Item: {modelTitle}"
+            },
+            "meta": {
+              "title": "{modelTitle} - Create Item"
+            },
+            "title": "Create Item"
+          },
+          "id": {
+            "edit": {
+              "header": {
+                "description": "Edit the item of the resource.",
+                "title": "Edit Item: {modelTitle}"
+              },
+              "meta": {
+                "title": "{modelTitle} - Edit Item"
+              },
+              "title": "Edit Item"
+            }
+          },
+          "index": {
             "header": {
               "description": "Manage the resource.",
               "title": "Resource: {modelTitle}"

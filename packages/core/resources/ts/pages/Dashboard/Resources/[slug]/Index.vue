@@ -6,7 +6,9 @@ const {
   props: {
     model: Resource;
     modelInfo: ResourceInfo;
-    items: ResourceItem[];
+    items: {
+      data: ResourceItem[];
+    };
   };
 } = usePage();
 
@@ -28,7 +30,7 @@ const { setTable, getTable } = useTables();
 const tableMeta = setTable<ResourceItem, ResourceItem>({
   uid: `${useRoute().current()}-resource-items-data-table`,
   table: {
-    rows: items,
+    rows: items.data,
     columns: [getResourceColumns, getColumns],
   },
 });
@@ -41,7 +43,7 @@ const data = computed(() => {
 <template>
   <DashboardPage
     :title="
-      $t('page.dashboard.resources.slug.show.meta.title', {
+      $t('page.dashboard.resources.slug.index.meta.title', {
         modelTitle: title,
       })
     "
@@ -49,15 +51,31 @@ const data = computed(() => {
     <DashboardPageHeader>
       <template #title>
         {{
-          $t("page.dashboard.resources.slug.show.header.title", {
+          $t("page.dashboard.resources.slug.index.header.title", {
             modelTitle: title,
           })
         }}
       </template>
       <template #description>
-        {{ $t("page.dashboard.resources.slug.show.header.description") }}
+        {{ $t("page.dashboard.resources.slug.index.header.description") }}
       </template>
     </DashboardPageHeader>
     <ResourceItemsDataTable :meta="tableMeta" v-model:data="data" />
+
+    <Teleport defer to="#header-alerts">
+      <AppAlert type="error">
+        <template #title> Attention! </template>
+        <template #description>
+          Currently there is a limit of 100 items an no pagination. Pagination
+          will be implemented after this
+          <AppLink
+            to="https://github.com/inertiajs/inertia/issues/2068"
+            variant="underline"
+            >issue</AppLink
+          >
+          is resolved.
+        </template>
+      </AppAlert>
+    </Teleport>
   </DashboardPage>
 </template>

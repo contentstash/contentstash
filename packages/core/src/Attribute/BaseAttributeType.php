@@ -12,9 +12,14 @@ abstract class BaseAttributeType
     abstract public function getName(): string;
 
     /**
-     * Get the PHP type of the attribute
+     * Get the PHP type of the attribute.
      */
     abstract public function getPhpType(): string;
+
+    /**
+     * Get the form schema for the entry form.
+     */
+    abstract public function getEntryFormSchema(): array;
 
     /**
      * Get the type of the attribute
@@ -69,14 +74,6 @@ abstract class BaseAttributeType
     }
 
     /**
-     * Get the validation rules for this attribute type.
-     */
-    public function getValidationRules(): array
-    {
-        return [];
-    }
-
-    /**
      * Get the frontend form schema for this attribute type.
      */
     public function getFormSchema(): array
@@ -112,8 +109,8 @@ abstract class BaseAttributeType
             'format' => $this->getFormat()->value,
             'migration' => $this->getMigrationDefinition(),
             'cast' => $this->getCast(),
-            'validation' => $this->getValidationRules(),
             'formSchema' => $this->getFormSchema(),
+            'entryFormSchema' => $this->getEntryFormSchema(),
         ];
     }
 }

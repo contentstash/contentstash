@@ -53,14 +53,6 @@ class IntAttributeType extends BaseAttributeType
     /**
      * {@inheritDoc}
      */
-    public function getValidationRules(): array
-    {
-        return ['required', 'integer'];
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getFormSchema(): array
     {
         return array_merge(parent::getFormSchema(), [
@@ -77,5 +69,15 @@ class IntAttributeType extends BaseAttributeType
             //     'label' => 'attribute.type.max.label',
             // ],
         ]);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getEntryFormSchema(): array
+    {
+        return [
+            'type' => 'number',
+        ];
     }
 }
