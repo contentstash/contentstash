@@ -19,7 +19,12 @@ This README file is primarily for developers who want to contribute to the proje
 
 ## Prerequisites
 
-See the [documentation](https://docs.contentstash.com/getting-started/prerequisites#contributing-environments) for the prerequisites.
+See the [documentation](https://docs.contentstash.com/getting-started/prerequisites#contributing-environments) for the prerequisites or look below (maybe outdated):
+
+- [PHP](https://www.php.net/){:target="_blank"} >= 8.3
+- [Composer](https://getcomposer.org/){:target="_blank"} >= 2.7.x
+- [Node.js](https://nodejs.org/){:target="_blank"} >= 20.x
+- [PNPM](https://pnpm.io/){:target="_blank"} >= 9.12.x
 
 ## Installation
 
