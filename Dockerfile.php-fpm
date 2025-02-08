@@ -1,0 +1,26 @@
+FROM php:8.3-fpm-alpine
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions \
+    bcmath \
+    curl \
+    gd \
+    json \
+    mbstring \
+    pcntl \
+    pdo_pgsql \
+    pgsql \
+    redis \
+    tokenizer \
+    xml \
+    zip \
+    swoole
+
+COPY . /app
+
+WORKDIR /app/apps/example
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
