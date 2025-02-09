@@ -17,9 +17,14 @@ RUN install-php-extensions \
     zip \
     swoole
 
-COPY . /app
+WORKDIR /var/www/contentstash/
 
-WORKDIR /app/apps/example
+COPY . /var/www/contentstash/
+
+WORKDIR /var/www/contentstash/apps/example
+
+RUN chown -R www-data:www-data /var/www/contentstash/apps/example \
+    && chmod -R 775 /var/www/contentstash/apps/example/storage /var/www/contentstash/apps/example/bootstrap/cache
 
 EXPOSE 9000
 
