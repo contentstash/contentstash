@@ -19,13 +19,19 @@ class PostSeeder extends Seeder
     {
         Post::factory(1000)->create();
 
-        // get view and viewAny permissions for the Post model
+        // get view, viewAny, create, update and delete permissions for the Post model
         $viewPost = Permission::where('name', ModelRolePermissionPrefix::VIEW->value.' '.ModelHelper::getModelPermissionName('App\Models\Post'))->first();
         $viewAnyPost = Permission::where('name', ModelRolePermissionPrefix::VIEW_ANY->value.' '.ModelHelper::getModelPermissionName('App\Models\Post'))->first();
+        $createPost = Permission::where('name', ModelRolePermissionPrefix::CREATE->value.' '.ModelHelper::getModelPermissionName('App\Models\Post'))->first();
+        $updatePost = Permission::where('name', ModelRolePermissionPrefix::UPDATE->value.' '.ModelHelper::getModelPermissionName('App\Models\Post'))->first();
+        $deletePost = Permission::where('name', ModelRolePermissionPrefix::DELETE->value.' '.ModelHelper::getModelPermissionName('App\Models\Post'))->first();
 
         // asign to everyone role
         $everyone = Role::findByName(UserRole::EVERYONE->value, 'web');
         $everyone->givePermissionTo($viewPost);
         $everyone->givePermissionTo($viewAnyPost);
+        $everyone->givePermissionTo($createPost);
+        $everyone->givePermissionTo($updatePost);
+        $everyone->givePermissionTo($deletePost);
     }
 }
