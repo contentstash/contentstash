@@ -14,8 +14,7 @@ RUN install-php-extensions \
     redis \
     tokenizer \
     xml \
-    zip \
-    swoole
+    zip
 
 WORKDIR /var/www/contentstash/
 
