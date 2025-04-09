@@ -15,13 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
-
         // TODO: Move to package
         $middleware->use([
             \ContentStash\Core\Http\Middleware\HandleInertiaRequests::class,
         ]);
-
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
