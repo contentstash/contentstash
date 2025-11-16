@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/contentstash/contentstash/compare/core@v0.2.0...core@v0.3.0) (2025-01-21)
+
+
+### Features
+
+* **core:** remove unused code ([ef51e87](https://github.com/contentstash/contentstash/commit/ef51e87c4588377394cfbf7e68a0f23fe9db3579))
+
 ## [0.2.0](https://github.com/contentstash/contentstash/compare/core@v0.1.0...core@v0.2.0) (2025-01-21)
 
 
