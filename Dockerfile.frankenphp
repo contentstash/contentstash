@@ -1,0 +1,21 @@
+FROM dunglas/frankenphp:php8.3.16-alpine
+
+RUN install-php-extensions \
+    bcmath \
+    curl \
+    gd \
+    json \
+    mbstring \
+    pcntl \
+    pdo_pgsql \
+    pgsql \
+    redis \
+    tokenizer \
+    xml \
+    zip
+
+COPY . /app
+
+WORKDIR /app/apps/example
+
+ENTRYPOINT ["php", "artisan", "octane:frankenphp"]

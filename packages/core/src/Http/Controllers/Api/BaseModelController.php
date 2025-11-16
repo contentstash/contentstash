@@ -66,7 +66,7 @@ class BaseModelController extends Controller
         $this->authorize($model, 'create');
         $model = app($model);
 
-        return ModelResource::make($model->create(request()->all()));
+        return ModelResource::make($model->forceCreate(request()->all()));
     }
 
     /**
@@ -89,7 +89,8 @@ class BaseModelController extends Controller
         $model = app($model);
 
         $model = $model->findOrFail($resource);
-        $model->update(request()->all());
+        $model->forceFill(request()->all());
+        $model->save();
 
         return ModelResource::make($model);
     }

@@ -1,0 +1,30 @@
+FROM php:8.3.16-fpm-alpine
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions \
+    bcmath \
+    curl \
+    gd \
+    json \
+    mbstring \
+    pcntl \
+    pdo_pgsql \
+    pgsql \
+    redis \
+    tokenizer \
+    xml \
+    zip
+
+WORKDIR /var/www/contentstash/
+
+COPY . /var/www/contentstash/
+
+WORKDIR /var/www/contentstash/apps/example
+
+RUN chown -R www-data:www-data /var/www/contentstash/apps/example \
+    && chmod -R 775 /var/www/contentstash/apps/example/storage /var/www/contentstash/apps/example/bootstrap/cache
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
